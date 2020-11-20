@@ -53,9 +53,25 @@ vim()   {
 
 vim_tf()    {
     echo "Installing vim terraform plugin..."
-    cd ~/.vim_runtime/my_plugins
-    git clone https://github.com/hashivim/vim-terraform.git
+    (cd ~/.vim_runtime/my_plugins;
+    git clone https://github.com/hashivim/vim-terraform.git)
 }
+
+aliases()     {
+   echo "# Aliases
+    alias k=kubectl
+    alias mk=minikube
+    alias tf=terraform
+    alias td=terraform-docs
+    alias dps="docker ps --format=$FORMAT"
+    alias gam="~/bin/gamadv-xtd3/gam"
+    alias y="yes > /dev/null"
+    alias cat="pygmentize -g"
+    alias grep=ag
+    alias pj="cd ~/Projects"
+    alias it="cd ~/Projects/IT-SaaS-automation"
+    alias inf="cd ~/Projects/infrastructure"" >> ~/.zshrc
+    }
 
 main()  {
     set_vars
@@ -65,4 +81,5 @@ main()  {
     gogh
     vim
     vim_tf
+    aliases
 }
