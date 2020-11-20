@@ -17,6 +17,11 @@ brew()  {
     brew bundle
 }
 
+oh_my_zsh() {
+    echo "Installing oh-my-zsh..."
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+}
+
 gogh()  {
     echo "Cloning Gogh repo..."
     git clone https://github.com/Mayccoll/Gogh.git gogh
@@ -56,6 +61,7 @@ main()  {
     set_vars
     set_dir
     brew
+    oh_my_zsh
     gogh
     vim
     vim_tf
