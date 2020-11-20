@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# SOURCE: https://www.jamf.com/jamf-nation/discussions/29330/prevent-mac-from-sleeping-best-practise
+
+# activate verbose standard output (stdout)
+# set -v
+# activate debugging (execution shown)
+# set -x
+
+# $4=10800
+
+declare -i LIVE_TIME
+
+# TODO: fix SC2125 on $4 assignment
+LIVE_TIME=10800 # 3 hours (60s * 60min (1hr) * 3hr)
+if [[ "$4" -gt "0" ]] && [[ "$4" -lt "49" ]]; then
+    LIVE_TIME=$4*3600
+fi
+
+echo "Machine will not sleep for $LIVE_TIME seconds "
+
+# subshell with caffeinate
+( caf -sid -t $LIVE_TIME ) &
+disown
+
+# deactivate verbose and debugging stdout
+set +v
+set +x
+
+exit 0

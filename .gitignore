@@ -1,0 +1,5 @@
+.DS_Store
+/concerns/vim/.vim_runtime/temp_dirs
+test
+.zshsecrets
+bin
