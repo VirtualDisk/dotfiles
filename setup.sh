@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
 set_vars()  {
-    export HOMEBREW_BUNDLE_FILE="./Brewfile"
+    export HOMEBREW_BUNDLE_FILE="~/Downloads/setup/Brewfile"
     export TERMINAL="iterm2"
+	SCRIPTDIR="$HOME/src"
 }
 
 set_dir()   {
-    mkdir -p "$HOME/src"
-    cd "$HOME/src"
+    mkdir -p "$SCRIPTDIR"
+    cd "$SCRIPTDIR"
 }
 
-brew()  {
-    echo "Starting setup script. Installing brew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+brewtime()  {
+   # echo "Starting setup script. Installing brew..."
+   # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     brew bundle
 }
 
@@ -22,14 +22,14 @@ oh_my_zsh() {
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
-gogh()  {
+gogh_install()  {
     echo "Cloning Gogh repo..."
     git clone https://github.com/Mayccoll/Gogh.git gogh
     echo "Installing brogrammer theme. Welcome, bro."
-    ./brogrammer.sh
+    "$SCRIPTDIR"/themes/brogrammer.sh
 }
 
-vim()   {
+vim_install()   {
     echo "Installing vim configs..."
 
     mkdir ~/.vim_runtime
@@ -76,10 +76,11 @@ aliases()     {
 main()  {
     set_vars
     set_dir
-    brew
-    oh_my_zsh
-    gogh
-    vim
+    brewtime
+    #oh_my_zsh
+    gogh_install
+    vim_install
     vim_tf
     aliases
 }
+main
