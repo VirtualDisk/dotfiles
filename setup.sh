@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+sudo -v
 set_vars()  {
     export HOMEBREW_BUNDLE_FILE="~/Downloads/setup/Brewfile"
     export TERMINAL="iterm2"
