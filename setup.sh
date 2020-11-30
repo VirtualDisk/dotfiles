@@ -1,20 +1,17 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 sudo -v
-set_vars()  {
-    export HOMEBREW_BUNDLE_FILE="~/Downloads/setup/Brewfile"
-    export TERMINAL="iterm2"
-	SCRIPTDIR="$HOME/src"
-}
 
-set_dir()   {
-    mkdir -p "$SCRIPTDIR"
-    cd "$SCRIPTDIR"
+set_vars()  {
+    SCRIPTDIR="$HOME/.setup"
+    export HOMEBREW_BUNDLE_FILE="$HOME/.setup/Brewfile"
+    export TERMINAL="iterm2"
+	GITDIR="$HOME/src"
 }
 
 brewtime()  {
-   # echo "Starting setup script. Installing brew..."
-   # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    echo "Starting setup script. Installing brew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     brew bundle
 }
 
@@ -24,17 +21,17 @@ oh_my_zsh() {
 }
 
 gogh_install()  {
+    mkdir -p "$GITDIR"
     echo "Cloning Gogh repo..."
-    git clone https://github.com/Mayccoll/Gogh.git gogh
+    git clone https://github.com/Mayccoll/Gogh.git "$GITDIR"
     echo "Installing brogrammer theme. Welcome, bro."
-    "$SCRIPTDIR"/themes/brogrammer.sh
+    "$GITDIR"/Gogh/themes/brogrammer.sh
 }
 
 vim_install()   {
     echo "Installing vim configs..."
 
-    mkdir ~/.vim_runtime
-    cp ./vim/* ~/.vim_runtime
+    (mkdir ~/.vim_runtime
     cd ~/.vim_runtime
 
     echo 'set runtimepath+=~/.vim_runtime
@@ -47,7 +44,7 @@ vim_install()   {
     try
     source ~/.vim_runtime/my_configs.vim
     catch
-    endtry' > ~/.vimrc
+    endtry' > ~/.vimrc)
 
     echo "Installed the Ultimate Vim configuration successfully! Enjoy :-)"
 }
@@ -65,7 +62,7 @@ aliases()     {
     alias tf=terraform
     alias td=terraform-docs
     alias dps="docker ps --format=$FORMAT"
-    alias gam="~/bin/gamadv-xtd3/gam"
+    alias gam="$HOME/bin/gamadv-xtd3/gam"
     alias y="yes > /dev/null"
     alias cat="pygmentize -g"
     alias grep=ag
@@ -74,11 +71,18 @@ aliases()     {
     alias inf="cd ~/Projects/infrastructure"" >> ~/.zshrc
     }
 
+macktruck()     {
+    echo "Running mackup restore..."
+    cp "$SCRIPTDIR/mackup/.mackup.cfg" "$HOME"
+    mackup restore
+}
+
+
 main()  {
     set_vars
     set_dir
     brewtime
-    #oh_my_zsh
+    oh_my_zsh
     gogh_install
     vim_install
     vim_tf
