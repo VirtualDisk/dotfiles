@@ -71,6 +71,11 @@ aliases()     {
     alias inf="cd ~/Projects/infrastructure"" >> ~/.zshrc
     }
 
+darkmode()      {
+    echo "Enabling dark mode..."
+    sudo defaults write /Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true
+}
+
 macktruck()     {
     echo "Running mackup restore..."
     cp "$SCRIPTDIR/mackup/.mackup.cfg" "$HOME"
