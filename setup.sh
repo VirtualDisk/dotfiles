@@ -3,10 +3,10 @@ set -uo pipefail
 sudo -v
 
 set_vars()  {
-    SCRIPTDIR="$HOME/.setup"
+    export SCRIPTDIR="~/.setup"
     export HOMEBREW_BUNDLE_FILE="$HOME/.setup/Brewfile"
     export TERMINAL="iterm2"
-	GITDIR="$HOME/src"
+	GITDIR="~/src"
     export BASE_URL=${BASE_URL:-"https://raw.githubusercontent.com/Mayccoll/Gogh/master"}
 
 }
@@ -23,6 +23,7 @@ oh_my_zsh() {
 }
 
 gogh_install()  {
+    #TODO: how to we configure iterm2 before opening it?
     export COLOR_01="#1f1f1f"           # HOST
     export COLOR_02="#f81118"           # SYNTAX_STRING
     export COLOR_03="#2dc55e"           # COMMAND
@@ -72,7 +73,8 @@ gogh_install()  {
 vim_install()   {
     echo "Installing vim configs..."
 
-    (cp "$SCRIPTDIR/.vim_runtime $HOME"
+    cp -R ".vim_runtime" "$HOME"
+    #cp -R "$SCRIPTDIR/.vim_runtime" "$HOME"
 
     echo 'set runtimepath+=~/.vim_runtime
 
@@ -84,7 +86,7 @@ vim_install()   {
     try
     source ~/.vim_runtime/my_configs.vim
     catch
-    endtry' > ~/.vimrc)
+    endtry' > ~/.vimrc
 
     echo "Installed the Ultimate Vim configuration successfully! Enjoy :-)"
 }
@@ -96,12 +98,12 @@ vim_tf()    {
 }
 
 aliases()     {
+    #TODO: this doesn't work, and likely needs to be a heredoc
    echo "# Aliases
     alias k=kubectl
     alias mk=minikube
     alias tf=terraform
     alias td=terraform-docs
-    alias dps="docker ps --format=$FORMAT"
     alias gam="$HOME/bin/gamadv-xtd3/gam"
     alias y="yes > /dev/null"
     alias cat="pygmentize -g"
@@ -117,6 +119,7 @@ darkmode()      {
 }
 
 macktruck()     {
+    #TODO: remove vim config, let script handle it
     echo "Running mackup restore..."
     cp "$SCRIPTDIR/mackup/.mackup.cfg" "$HOME"
     mackup restore
@@ -125,14 +128,14 @@ macktruck()     {
 
 main()  {
     set_vars
-    set_dir
-    brewtime
-    oh_my_zsh
-    gogh_install
-    vim_install
-    vim_tf
+    #brewtime
+    #oh_my_zsh
+    #gogh_install
+    #vim_install
+    #vim_tf
     aliases
     darkmode
     macktruck
+    #TODO: add powerlevel10k function
 }
 main
