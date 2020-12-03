@@ -135,17 +135,17 @@ macktruck()     {
 main()  {
     set_vars
     brewtime
-    #oh_my_zsh
+    oh_my_zsh
     #gogh_install
-    #vim_install
-    #vim_tf
+    vim_install
+    vim_tf
     #aliases
-    #darkmode
-    #macktruck
+    darkmode
+    macktruck
     plevel10k
     #TODO: add ~/.ssh & other secret file copy logic from ext usb
 }
-if [[ $/usr/bin/id -u -ne 0 ]]; then
+if [[ "$(/usr/bin/id -u)" -ne 0 ]]; then
     echo "You must run this script as root."
     exit 2
 else
