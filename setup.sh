@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 set -uo pipefail
+#TODO: extend sudo >5 mins
 sudo -v
 
 set_vars()  {
-    export SCRIPTDIR="~/.setup"
+    export SCRIPTDIR="$HOME/.setup"
+    export GITDIR="$HOME/src"
     export HOMEBREW_BUNDLE_FILE="$HOME/.setup/Brewfile"
     export TERMINAL="iterm2"
-	GITDIR="~/src"
     export BASE_URL=${BASE_URL:-"https://raw.githubusercontent.com/Mayccoll/Gogh/master"}
 
 }
@@ -70,6 +71,12 @@ gogh_install()  {
 
 }
 
+plevel10k()   {
+git clone --depth=1 "https://github.com/romkatv/powerlevel10k.git" "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> "$HOME/.zshrc"
+(cp "$SCRIPTDIR/.p10k.zsh" "$HOME")
+}
+
 vim_install()   {
     echo "Installing vim configs..."
 
@@ -125,17 +132,16 @@ macktruck()     {
     mackup restore
 }
 
-
 main()  {
     set_vars
-    #brewtime
+    brewtime
     #oh_my_zsh
     #gogh_install
     #vim_install
     #vim_tf
-    aliases
-    darkmode
-    macktruck
-    #TODO: add powerlevel10k function
+    #aliases
+    #darkmode
+    #macktruck
+    plevel10k
 }
 main
