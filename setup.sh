@@ -72,9 +72,9 @@ gogh_install()  {
 }
 
 plevel10k()   {
+(cp "$SCRIPTDIR/.p10k.zsh" "$HOME")
 git clone --depth=1 "https://github.com/romkatv/powerlevel10k.git" "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> "$HOME/.zshrc"
-(cp "$SCRIPTDIR/.p10k.zsh" "$HOME")
 }
 
 vim_install()   {
