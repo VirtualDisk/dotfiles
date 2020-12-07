@@ -27,7 +27,7 @@ plevel10k()   {
 cp "$SCRIPTDIR/p10k/fonts/*" "/Library/Fonts")
 
 git clone --depth=1 "https://github.com/romkatv/powerlevel10k.git" "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-sed -i -e "s/ZSH_THEME="robbyrussel"/ZSH_THEME="powerelevel10k/powerlevel10k"/g" "$HOME/.zshrc"
+sed -i -e "s/ZSH_THEME="robbyrussell"/ZSH_THEME="powerelevel10k/powerlevel10k"/g" "$HOME/.zshrc"
 }
 
 vim_install()   {
