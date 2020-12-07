@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 set -uo pipefail
-#TODO: extend sudo >5 mins
-sudo -v
 
 set_vars()  {
     export SCRIPTDIR="$HOME/.setup"
@@ -9,7 +7,6 @@ set_vars()  {
     export HOMEBREW_BUNDLE_FILE="$HOME/.setup/Brewfile"
     export TERMINAL="iterm2"
     export BASE_URL=${BASE_URL:-"https://raw.githubusercontent.com/Mayccoll/Gogh/master"}
-
 }
 
 brewtime()  {
@@ -23,62 +20,14 @@ oh_my_zsh() {
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 }
 
-gogh_install()  {
-    #TODO: how to we configure iterm2 before opening it?
-    export COLOR_01="#1f1f1f"           # HOST
-    export COLOR_02="#f81118"           # SYNTAX_STRING
-    export COLOR_03="#2dc55e"           # COMMAND
-    export COLOR_04="#ecba0f"           # COMMAND_COLOR2
-    export COLOR_05="#2a84d2"           # PATH
-    export COLOR_06="#4e5ab7"           # SYNTAX_VAR
-    export COLOR_07="#1081d6"           # PROMP
-    export COLOR_08="#d6dbe5"           #
-
-    export COLOR_09="#d6dbe5"           #
-    export COLOR_10="#de352e"           # COMMAND_ERROR
-    export COLOR_11="#1dd361"           # EXEC
-    export COLOR_12="#f3bd09"           #
-    export COLOR_13="#1081d6"           # FOLDER
-    export COLOR_14="#5350b9"           #
-    export COLOR_15="#0f7ddb"           #
-    export COLOR_16="#ffffff"           #
-
-    export BACKGROUND_COLOR="#131313"   # Background Color
-    export FOREGROUND_COLOR="#d6dbe5"   # Text
-    export CURSOR_COLOR="$FOREGROUND_COLOR" # Cursor
-    export PROFILE_NAME="Brogrammer"
-    # =============================================================== #
-    # | Apply Colors
-    # ===============================================================|#
-    SCRIPT_PATH="${SCRIPT_PATH:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
-    PARENT_PATH="$(dirname "${SCRIPT_PATH}")"
-
-    # Allow developer to change url to forked url for easier testing
-    # IMPORTANT: Make sure you export this variable if your main shell is not bash
-    BASE_URL=${BASE_URL:-"https://raw.githubusercontent.com/Mayccoll/Gogh/master"}
-
-    if [[ -e "${PARENT_PATH}/apply-colors.sh"  ]]; then
-          bash "${PARENT_PATH}/apply-colors.sh"
-      else
-            if [[ "$(uname)" = "Darwin"  ]]; then
-                    # OSX ships with curl and ancient bash
-                    bash -c "$(curl -so- "${BASE_URL}/apply-colors.sh")"
-                    else
-                    # Linux ships with wget
-                    bash -c "$(wget -qO- "${BASE_URL}/apply-colors.sh")"
-            fi
-    fi
-
-}
-
 plevel10k()   {
+#TODO: find and remove existing theme line in zshrc
+#TODO: skip config wizard
 (cp "$SCRIPTDIR/.p10k.zsh" "$HOME";
 cp "$SCRIPTDIR/p10k/fonts/*" "/Library/Fonts")
 
-
 git clone --depth=1 "https://github.com/romkatv/powerlevel10k.git" "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> "$HOME/.zshrc"
-
+sed -i -e "s/ZSH_THEME="robbyrussel"/ZSH_THEME="powerelevel10k/powerlevel10k"/g" "$HOME/.zshrc"
 }
 
 vim_install()   {
@@ -124,13 +73,14 @@ aliases()     {
     alias inf="cd ~/Projects/infrastructure"" >> ~/.zshrc
     }
 
-darkmode()      {
+set_defaults()      {
     echo "Enabling dark mode..."
     sudo defaults write /Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true
+    echo "Disabling natural scroll..."
+    defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 }
 
 macktruck()     {
-    #TODO: remove vim config, let script handle it
     echo "Running mackup restore..."
     cp "$SCRIPTDIR/mackup/.mackup.cfg" "$HOME"
     mackup restore
@@ -140,15 +90,15 @@ main()  {
     set_vars
     brewtime
     oh_my_zsh
-    #gogh_install
     vim_install
     vim_tf
     #aliases
-    darkmode
+    set_defaults
     macktruck
     plevel10k
     #TODO: add ~/.ssh & other secret file copy logic from ext usb
 }
+
 if [[ "$(/usr/bin/id -u)" -ne 0 ]]; then
     echo "You must run this script as root."
     exit 2
