@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
+check_sudo() {
+    if [[ "$(/usr/bin/id -u)" -ne 0 ]]; then
+        echo "You must run this script as root."
+        exit 2
+    else
+        main
+    fi
+}
 set_vars()  {
-    export SCRIPTDIR="$HOME/.setup"
     export GITDIR="$HOME/src"
     export HOMEBREW_BUNDLE_FILE="$HOME/.setup/Brewfile"
     export TERMINAL="iterm2"
@@ -23,18 +30,19 @@ oh_my_zsh() {
 plevel10k()   {
 #TODO: find and remove existing theme line in zshrc
 #TODO: skip config wizard
-(cp "$SCRIPTDIR/.p10k.zsh" "$HOME";
-cp "$SCRIPTDIR/p10k/fonts/*" "/Library/Fonts")
+(cp "$PWD/.p10k.zsh" "$HOME";
+cp "$PWD/p10k/fonts/*" "/Library/Fonts")
 
-git clone --depth=1 "https://github.com/romkatv/powerlevel10k.git" "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-sed -i -e "s/ZSH_THEME="robbyrussell"/ZSH_THEME="powerelevel10k/powerlevel10k"/g" "$HOME/.zshrc"
+git clone --depth=1 "https://github.com/romkatv/powerlevel10k.git" \
+    "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+# sed -i -e "s/ZSH_THEME="robbyrussell"/ZSH_THEME="powerlevel10k/powerlevel10k"/g" "$HOME/.zshrc"
 }
 
 vim_install()   {
     echo "Installing vim configs..."
 
     cp -R ".vim_runtime" "$HOME"
-    #cp -R "$SCRIPTDIR/.vim_runtime" "$HOME"
+    #cp -R "$PWD/.vim_runtime" "$HOME"
 
     echo 'set runtimepath+=~/.vim_runtime
 
@@ -82,11 +90,12 @@ set_defaults()      {
 
 macktruck()     {
     echo "Running mackup restore..."
-    cp "$SCRIPTDIR/mackup/.mackup.cfg" "$HOME"
+    cp "$PWD/mackup/.mackup.cfg" "$HOME"
     mackup restore
 }
 
 main()  {
+    check_sudo
     set_vars
     brewtime
     oh_my_zsh
@@ -96,12 +105,5 @@ main()  {
     set_defaults
     macktruck
     plevel10k
-    #TODO: add ~/.ssh & other secret file copy logic from ext usb
 }
 
-if [[ "$(/usr/bin/id -u)" -ne 0 ]]; then
-    echo "You must run this script as root."
-    exit 2
-else
-    main
-fi
