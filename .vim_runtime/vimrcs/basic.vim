@@ -33,6 +33,9 @@
 " Sets how many lines of history VIM has to remember
 set history=500
 
+" Attempted ESC lag fix
+set timeoutlen=1000 ttimeoutlen=0
+
 " Enable filetype plugins
 filetype plugin on
 filetype indent on
@@ -130,7 +133,10 @@ set foldcolumn=1
 " Add line numbers
 set nu
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Change line width mode for *.txt files
+au BufEnter *.txt setl tx ts=4 sw=4 fo+=n2a
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
@@ -202,6 +208,8 @@ set wrap "Wrap lines
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
+" Default copy buffer to system clipboard
+set clipboard=unnamed
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
@@ -383,3 +391,20 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
+
+func! WordProcessor()
+  " movement changes
+  map j gj
+  map k gk
+  " formatting text
+  setlocal formatoptions=1
+  setlocal noexpandtab
+  setlocal wrap
+  setlocal linebreak
+  " spelling and thesaurus
+  setlocal spell spelllang=en_us
+  set thesaurus+=/home/test/.vim/thesaurus/mthesaur.txt
+  " complete+=s makes autocompletion search the thesaurus
+  set complete+=s
+endfu
+com! WP call WordProcessor()
