@@ -182,3 +182,8 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:terraform_align=1
 let g:terraform_fmt_on_save=1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Rainbow brackets
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:rainbow_active = 1
