@@ -30,20 +30,18 @@ oh_my_zsh() {
 plevel10k()   {
 #TODO: find and remove existing theme line in zshrc
 #TODO: skip config wizard
-(cp "$PWD/.p10k.zsh" "$HOME";
-cp "$PWD/p10k/fonts/*" "/Library/Fonts")
 
 git clone --depth=1 "https://github.com/romkatv/powerlevel10k.git" \
     "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 # sed -i -e "s/ZSH_THEME="robbyrussell"/ZSH_THEME="powerlevel10k/powerlevel10k"/g" "$HOME/.zshrc"
 }
 
-vimstall() {
-    ln -sf $(PWD)/.vim_runtime $(HOME)/.vim_runtime
-}
-
-zshstall() {
-    ln -sf $(PWD)/.zshrc $(HOME)/.zshrc
+symlinks() {
+    ln -sf "$(PWD)/.vim_runtime" "${HOME}/.vim_runtime"
+    ln -sf $(PWD)/.zshrc ${HOME}/.zshrc
+    ln -sf $(PWD)/.tmux.conf ${HOME}/.tmux.conf
+    ln -sf "$(PWD)/.p10k.zsh" "${HOME}";
+    ln -sf "$(PWD)/p10k/fonts/*" "/Library/Fonts"
 }
 
 set_defaults()      {
@@ -64,7 +62,7 @@ main()  {
     set_vars
     brewtime
     oh_my_zsh
-    vim_install
+    symlinks
     set_defaults
     macktruck
     plevel10k

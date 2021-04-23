@@ -118,9 +118,18 @@ alias dps="docker ps --format=$FORMAT"
 alias gam="/Users/zoe.blanco/bin/gamadv-xtd3/gam"
 alias tf=terraform
 alias y="yes > /dev/null"
-# alias cat="pygmentize -g"
 alias grep=ag
-# source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+alias it="cd ~/Greenhouse/IT"
+alias inf="cd ~/Greenhouse/infrastructure"
+# alias gh="cd ~/Greenhouse"
+alias pj="cd ~/Projects"
+alias td=terraform-docs
+alias 11a="ssh -i $HOME/.ssh/11a ghlaps@172.18.0.149"
+alias caf="sudo jamf policy -event caffeinate"
+
+kc() {
+	kubectl config use-context "${1}"
+}
 
 aws-vault-use() {
   local profile output
@@ -157,11 +166,9 @@ tstart() {
     
 
 export PATH="/usr/local/sbin:/usr/local/bin:/opt/homebrew/bin:$HOME/Greenhouse/infrastructure/bin:$PATH"
-alias it="cd ~/Greenhouse/IT"
-alias inf="cd ~/Greenhouse/infrastructure"
-alias gh="cd ~/Greenhouse"
-alias pj="cd ~/Projects"
-alias td=terraform-docs
-
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
-alias caf="sudo jamf policy -event caffeinate"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+source '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+alias mbp="ssh zoe@zoes-mbp.lan"
