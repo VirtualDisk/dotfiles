@@ -37,18 +37,22 @@ git clone --depth=1 "https://github.com/romkatv/powerlevel10k.git" \
 }
 
 symlinks() {
+    ln -sf "$(PWD)/.vimrc" "${HOME}/.vimrc"
     ln -sf "$(PWD)/.vim_runtime" "${HOME}/.vim_runtime"
-    ln -sf $(PWD)/.zshrc ${HOME}/.zshrc
-    ln -sf $(PWD)/.tmux.conf ${HOME}/.tmux.conf
-    ln -sf "$(PWD)/.p10k.zsh" "${HOME}";
+    ln -sf "$(PWD)/.zshrc" "${HOME}/.zshrc"
+    ln -sf "$(PWD)/.tmux.conf" "${HOME}/.tmux.conf"
+    ln -sf "$(PWD)/.p10k.zsh" "${HOME}/.p10k.zsh"
     ln -sf "$(PWD)/p10k/fonts/*" "/Library/Fonts"
 }
+
 
 set_defaults()      {
     echo "Enabling dark mode..."
     sudo defaults write /Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true
     echo "Disabling natural scroll..."
     defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+    mkdir -p "${HOME}/Pictures/Screenshots"
+    defaults write com.apple.screencapture location "~/Pictures/Screenshots"
 }
 
 macktruck()     {
@@ -63,6 +67,7 @@ main()  {
     brewtime
     oh_my_zsh
     symlinks
+    vimstall
     set_defaults
     macktruck
     plevel10k

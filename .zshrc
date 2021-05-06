@@ -126,6 +126,7 @@ alias pj="cd ~/Projects"
 alias td=terraform-docs
 alias 11a="ssh -i $HOME/.ssh/11a ghlaps@172.18.0.149"
 alias caf="sudo jamf policy -event caffeinate"
+alias mbp="ssh zoe@zoes-mbp.lan"
 
 kc() {
 	kubectl config use-context "${1}"
@@ -171,4 +172,3 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 source '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-alias mbp="ssh zoe@zoes-mbp.lan"
