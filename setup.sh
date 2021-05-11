@@ -11,9 +11,9 @@ check_sudo() {
 }
 set_vars()  {
     export GITDIR="$HOME/src"
-    export HOMEBREW_BUNDLE_FILE="$HOME/.setup/Brewfile"
     export TERMINAL="iterm2"
     export BASE_URL=${BASE_URL:-"https://raw.githubusercontent.com/Mayccoll/Gogh/master"}
+    export CURRENT_DIR=$(PWD)
 }
 
 brewtime()  {
@@ -28,36 +28,35 @@ oh_my_zsh() {
 }
 
 plevel10k()   {
-#TODO: find and remove existing theme line in zshrc
-#TODO: skip config wizard
-
 git clone --depth=1 "https://github.com/romkatv/powerlevel10k.git" \
     "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 # sed -i -e "s/ZSH_THEME="robbyrussell"/ZSH_THEME="powerlevel10k/powerlevel10k"/g" "$HOME/.zshrc"
 }
 
 symlinks() {
-    ln -sf "$(PWD)/.vimrc" "${HOME}/.vimrc"
-    ln -sf "$(PWD)/.vim_runtime" "${HOME}/.vim_runtime"
-    ln -sf "$(PWD)/.zshrc" "${HOME}/.zshrc"
-    ln -sf "$(PWD)/.tmux.conf" "${HOME}/.tmux.conf"
-    ln -sf "$(PWD)/.p10k.zsh" "${HOME}/.p10k.zsh"
-    ln -sf "$(PWD)/p10k/fonts/*" "/Library/Fonts"
+    ln -sf "${CURRENT_DIR}/.vimrc" "${HOME}/.vimrc"
+    ln -sf "${CURRENT_DIR}/.vim_runtime" "${HOME}/.vim_runtime"
+    ln -sf "${CURRENT_DIR}/.zshrc" "${HOME}/.zshrc"
+    ln -sf "${CURRENT_DIR}/.tmux.conf" "${HOME}/.tmux.conf"
+    ln -sf "${CURRENT_DIR}/.p10k.zsh" "${HOME}/.p10k.zsh"
+    ln -sf "${CURRENT_DIR}/p10k/fonts/*" "/Library/Fonts"
 }
 
 
 set_defaults()      {
     echo "Enabling dark mode..."
-    sudo defaults write /Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true
+    sudo defaults write "${HOME}/Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true"
     echo "Disabling natural scroll..."
     defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
     mkdir -p "${HOME}/Pictures/Screenshots"
     defaults write com.apple.screencapture location "~/Pictures/Screenshots"
+    defaults write "${HOME}/Library/Preferences/.GlobalPreferences.plist KeyRepeat 3"
+    defaults write "${HOME}/Library/Preferences/.GlobalPreferences.plist InitialKeyRepeat 15"
 }
 
 macktruck()     {
     echo "Running mackup restore..."
-    cp "$PWD/mackup/.mackup.cfg" "$HOME"
+    cp "${CURRENT_DIR}/mackup/.mackup.cfg" "$HOME"
     mackup restore
 }
 

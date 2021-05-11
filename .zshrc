@@ -127,6 +127,10 @@ alias td=terraform-docs
 alias 11a="ssh -i $HOME/.ssh/11a ghlaps@172.18.0.149"
 alias caf="sudo jamf policy -event caffeinate"
 alias mbp="ssh zoe@zoes-mbp.lan"
+alias tfi='tf init -backend-config=state.conf'
+alias tfp='tf plan -out .tfplan'
+alias tfa='tf apply .tfplan && rm -v .tfplan'
+
 
 kc() {
 	kubectl config use-context "${1}"
@@ -166,7 +170,7 @@ tstart() {
 } 
     
 
-export PATH="/usr/local/sbin:/usr/local/bin:/opt/homebrew/bin:$HOME/Greenhouse/infrastructure/bin:$PATH"
+export PATH="/usr/local/sbin:/usr/local/bin:/opt/homebrew/bin:$HOME/Greenhouse/infrastructure/bin:$HOME/.asdf/shims:$PATH"
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
