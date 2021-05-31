@@ -77,12 +77,3 @@ n2ip() {
           '
         }
 
-ghvpn() {
-    VPN_NAME="GH NY VPN"
-    VPN_STATUS=$(networksetup -showpppoestatus "${VPN_NAME}" | grep "disconnected") 
-    if [[ $? -eq 0 ]]; then
-        networksetup -connectpppoeservice "${VPN_NAME}"
-    else
-        networksetup -disconnectpppoeservice "${VPN_NAME}"
-    fi
-}

@@ -55,6 +55,7 @@ set_defaults()      {
     defaults write com.apple.screencapture location "~/Pictures/Screenshots"
     defaults write "${HOME}/Library/Preferences/.GlobalPreferences.plist KeyRepeat 3"
     defaults write "${HOME}/Library/Preferences/.GlobalPreferences.plist InitialKeyRepeat 15"
+    osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Library/Desktop Pictures/Earth Horizon.jpg"'
 }
 
 macktruck()     {

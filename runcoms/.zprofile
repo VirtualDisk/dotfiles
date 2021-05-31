@@ -46,6 +46,7 @@ path=(
   /usr/local/{bin,sbin}
   /opt/homebrew/bin
   $HOME/Greenhouse/infrastructure/bin
+  $HOME/Greenhouse/it/bin
   $HOME/.asdf/shims
   /opt/homebrew/opt/ruby/bin
   /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
