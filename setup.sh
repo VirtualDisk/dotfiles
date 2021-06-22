@@ -43,6 +43,7 @@ symlinks() {
     $("cd $HOME" && "ln -sf ${CURRENT_DIR}/runcoms/.z*" ".")
     $("cd $HOME" && "ln -sf ${CURRENT_DIR}/.*" ".")
     $("cd /Library/Fonts" && "ln -sf ${CURRENT_DIR}/p10k/fonts/*" ".")
+    $("cd $HOME/Movies" && "ln -sf ${CURRENT_DIR}/premiere_template" ".")
 }
 
 

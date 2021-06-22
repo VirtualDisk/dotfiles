@@ -45,6 +45,7 @@ typeset -gU cdpath fpath mailpath path
 path=(
   /usr/local/{bin,sbin}
   /opt/homebrew/bin
+  $HOME/.setup/bin
   $HOME/Greenhouse/infrastructure/bin
   $HOME/Greenhouse/it/bin
   $HOME/.asdf/shims
