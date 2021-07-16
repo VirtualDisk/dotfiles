@@ -48,6 +48,7 @@
     # =========================[ Line #1 ]=========================
     status                  # exit code of the last command
     command_execution_time  # duration of the last command
+    gamc
     background_jobs         # presence of background jobs
     direnv                  # direnv status (https://direnv.net/)
     asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
@@ -106,7 +107,7 @@
     # battery               # internal battery
     # wifi                  # wifi speed
     # example               # example user-defined segment (see prompt_example function below)
-  )
+      )
 
   # Defines character set used by powerlevel10k. It's best to let `p10k configure` set it for you.
   typeset -g POWERLEVEL9K_MODE=nerdfont-complete
@@ -1509,6 +1510,13 @@
     p10k segment -f 208 -i '⭐' -t 'hello, %n'
   }
 
+  ####################################[ gamc: gam context ]####################################
+  # Show the current GAM context only when GAM is typed.
+  typeset -g POWERLEVEL9K_GAMC_SHOW_ON_COMMAND='gam'
+  typeset -g POWERLEVEL9K_GAMC_BACKGROUND=black
+  function prompt_gamc() {
+      p10k segment -f 'green' -b 'black' -i '⚪' -t "$(printgamcurrentcontext)" 
+  }
   # User-defined prompt segments may optionally provide an instant_prompt_* function. Its job
   # is to generate the prompt segment for display in instant prompt. See
   # https://github.com/romkatv/powerlevel10k/blob/master/README.md#instant-prompt.

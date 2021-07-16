@@ -32,18 +32,21 @@ alias dps="docker ps --format=$FORMAT"
 alias gam="/Users/zoe.blanco/bin/gamadv-xtd3/gam"
 alias tf=terraform
 alias y="yes > /dev/null"
-alias grep=ag
 alias it="cd ~/Greenhouse/IT"
 alias inf="cd ~/Greenhouse/infrastructure"
 # alias gh="cd ~/Greenhouse"
 alias pj="cd ~/Projects"
 alias td=terraform-docs
 alias 11a="ssh -i $HOME/.ssh/11a ghlaps@172.18.0.149"
-alias caf="sudo jamf policy -event caffeinate"
+alias caf="${HOME}/IT/JAMF/sh/caffeinate.sh"
 alias mbp="ssh zoe@zoes-mbp.lan"
 alias tfi='tf init -backend-config=state.conf'
 alias tfp='tf plan -out .tfplan'
 alias tfa='tf apply .tfplan && rm -v .tfplan'
+alias kt="killall tmux"
+alias gst="git status"
+alias ga="git add"
+alias gcam="git commit -a -m"
 
 # Functions
 
@@ -77,3 +80,35 @@ n2ip() {
           '
         }
 
+teamid() {
+    codesign -dv "${1}" 2>&1 | ag --nocolor TeamIdentifier
+}
+
+GAM_DIR="${HOME}/.gam"
+gamgetcurrentcontext() {
+    awk -F/ '/config_dir/ {print $5}' ${GAM_DIR}/gam.cfg
+}
+
+printgamcurrentcontext() {
+    echo "$(gamgetcurrentcontext)"
+    }
+
+gamlistcontexts() {
+    awk '/"email":/ {print $2}' ${GAM_DIR}/*/oauth2.txt \
+        |sed -e 's/\"//g' \
+        -e 's/\,//g' \
+        | fzf 
+    echo "GAM current context: $(printgamcurrentcontext)"
+}
+
+gamswitchcontexts() {
+    sed -i -e "s/$(printgamcurrentcontext)/${1}/" "${GAM_DIR}/gam.cfg" 
+}
+
+gamc() {
+    if [[ "${1}" == "" ]]; then
+        gamlistcontexts
+    else 
+        gamswitchcontexts "${1}"
+    fi
+}

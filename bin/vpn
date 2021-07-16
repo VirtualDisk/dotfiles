@@ -14,10 +14,10 @@ main() {
             disconnect
             statuswait "disconnected"
             echo "Disconnected from ${VPN_NAME}"
-            connect_wifi "${WIFI_PRIMARY}" "${WIFI_PRIMARY_SECRET}" 
+            # connect_wifi "${WIFI_PRIMARY}" "${WIFI_PRIMARY_SECRET}" 
             ;;
         disconnected)
-            connect_wifi "${WIFI_SECONDARY}"
+            # connect_wifi "${WIFI_SECONDARY}"
             connect
             statuswait "connected"
             echo "Connected to ${VPN_NAME}"
