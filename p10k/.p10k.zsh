@@ -1513,7 +1513,7 @@
   ####################################[ gamc: gam context ]####################################
   # Show the current GAM context only when GAM is typed.
   typeset -g POWERLEVEL9K_GAMC_SHOW_ON_COMMAND='gam'
-  typeset -g POWERLEVEL9K_GAMC_BACKGROUND=black
+  typeset -g POWERLEVEL9K_GAMC_BACKGROUND=grey
   function prompt_gamc() {
       p10k segment -f 'green' -b 'black' -i '⚪' -t "$(printgamcurrentcontext)" 
   }
@@ -1559,7 +1559,7 @@
   #   - verbose: Enable instant prompt and print a warning when detecting console output during
   #              zsh initialization. Choose this if you've never tried instant prompt, haven't
   #              seen the warning, or if you are unsure what this all means.
-  typeset -g POWERLEVEL9K_INSTANT_PROMPT=verbose
+  typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
   # Hot reload allows you to change POWERLEVEL9K options after Powerlevel10k has been initialized.
   # For example, you can type POWERLEVEL9K_BACKGROUND=red and see your prompt turn red. Hot reload

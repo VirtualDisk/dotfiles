@@ -34,11 +34,10 @@ alias tf=terraform
 alias y="yes > /dev/null"
 alias it="cd ~/Greenhouse/IT"
 alias inf="cd ~/Greenhouse/infrastructure"
-# alias gh="cd ~/Greenhouse"
+# alias grhse="cd ~/Greenhouse"
 alias pj="cd ~/Projects"
 alias td=terraform-docs
 alias 11a="ssh -i $HOME/.ssh/11a ghlaps@172.18.0.149"
-alias caf="${HOME}/IT/JAMF/sh/caffeinate.sh"
 alias mbp="ssh zoe@zoes-mbp.lan"
 alias tfi='tf init -backend-config=state.conf'
 alias tfp='tf plan -out .tfplan'

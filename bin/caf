@@ -20,7 +20,7 @@ fi
 echo "Machine will not sleep for $LIVE_TIME seconds "
 
 # subshell with caffeinate
-( caffeinate -sid -t $LIVE_TIME ) &
+( caf -sid -t $LIVE_TIME ) &
 disown
 
 # deactivate verbose and debugging stdout
