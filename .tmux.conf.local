@@ -226,8 +226,11 @@ tmux_conf_theme_right_separator_sub="|"
 #     - #{uptime_s}
 #     - #{username}
 #     - #{username_ssh}
+
 tmux_conf_theme_status_left=" ❐ #S"
-tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} "
+tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}, ${cpu_icon} #{cpu_percentage} , %d %b | #{username}#{root} | #{hostname} "
+
+# tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , ${cpu_icon} #{cpu_percentage} , %d %b | #{username}#{root} | #{hostname} "
 
 # status left style
 tmux_conf_theme_status_left_fg="$tmux_conf_theme_colour_17,$tmux_conf_theme_colour_17"
@@ -373,11 +376,10 @@ tmux_conf_update_plugins_on_reload=true
 # to enable a plugin, use the 'set -g @plugin' syntax:
 # visit https://github.com/tmux-plugins for available plugins
 #set -g @plugin 'tmux-plugins/tmux-copycat'
-#set -g @plugin 'tmux-plugins/tmux-cpu'
+set -g @plugin 'tmux-plugins/tmux-cpu'
 #set -g @plugin 'tmux-plugins/tmux-resurrect'
 #set -g @plugin 'tmux-plugins/tmux-continuum'
 #set -g @continuum-restore 'on'
-
 
 # -- custom variables ----------------------------------------------------------
 
@@ -395,7 +397,7 @@ tmux_conf_update_plugins_on_reload=true
 # # /!\ do not "uncomment" the functions: the leading "# " characters are needed
 #
 # weather() {
-#   curl -m 1 wttr.in?format=3 2>/dev/null
+#   curl -m 1 wttr.in?format=1 2>/dev/null
 #   sleep 900 # sleep for 15 minutes, throttle network requests whatever the value of status-interval
 # }
 #
