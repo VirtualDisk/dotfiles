@@ -1513,7 +1513,7 @@
   ####################################[ gamc: gam context ]####################################
   # Show the current GAM context only when GAM is typed.
   typeset -g POWERLEVEL9K_GAMC_SHOW_ON_COMMAND='gam'
-  typeset -g POWERLEVEL9K_GAMC_BACKGROUND=grey
+  typeset -g POWERLEVEL9K_GAMC_BACKGROUND=232
   function prompt_gamc() {
       p10k segment -f 'green' -b 'black' -i '⚪' -t "$(printgamcurrentcontext)" 
   }
