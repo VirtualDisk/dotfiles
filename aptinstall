@@ -32,7 +32,6 @@
  p11-kit
  unbound
  gnutls
- 
  ccat
  cloudformation-cli
  cmatrix
