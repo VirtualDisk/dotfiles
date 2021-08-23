@@ -46,6 +46,8 @@ alias kt="killall tmux"
 alias gst="git status"
 alias ga="git add"
 alias gcam="git commit -a -m"
+alias showhidden="defaults write com.apple.finder AppleShowAllFiles YES && killall Finder"
+alias hidehidden="defaults write com.apple.finder AppleShowAllFiles NO && killall Finder"
 
 # Functions
 
