@@ -40,10 +40,10 @@ symlinks() {
     # ln -sf "${CURRENT_DIR}/.tmux.conf" "${HOME}/.tmux.conf"
     # ln -sf "${CURRENT_DIR}/.p10k.zsh" "${HOME}/.p10k.zsh"
     # ln -sf "${CURRENT_DIR}/p10k/fonts/*" "/Library/Fonts"
-    $("cd $HOME" && "ln -sf ${CURRENT_DIR}/runcoms/.z*" ".")
-    $("cd $HOME" && "ln -sf ${CURRENT_DIR}/.*" ".")
-    $("cd /Library/Fonts" && "ln -sf ${CURRENT_DIR}/p10k/fonts/*" ".")
-    $("cd $HOME/Movies" && "ln -sf ${CURRENT_DIR}/premiere_template" ".")
+    "cd $HOME" && "ln -sf ${CURRENT_DIR}/runcoms/.z*" "."
+    "cd $HOME" && "ln -sf ${CURRENT_DIR}/.*" "."
+    "cd /Library/Fonts" && "ln -sf ${CURRENT_DIR}/p10k/fonts/*" "."
+    "cd $HOME/Movies" && "ln -sf ${CURRENT_DIR}/premiere_template" "."
 }
 
 
