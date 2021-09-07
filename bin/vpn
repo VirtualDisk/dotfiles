@@ -36,7 +36,8 @@ connect_wifi() {
 }
 
 checkstatus() {
-    networksetup -showpppoestatus "${VPN_NAME}"
+    # networksetup -showpppoestatus "${VPN_NAME}"
+
 }
 
 statuswait() {
@@ -52,12 +53,14 @@ statuswait() {
 
 connect() {
     echo "Connecting to ${VPN_NAME}..."
-    networksetup -connectpppoeservice "${VPN_NAME}"
+    # networksetup -connectpppoeservice "${VPN_NAME}"
+    osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e "connect \"zoe.blanco(1)\"" -e "end tell"
 }
 
 disconnect() {
     echo "Disconnecting from ${VPN_NAME}..."
-    networksetup -disconnectpppoeservice "${VPN_NAME}"
+    # networksetup -disconnectpppoeservice "${VPN_NAME}"
+    osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e "disconnect \"zoe.blanco(1)\"" -e "end tell"
 }
 
 main

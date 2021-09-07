@@ -41,17 +41,19 @@ set_vars()  {
     PROJECT_FOLDER_PREFIX="jump"
     PROJECT_FOLDER_NAME="${PROJECT_FOLDER_PREFIX}$(date -u +"%m%d")"
     PROJECT_TEMPLATE="${HOME}/Movies/template/template.prproj"
+    PROJECT="${PROJECT_FOLDER_LOCATION}${PROJECT_FOLDER_NAME}" # ~/Movies/prefix1234
+
 }
 
 make_dir_then_copy()  {
-    if [[ -d "${PROJECT_FOLDER_LOCATION}${PROJECT_FOLDER_NAME}" ]]; then
-        #cp "${FOOTAGE_LOCATION}/*" "${PROJECT_FOLDER_LOCATION}${PROJECT_FOLDER_NAME}"
-        rsync -r --info=progress2 "${FOOTAGE_LOCATION}" "${PROJECT_FOLDER_LOCATION}${PROJECT_FOLDER_NAME}"
+    if [[ -d "${PROJECT}" ]]; then
+        #cp "${FOOTAGE_LOCATION}/*" "${PROJECT}"
+        rsync -r --info=progress2 "${FOOTAGE_LOCATION}" "${PROJECT}"
 
     else
-        mkdir -p "${PROJECT_FOLDER_LOCATION}${PROJECT_FOLDER_NAME}"
-        #cp "${FOOTAGE_LOCATION}/*" "${PROJECT_FOLDER_LOCATION}${PROJECT_FOLDER_NAME}"
-        rsync -r --info=progress2 "${FOOTAGE_LOCATION}" "${PROJECT_FOLDER_LOCATION}${PROJECT_FOLDER_NAME}"
+        mkdir -p "${PROJECT}"
+        #cp "${FOOTAGE_LOCATION}/*" "${PROJECT}"
+        rsync -r --info=progress2 "${FOOTAGE_LOCATION}" "${PROJECT}"
     fi
 }
 
@@ -61,10 +63,10 @@ make_dir_then_copy()  {
 
 
 create_project() {
-    cp "${PROJECT_TEMPLATE}" "${PROJECT_FOLDER_LOCATION}${PROJECT_FOLDER_NAME}/${PROJECT_FOLDER_NAME}.prproj"    
-    chmod 770 "${PROJECT_FOLDER_LOCATION}${PROJECT_FOLDER_NAME}/${PROJECT_FOLDER_NAME}.prproj"    
-    open "/Applications/Adobe Premiere Pro (Beta)/Adobe Premiere Pro (Beta).app" "${PROJECT_FOLDER_LOCATION}${PROJECT_FOLDER_NAME}/${PROJECT_FOLDER_NAME}.prproj"    
-    open "${PROJECT_FOLDER_LOCATION}${PROJECT_FOLDER_NAME}"
+    cp "${PROJECT_TEMPLATE}" "${PROJECT}/${PROJECT_FOLDER_NAME}.prproj"    
+    chmod 770 "${PROJECT}/${PROJECT_FOLDER_NAME}.prproj"    
+    open "/Applications/Adobe Premiere Pro (Beta)/Adobe Premiere Pro (Beta).app" "${PROJECT}/${PROJECT_FOLDER_NAME}.prproj"    
+    open "${PROJECT}"
 
 }
 
