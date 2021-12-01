@@ -100,6 +100,11 @@ let s:default_registry = {
 \       'suggested_filetypes': ['nim'],
 \       'description': 'Apply nimpretty to a file.',
 \   },
+\   'erblint': {
+\       'function': 'ale#fixers#erblint#Fix',
+\       'suggested_filetypes': ['eruby'],
+\       'description': 'Apply erblint --autocorrect to a file.',
+\   },
 \   'eslint': {
 \       'function': 'ale#fixers#eslint#Fix',
 \       'suggested_filetypes': ['javascript', 'typescript'],
@@ -186,6 +191,11 @@ let s:default_registry = {
 \       'suggested_filetypes': ['ruby'],
 \       'description': 'Fix ruby files with standardrb --fix',
 \   },
+\   'statix': {
+\       'function': 'ale#fixers#statix#Fix',
+\       'suggested_filetypes': ['nix'],
+\       'description': 'Fix common Nix antipatterns with statix fix',
+\   },
 \   'stylelint': {
 \       'function': 'ale#fixers#stylelint#Fix',
 \       'suggested_filetypes': ['css', 'sass', 'scss', 'sugarss', 'stylus'],
@@ -241,10 +251,20 @@ let s:default_registry = {
 \       'suggested_filetypes': ['go'],
 \       'description': 'Fix Go files with go fmt.',
 \   },
+\   'gofumpt': {
+\       'function': 'ale#fixers#gofumpt#Fix',
+\       'suggested_filetypes': ['go'],
+\       'description': 'Fix Go files with gofumpt, a stricter go fmt.',
+\   },
 \   'goimports': {
 \       'function': 'ale#fixers#goimports#Fix',
 \       'suggested_filetypes': ['go'],
 \       'description': 'Fix Go files imports with goimports.',
+\   },
+\   'golines': {
+\       'function': 'ale#fixers#golines#Fix',
+\       'suggested_filetypes': ['go'],
+\        'description': 'Fix Go file long lines with golines',
 \   },
 \   'gomod': {
 \       'function': 'ale#fixers#gomod#Fix',
@@ -300,6 +320,11 @@ let s:default_registry = {
 \       'function': 'ale#fixers#stylish_haskell#Fix',
 \       'suggested_filetypes': ['haskell'],
 \       'description': 'Refactor Haskell files with stylish-haskell.',
+\   },
+\   'purs-tidy': {
+\       'function': 'ale#fixers#purs_tidy#Fix',
+\       'suggested_filetypes': ['purescript'],
+\       'description': 'Format PureScript files with purs-tidy.',
 \   },
 \   'purty': {
 \       'function': 'ale#fixers#purty#Fix',
@@ -386,6 +411,11 @@ let s:default_registry = {
 \       'suggested_filetypes': ['dart'],
 \       'description': 'Fix Dart files with dart format.',
 \   },
+\   'dotnet-format': {
+\       'function': 'ale#fixers#dotnet_format#Fix',
+\       'suggested_filetypes': ['cs'],
+\       'description': 'Fix C# files with dotnet format.',
+\   },
 \   'xmllint': {
 \       'function': 'ale#fixers#xmllint#Fix',
 \       'suggested_filetypes': ['xml'],
@@ -470,6 +500,11 @@ let s:default_registry = {
 \       'function': 'ale#fixers#ormolu#Fix',
 \       'suggested_filetypes': ['haskell'],
 \       'description': 'A formatter for Haskell source code.',
+\   },
+\   'jsonnetfmt': {
+\       'function': 'ale#fixers#jsonnetfmt#Fix',
+\       'suggested_filetypes': ['jsonnet'],
+\       'description': 'Fix jsonnet files with jsonnetfmt',
 \   },
 \   'ptop': {
 \       'function': 'ale#fixers#ptop#Fix',

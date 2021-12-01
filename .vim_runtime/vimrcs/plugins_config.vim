@@ -113,7 +113,7 @@ let g:multi_cursor_quit_key            = '<Esc>'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => surround.vim config
-" Annotate strings with gettext 
+" Annotate strings with gettext
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 vmap Si S(i_<esc>f)
 au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
@@ -123,25 +123,25 @@ au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
 " => lightline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ ['mode', 'paste'],
-      \             ['fugitive', 'readonly', 'filename', 'modified'] ],
-      \   'right': [ [ 'lineinfo' ], ['percent'] ]
-      \ },
-      \ 'component': {
-      \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
-      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      \   'fugitive': '%{exists("*FugitiveHead")?FugitiveHead():""}'
-      \ },
-      \ 'component_visible_condition': {
-      \   'readonly': '(&filetype!="help"&& &readonly)',
-      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      \   'fugitive': '(exists("*FugitiveHead") && ""!=FugitiveHead())'
-      \ },
-      \ 'separator': { 'left': ' ', 'right': ' ' },
-      \ 'subseparator': { 'left': ' ', 'right': ' ' }
-      \ }
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+                \   'left': [ ['mode', 'paste'],
+                \             ['fugitive', 'readonly', 'filename', 'modified'] ],
+                \   'right': [ [ 'lineinfo' ], ['percent'] ]
+                \ },
+                \ 'component': {
+                    \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
+                    \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+                    \   'fugitive': '%{exists("*FugitiveHead")?FugitiveHead():""}'
+                    \ },
+                    \ 'component_visible_condition': {
+                        \   'readonly': '(&filetype!="help"&& &readonly)',
+                        \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+                        \   'fugitive': '(exists("*FugitiveHead") && ""!=FugitiveHead())'
+                        \ },
+                        \ 'separator': { 'left': ' ', 'right': ' ' },
+                        \ 'subseparator': { 'left': ' ', 'right': ' ' }
+                        \ }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vimroom
@@ -156,11 +156,11 @@ nnoremap <silent> <leader>z :Goyo<cr>
 " => Ale (syntax checker and linter)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ale_linters = {
-\   'javascript': ['jshint'],
-\   'python': ['flake8'],
-\   'go': ['go', 'golint', 'errcheck'],
-\   'sh': ['shellcheck']
-\}
+            \   'javascript': ['jshint'],
+            \   'python': ['flake8'],
+            \   'go': ['go', 'golint', 'errcheck'],
+            \   'sh': ['shellcheck']
+            \}
 
 nmap <silent> <leader>a <Plug>(ale_next_wrap)
 
@@ -180,7 +180,7 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => terrform-vim 
+" => terrform-vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:terraform_align=1
 let g:terraform_fmt_on_save=1
@@ -189,3 +189,19 @@ let g:terraform_fmt_on_save=1
 " => Rainbow brackets
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rainbow_active = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-autoformat
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:python3_host_prog="/opt/homebrew/bin/python3"
+" Format on save
+" au BufWrite * :Autoformat
+let g:formatter_yapf_style = 'pep8'
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0
+let g:autoformat_remove_trailing_spaces = 0
+
+""""""""""""""""""""""""""""""""
+" => indentLine
+"""""""""""""""""""""""""""""""
+let g:indentLine_char = '⦙'

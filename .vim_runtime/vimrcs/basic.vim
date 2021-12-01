@@ -408,3 +408,7 @@ func! WordProcessor()
   set complete+=s
 endfu
 com! WP call WordProcessor()
+
+au BufNewFile,BufRead *.txt call WordProcessor()
+
+

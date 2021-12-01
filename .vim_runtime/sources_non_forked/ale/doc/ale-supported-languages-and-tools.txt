@@ -17,7 +17,7 @@ Notes:
   * `gcc`
   * `gnatpp`
 * Ansible
-  * `ansible-lint`
+  * `ansible-lint`!!
 * API Blueprint
   * `drafter`
 * APKBUILD
@@ -33,6 +33,8 @@ Notes:
   * `write-good`
 * ASM
   * `gcc`
+* AVRA
+  * `avra`
 * Awk
   * `gawk`
 * Bash
@@ -66,6 +68,7 @@ Notes:
   * `uncrustify`
 * C#
   * `csc`!!
+  * `dotnet-format`
   * `mcs`
   * `mcsc`!!
   * `uncrustify`
@@ -86,7 +89,7 @@ Notes:
   * `uncrustify`
 * Chef
   * `cookstyle`
-  * `foodcritic`
+  * `foodcritic`!!
 * Clojure
   * `clj-kondo`
   * `joker`
@@ -141,7 +144,7 @@ Notes:
 * Elixir
   * `credo`
   * `dialyxir`
-  * `dogma`
+  * `dogma`!!
   * `elixir-ls`
   * `mix`!!
 * Elm
@@ -150,12 +153,13 @@ Notes:
   * `elm-make`
 * Erb
   * `erb`
+  * `erblint`
   * `erubi`
   * `erubis`
   * `ruumba`
 * Erlang
   * `SyntaxErl`
-  * `dialyzer`
+  * `dialyzer`!!
   * `elvis`!!
   * `erlc`
   * `erlfmt`
@@ -180,9 +184,11 @@ Notes:
   * `go mod`!!
   * `go vet`!!
   * `gofmt`
+  * `gofumpt`
   * `goimports`
   * `golangci-lint`!!
   * `golangserver`
+  * `golines`
   * `golint`
   * `gometalinter`!!
   * `gopls`
@@ -240,13 +246,14 @@ Notes:
   * `ispc`!!
 * Java
   * `PMD`
-  * `checkstyle`
+  * `checkstyle`!!
   * `eclipselsp`
   * `google-java-format`
   * `javac`
   * `javalsp`
   * `uncrustify`
 * JavaScript
+  * `deno`
   * `eslint`
   * `fecs`
   * `flow`
@@ -259,16 +266,24 @@ Notes:
   * `tsserver`
   * `xo`
 * JSON
+  * `eslint`
   * `fixjson`
   * `jq`
   * `jsonlint`
   * `prettier`
   * `spectral`
+* JSON5
+  * `eslint`
+* JSONC
+  * `eslint`
+* Jsonnet
+  * `jsonnet-lint`
+  * `jsonnetfmt`
 * Julia
   * `languageserver`
 * Kotlin
   * `kotlinc`!!
-  * `ktlint`!!
+  * `ktlint`
   * `languageserver`
 * LaTeX (tex)
   * `alex`!!
@@ -327,6 +342,7 @@ Notes:
   * `nixfmt`
   * `nixpkgs-fmt`
   * `rnix-lsp`
+  * `statix`
 * nroff
   * `alex`!!
   * `proselint`
@@ -389,8 +405,8 @@ Notes:
 * Prolog
   * `swipl`
 * proto
-  * `protoc-gen-lint`
-  * `protolint`
+  * `protoc-gen-lint`!!
+  * `protolint`!!
 * Pug
   * `pug-lint`
 * Puppet
@@ -399,6 +415,7 @@ Notes:
   * `puppet-lint`
 * PureScript
   * `purescript-language-server`
+  * `purs-tidy`
   * `purty`
 * Python
   * `autoflake`!!
@@ -407,9 +424,10 @@ Notes:
   * `bandit`
   * `black`
   * `flake8`
+  * `flakehell`
   * `isort`
   * `mypy`
-  * `prospector`
+  * `prospector`!!
   * `pycodestyle`
   * `pydocstyle`
   * `pyflakes`
@@ -446,10 +464,12 @@ Notes:
   * `textlint`
   * `vale`
   * `write-good`
+* Robot
+  * `rflint`
 * RPM spec
   * `rpmlint`
 * Ruby
-  * `brakeman`
+  * `brakeman`!!
   * `debride`
   * `prettier`
   * `rails_best_practices`!!
@@ -533,6 +553,7 @@ Notes:
   * `write-good`
 * Thrift
   * `thrift`
+  * `thriftcheck`
 * TypeScript
   * `deno`
   * `eslint`
@@ -543,7 +564,7 @@ Notes:
   * `tsserver`
   * `typecheck`
 * V
-  * `v`
+  * `v`!!
   * `vfmt`
 * VALA
   * `uncrustify`
@@ -554,7 +575,7 @@ Notes:
   * `verilator`
   * `vlog`
   * `xvlog`
-  * `yosys`
+  * `yosys`!!
 * VHDL
   * `ghdl`
   * `vcom`
@@ -584,6 +605,8 @@ Notes:
   * `yamllint`
 * YANG
   * `yang-lsp`
+* Zeek
+  * `zeek`!!
 * Zig
   * `zls`
 
