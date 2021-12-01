@@ -1,0 +1,31 @@
+theuser: "zoe.blanco"
+links_src: [ '{{ playbook_dir }}/.vimrc' ]
+links_dest: [ "{{lookup('env','HOME')}}/.vimrc" ]
+brew_pkgs:
+  - asdf
+  - aws-vault
+  - awscli
+  - glances
+  - jq
+  - mtr
+  - neofetch
+  - python3
+  - rclone
+  - rsync
+  - the_silver_searcher
+  - tldr
+  - tmux
+  - tree
+  - virtualenv
+  - youtube-dl
+  - yq
+  - zsh
+brew_casks:
+  - alacritty
+asdf_pkgs:
+  - aws-vault
+  - gcloud
+  - helm
+  - kubectl
+  - terraform
+  - sops
