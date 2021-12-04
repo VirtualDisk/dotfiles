@@ -83,7 +83,8 @@
       state: link   
 
   - name: Create a symbolic link on linux
-    when: ansible_os_family == 'Debian'
+    when: ansible_os_family == 'Debian' or
+          ansible_os_family == 'Archlinux'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zshrc.linux'
       dest: "{{lookup('env','HOME')}}/.zshrc" 
@@ -130,7 +131,8 @@
 #       state: link   
 
   - name: Create a symbolic link
-    when: ansible_os_family == 'Debian'
+    when: ansible_os_family == 'Debian' or
+          ansible_os_family == 'Archlinux'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold Italic.ttf'
       dest: "/usr/share/fonts/MesloLGS NF Bold Italic.ttf" 
@@ -139,7 +141,8 @@
     ignore_errors: yes
 
   - name: Create a symbolic link
-    when: ansible_os_family == 'Debian'
+    when: ansible_os_family == 'Debian' or
+          ansible_os_family == 'Archlinux'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold.ttf'
       dest: "/usr/share/fonts/MesloLGS NF Bold.ttf" 
@@ -148,7 +151,8 @@
     ignore_errors: yes
 
   - name: Create a symbolic link
-    when: ansible_os_family == 'Debian'
+    when: ansible_os_family == 'Debian' or
+          ansible_os_family == 'Archlinux'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Regular.ttf'
       dest: "/usr/share/fonts/MesloLGS NF Regular.ttf" 
@@ -157,7 +161,8 @@
     ignore_errors: yes
 
   - name: Create a symbolic link
-    when: ansible_os_family == 'Debian'
+    when: ansible_os_family == 'Debian' or
+          ansible_os_family == 'Archlinux'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Italic.ttf'
       dest: "/usr/share/fonts/MesloLGS NF Italic.ttf" 
@@ -216,6 +221,20 @@
       update_cache: yes
     become: yes
 
+  - name: install pacman pkgs
+    when: ansible_os_family == 'Archlinux'
+    community.general.pacman:
+      name: '{{ pkgs_arch }}'
+      state: present
+      update_cache: yes
+
+  - name: update pacman pkgs
+    when: ansible_os_family == 'Archlinux'
+    community.general.pacman:
+      state: present
+      update_cache: yes
+      upgrade: yes
+
   # - name: install snap pkgs
   #   when: ansible_os_family == "Debian"
   #   community.general.snap:
@@ -261,7 +280,8 @@
       mode: '0755'
 
   - name: Create Shared directory if it does not exist
-    when: ansible_os_family == 'Debian'
+    when: ansible_os_family == 'Debian' or
+          ansible_os_family == 'Archlinux'
     ansible.builtin.file:
       path: /home/shared 
       state: directory
@@ -291,7 +311,6 @@
 
   roles:
     - role: markosamuli.asdf 
-      when: ansible_os_family == 'Darwin'
       asdf_plugins:
       - name: aws-vault 
         versions: ["2.2.2"]

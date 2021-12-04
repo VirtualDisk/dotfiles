@@ -10,7 +10,7 @@ check_platform() {
             ;;
         "linux-gnu")
             # become_on
-            check_ansible_linux
+            check_distro
             rundazsh
             ;;
         *)
@@ -46,7 +46,23 @@ check_ansible_mac() {
     fi
 }
 
-check_ansible_linux() {
+check_distro() {
+    DISTRO="$(awk -F '=' '{print $2}' /etc/os-release |head -n 1 |sed 's/"//g')"
+
+    case "${DISTRO}" in
+        "Arch Linux")
+            check_ansible_arch
+            ;;
+        "Ubuntu")
+            check_ansible_debian
+            ;;
+        *)
+            echo "Unsupported distro $DISTRO"
+            ;;
+    esac
+}
+
+check_ansible_debian() {
     if [[ -f /usr/bin/ansible ]]; then
         echo "Ansible found. Installing collections and running playbook..."
         install_collections
@@ -58,9 +74,19 @@ check_ansible_linux() {
         apt update
         apt upgrade -y
         apt install ansible -y
-        check_ansible_linux
+        check_ansible_ubuntu
     fi
+}
 
+check_ansible_arch() {
+    if [[ -f /usr/bin/ansible ]]; then
+        echo "Ansible found. Installing collections and running playbook..."
+        install_collections
+    else
+        echo "Ansible not found. Installing..."
+        pacman -Syu ansible --noconfirm
+        check_ansible_arch
+    fi
 }
 
 install_collections() {
