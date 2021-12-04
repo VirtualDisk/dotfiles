@@ -8,7 +8,6 @@ LABEL maintainer="thelamer"
 ENV USER="abc"
 COPY . /.dotfiles
 WORKDIR /.dotfiles
-RUN /.dotfiles/bootstrap.sh
 
 RUN \
  echo "**** install packages ****" && \
@@ -27,3 +26,5 @@ RUN \
         /var/lib/apt/lists/* \
         /var/tmp/* \
         /tmp/*
+
+RUN /.dotfiles/bootstrap.sh
