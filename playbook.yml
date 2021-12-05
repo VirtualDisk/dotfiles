@@ -83,7 +83,8 @@
       state: link   
 
   - name: Create a symbolic link on linux
-    when: ansible_os_family == 'Debian'
+    when: ansible_os_family == 'Debian' or
+          ansible_os_family == 'Archlinux'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zshrc.linux'
       dest: "{{lookup('env','HOME')}}/.zshrc" 
@@ -216,6 +217,41 @@
       update_cache: yes
     become: yes
 
+  - name: install pacman pkgs
+    when: ansible_os_family == 'Archlinux'
+    community.general.pacman:
+      name: '{{ pkgs_arch }}'
+      state: present
+      update_cache: yes
+
+  - name: update pacman pkgs
+    when: ansible_os_family == 'Archlinux'
+    community.general.pacman:
+      state: present
+      update_cache: yes
+      upgrade: yes
+
+  - name: create aur_builder user
+    when: ansible_os_family == 'Archlinux'
+    ansible.builtin.user:
+      name: aur_builder
+      create_home: no
+      group: wheel
+
+  - name: add aur_builder to wheel
+    when: ansible_os_family == 'Archlinux'
+    ansible.builtin.lineinfile:
+      path: /etc/sudoers.d/11-install-aur_builder
+      line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+      create: yes
+      validate: 'visudo -cf %s'
+
+  - name: install install aur pkgs
+    when: ansible_os_family == 'Archlinux'
+    aur: name=ttf-meslo-nerd-font-powerlevel10k 
+    become: yes
+    become_user: aur_builder
+
   # - name: install snap pkgs
   #   when: ansible_os_family == "Debian"
   #   community.general.snap:
@@ -261,7 +297,8 @@
       mode: '0755'
 
   - name: Create Shared directory if it does not exist
-    when: ansible_os_family == 'Debian'
+    when: ansible_os_family == 'Debian' or
+          ansible_os_family == 'Archlinux'
     ansible.builtin.file:
       path: /home/shared 
       state: directory
@@ -291,7 +328,6 @@
 
   roles:
     - role: markosamuli.asdf 
-      when: ansible_os_family == 'Darwin'
       asdf_plugins:
       - name: aws-vault 
         versions: ["2.2.2"]
@@ -308,3 +344,5 @@
       vars:
         asdf_init_shell: false
       ignore_errors: yes
+    - role: luizgavalda.aur 
+      when: ansible_os_family == 'Archlinux' 

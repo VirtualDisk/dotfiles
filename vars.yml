@@ -24,6 +24,29 @@ pkgs_mac:
   - yq
   - zsh
 
+pkgs_arch:
+  - aws-cli
+  - ca-certificates
+  - curl
+  - git
+  - glances
+  - jq
+  - kubectl
+  - mtr
+  - neofetch
+  - python-virtualenv
+  - python3
+  - rclone
+  - rsync
+  - sudo
+  - the_silver_searcher 
+  - tldr
+  - tmux
+  - tree
+  - vim
+  - youtube-dl
+  - zsh
+
 pkgs_debian:
   - awscli
   - apt-transport-https
