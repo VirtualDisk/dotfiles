@@ -74,7 +74,7 @@ check_ansible_debian() {
         apt update
         apt upgrade -y
         apt install ansible -y
-        check_ansible_ubuntu
+        check_ansible_debian
     fi
 }
 
@@ -95,6 +95,7 @@ install_collections() {
     ansible-galaxy collection install community.docker
     ansible-galaxy install cimon-io.asdf
     ansible-galaxy install markosamuli.asdf
+    ansible-galaxy install luizgavalda.aur
     ansible-playbook -i "${PWD}/.ansible/inventory.yml" \
         "${PWD}/playbook.yml" --ask-become-pass
 }

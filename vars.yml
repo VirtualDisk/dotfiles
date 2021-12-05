@@ -38,6 +38,7 @@ pkgs_arch:
   - python3
   - rclone
   - rsync
+  - sudo
   - the_silver_searcher 
   - tldr
   - tmux

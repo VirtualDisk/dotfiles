@@ -1,4 +1,5 @@
-FROM archlinux/archlinux
+FROM archlinux/archlinux:base-devel
+# FROM ubuntu:latest
 ENV USER=root
 WORKDIR /.dotfiles
 COPY . /.dotfiles

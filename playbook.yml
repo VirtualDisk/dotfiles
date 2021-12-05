@@ -131,8 +131,7 @@
 #       state: link   
 
   - name: Create a symbolic link
-    when: ansible_os_family == 'Debian' or
-          ansible_os_family == 'Archlinux'
+    when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold Italic.ttf'
       dest: "/usr/share/fonts/MesloLGS NF Bold Italic.ttf" 
@@ -141,8 +140,7 @@
     ignore_errors: yes
 
   - name: Create a symbolic link
-    when: ansible_os_family == 'Debian' or
-          ansible_os_family == 'Archlinux'
+    when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold.ttf'
       dest: "/usr/share/fonts/MesloLGS NF Bold.ttf" 
@@ -151,8 +149,7 @@
     ignore_errors: yes
 
   - name: Create a symbolic link
-    when: ansible_os_family == 'Debian' or
-          ansible_os_family == 'Archlinux'
+    when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Regular.ttf'
       dest: "/usr/share/fonts/MesloLGS NF Regular.ttf" 
@@ -161,8 +158,7 @@
     ignore_errors: yes
 
   - name: Create a symbolic link
-    when: ansible_os_family == 'Debian' or
-          ansible_os_family == 'Archlinux'
+    when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Italic.ttf'
       dest: "/usr/share/fonts/MesloLGS NF Italic.ttf" 
@@ -234,6 +230,27 @@
       state: present
       update_cache: yes
       upgrade: yes
+
+  - name: create aur_builder user
+    when: ansible_os_family == 'Archlinux'
+    ansible.builtin.user:
+      name: aur_builder
+      create_home: no
+      group: wheel
+
+  - name: add aur_builder to wheel
+    when: ansible_os_family == 'Archlinux'
+    ansible.builtin.lineinfile:
+      path: /etc/sudoers.d/11-install-aur_builder
+      line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+      create: yes
+      validate: 'visudo -cf %s'
+
+  - name: install install aur pkgs
+    when: ansible_os_family == 'Archlinux'
+    aur: name=ttf-meslo-nerd-font-powerlevel10k 
+    become: yes
+    become_user: aur_builder
 
   # - name: install snap pkgs
   #   when: ansible_os_family == "Debian"
@@ -327,3 +344,5 @@
       vars:
         asdf_init_shell: false
       ignore_errors: yes
+    - role: luizgavalda.aur 
+      when: ansible_os_family == 'Archlinux' 
