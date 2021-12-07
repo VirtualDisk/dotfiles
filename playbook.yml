@@ -200,6 +200,7 @@
       url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
       keyring: "/usr/share/keyrings/kubernetes-archive-keyring.gpg"
       state: present
+    become: yes
 
   # - name: add k8s repo
   #   when: ansible_os_family == 'Debian'
@@ -287,7 +288,6 @@
       path: /Users/shared 
       state: directory
       mode: '0755'
-    ignore_errors: yes
 
   - name: Create Screenshots directory if it does not exist
     when: ansible_os_family == 'Darwin'
@@ -303,6 +303,7 @@
       path: /home/shared 
       state: directory
       mode: '0755'
+    become: yes
 
   # - name: install asdf deps
   #   when: ansible_os_family == 'Debian'

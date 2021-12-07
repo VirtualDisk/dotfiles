@@ -68,12 +68,9 @@ check_ansible_debian() {
         install_collections
     else
         echo "Ansible not found. Installing..."
-        # sudo apt update
-        # sudo apt upgrade
-        # sudo apt install ansible
-        apt update
-        apt upgrade -y
-        apt install ansible -y
+        sudo apt update
+        sudo apt upgrade
+        sudo apt install ansible -y
         check_ansible_debian
     fi
 }

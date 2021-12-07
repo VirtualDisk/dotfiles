@@ -42,7 +42,8 @@ zstyle ':prezto:load' pmodule \
   'prompt' \
   'tmux' \
   'git' \
-  'ssh'
+  'ssh' \
+  'docker'
 
 #
 # Autosuggestions
