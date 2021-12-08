@@ -288,6 +288,7 @@
       path: /Users/shared 
       state: directory
       mode: '0755'
+    become: yes
 
   - name: Create Screenshots directory if it does not exist
     when: ansible_os_family == 'Darwin'
