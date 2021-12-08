@@ -5,11 +5,9 @@ set -x
 check_platform() {
     case "${OSTYPE}" in
         "darwin"*)
-            # become_off
             check_brew
             ;;
         "linux-gnu")
-            # become_on
             check_distro
             rundazsh
             ;;
@@ -95,14 +93,6 @@ install_collections() {
     ansible-galaxy install luizgavalda.aur
     ansible-playbook -i "${PWD}/.ansible/inventory.yml" \
         "${PWD}/playbook.yml" --ask-become-pass
-}
-
-become_on() {
-    sed 's/become: yes/become: no' "${PWD}/playbook.yml"
-}
-
-become_off() {
-    sed 's/become: no/become: yes' "${PWD}/playbook.yml"
 }
 
 rundazsh(){
