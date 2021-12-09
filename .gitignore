@@ -1,3 +1,4 @@
 .DS_Store
-.vim_runtime/temp_dirs
+/concerns/vim/.vim_runtime/temp_dirs
 test
+
