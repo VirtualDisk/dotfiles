@@ -102,6 +102,7 @@ rundazsh(){
 
 main() {
     check_platform
+    echo "Bootstrapping complete. Please run zsh to start the environment."
 }
 
 main

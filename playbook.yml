@@ -320,6 +320,15 @@
       value: false 
       state: present
 
+  - name: VSCode vim key repeat fix 
+    when: ansible_os_family == 'Darwin'
+    community.general.osx_defaults:
+      domain: com.microsoft.VSCode 
+      key: ApplePressAndHoldEnabled
+      type: bool
+      value: false 
+      state: present
+
   - name: Set screenshot dir 
     when: ansible_os_family == 'Darwin'
     community.general.osx_defaults:
@@ -331,6 +340,7 @@
   roles:
     - role: markosamuli.asdf 
       asdf_plugins:
+      - name: argo
       - name: aws-vault 
         versions: ["2.2.2"]
       - name: gcloud
@@ -343,8 +353,10 @@
         versions: ["3.7.0"]
       - name: terraform
         versions: ["1.0.6"]
+
       vars:
         asdf_init_shell: false
       ignore_errors: yes
+
     - role: luizgavalda.aur 
       when: ansible_os_family == 'Archlinux' 
