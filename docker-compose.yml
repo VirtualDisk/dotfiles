@@ -1,0 +1,17 @@
+version: '3'
+services:
+  ubuntu:
+    build: 
+      context: .
+      dockerfile: ./testing/ubuntu/Dockerfile 
+    volumes: 
+      - .:/.dotfiles
+
+  arch:
+    build: 
+      context: .
+      dockerfile: ./testing/arch/Dockerfile
+    volumes: 
+      - .:/.dotfiles
+
+
