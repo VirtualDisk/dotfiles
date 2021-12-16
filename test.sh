@@ -8,10 +8,10 @@ stop="$(date +%s)"
 
 runtime="$((stop-start))"
 
-docker-compose rm ubuntu -sfv && docker compose rm arch -sfv
+docker-compose rm -f -s ubuntu && docker compose rm -f -s arch
 
-message="test was successful and took ${runtime} seconds to run"
+message="Test was successful and took ${runtime} seconds to run."
 
 echo "${message}"
 curl -d "${message}" "https://nosnch.in/d90d78316e"
-logger "${message}"
+logger "${message}" --tag dotfiles
