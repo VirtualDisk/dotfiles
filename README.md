@@ -16,7 +16,7 @@ Note that different platforms require different dependencies to work properly, b
 ## Installation
 
 - Clone the repo
-`git clone github.com/virtualdisk/dotfiles-zab ~/.dotfiles`
+`git clone github.com/virtualdisk/.dotfiles ~/.dotfiles`
 
 - Switch the working directory
     `cd ~/.dotfiles`
