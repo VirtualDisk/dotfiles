@@ -56,3 +56,103 @@ if [ -e "$HOME/.asdf/asdf.sh" ]; then
   source $HOME/.asdf/completions/asdf.bash
 fi
 # END ANSIBLE MANAGED BLOCK: asdf
+alias it="cd ~/Greenhouse/IT"
+alias inf="cd ~/Greenhouse/infrastructure"
+alias grnhse="cd ~/Greenhouse"
+alias td=terraform-docs
+alias tfi='tf init -backend-config=state.conf'
+alias tfp='tf plan -out .tfplan'
+alias tfa='tf apply .tfplan && rm -v .tfplan'
+alias dj="dajoku"
+alias tserv="ssh -i $HOME/.ssh/transerv zoe@transerv"
+alias pi="ssh pi@192.168.1.2"
+alias trf="cd ${HOME}/Projects/tranfrastructure"
+
+lint() {
+    cd "${HOME}/Greenhouse/infrastructure"
+    SECONDS=0
+    PIDS=()
+    docker run --rm -v "$(pwd):/todo" --workdir /todo grnhse/circleci-lint:v2.4.1 required &
+    PIDS+=($!)
+    docker run --rm -v "$(pwd):/todo" --workdir /todo grnhse/circleci-lint:v2.4.1 optional &
+    PIDS+=($!)
+    RESULT=0
+    for p in "${PIDS[@]}"; do
+        if ! wait $p; then
+            echo "Failure detected"
+            RESULT=1
+        fi
+    done
+    echo "Took: $SECONDS seconds to lint"
+    exit $RESULT
+}
+
+kc() {
+    kubectl config use-context "${1}"
+}
+
+export AWS_SDK_LOAD_CONFIG=true
+export AWS_DEFAULT_PROFILE="dev.use1"
+aws-vault-use() {
+local profile output
+
+profile="$1"
+
+output="$(aws-vault exec "$profile" -- env)"
+if [[ $? -ne 0 ]]; then
+    echo "$output" >&2
+    return 1
+fi
+
+eval "$(echo "$output" | awk '/^AWS/ && !/^AWS_VAULT/ { print "export " $1 }')"
+}
+
+n2ip() {
+    aws \
+        ec2 describe-instances \
+        --filters "Name=tag:Name,Values=*${1}*" Name=instance-state-name,Values=running \
+        | jq -r '
+            .Reservations[].Instances[]
+            | [.NetworkInterfaces[0].PrivateIpAddress,
+            (.Tags[] |
+                select(.Key == "Name").Value),(.InstanceId),(.LaunchTime)] | join("\t")
+                    '
+                }
+
+            teamid() {
+                codesign -dv "${1}" 2>&1 | awk -F'=' '/TeamIdentifier/ {print $2}'
+            }
+
+        dread() #short for "defaults read"
+        {
+            defaults read $(pwd)/"${1}"
+        }
+
+    GAM_DIR="${HOME}/.gam"
+    gamgetcurrentcontext() {
+        awk -F/ '/config_dir/ {print $5}' ${GAM_DIR}/gam.cfg
+    }
+
+printgamcurrentcontext() {
+    echo "$(gamgetcurrentcontext)"
+}
+
+gamlistcontexts() {
+    awk '/"email":/ {print $2}' ${GAM_DIR}/*/oauth2.txt \
+        |sed -e 's/\"//g' \
+        -e 's/\,//g' \
+        | fzf
+            echo "GAM current context: $(printgamcurrentcontext)"
+        }
+
+    gamswitchcontexts() {
+        sed -i -e "s/$(printgamcurrentcontext)/${1}/" "${GAM_DIR}/gam.cfg"
+    }
+
+gamc() {
+    if [[ "${1}" == "" ]]; then
+        gamlistcontexts
+    else
+        gamswitchcontexts "${1}"
+    fi
+}

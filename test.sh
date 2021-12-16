@@ -3,11 +3,15 @@ set -euo pipefail
 
 start="$(date +%s)"
 git pull
-docker build -t dotfiles_test . && docker run --rm dotfiles_test
+docker-compose build
 stop="$(date +%s)"
 
 runtime="$((stop-start))"
-message="test was successful and took ${runtime} seconds to run"
+
+docker-compose rm -f -s ubuntu && docker compose rm -f -s arch
+
+message="Test was successful and took ${runtime} seconds to run."
 
 echo "${message}"
-curl -d "${message}" "https://nosnch.in/d90d78316e"otfiles_test
+curl -d "${message}" "https://nosnch.in/d90d78316e"
+logger "${message}" --tag dotfiles

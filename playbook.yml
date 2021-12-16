@@ -313,6 +313,11 @@
       mode: '0755'
     become: yes
 
+  - name: Set timezone to EST
+    community.general.timezone:
+      name: EST
+    become: yes
+
   # - name: install asdf deps
   #   when: ansible_os_family == 'Debian'
   #   ansible.builtin.apt:
