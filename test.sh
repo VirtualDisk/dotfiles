@@ -8,7 +8,7 @@ stop="$(date +%s)"
 
 runtime="$((stop-start))"
 
-docker-compose rm -f -s ubuntu && docker compose rm -f -s arch
+docker-compose rm -f -s ubuntu && docker-compose rm -f -s arch
 
 message="Test was successful and took ${runtime} seconds to run."
 

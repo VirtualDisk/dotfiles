@@ -317,6 +317,7 @@
     community.general.timezone:
       name: EST
     become: yes
+    ignore_errors: yes
 
   # - name: install asdf deps
   #   when: ansible_os_family == 'Debian'
