@@ -68,6 +68,8 @@ alias tserv="ssh -i $HOME/.ssh/transerv zoe@transerv"
 alias pi="ssh pi@192.168.1.2"
 alias trf="cd ${HOME}/Projects/tranfrastructure"
 
+export ASDF_HASHICORP_OVERWRITE_ARCH=amd64
+
 lint() {
     cd "${HOME}/Greenhouse/infrastructure"
     SECONDS=0

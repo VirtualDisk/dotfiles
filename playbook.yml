@@ -315,7 +315,7 @@
 
   - name: Set timezone to EST
     community.general.timezone:
-      name: EST
+      name: America/New_York
     become: yes
     ignore_errors: yes
 
