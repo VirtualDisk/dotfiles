@@ -328,7 +328,7 @@
   - name: set dark mode 
     when: ansible_os_family == 'Darwin'
     community.general.osx_defaults:
-      key: NSRequiresAquaSystemAppearanc
+      key: NSRequiresAquaSystemAppearance
       type: bool
       value: false 
       state: present
@@ -349,6 +349,12 @@
       type: string
       value: "~/Pictures/Screenshots" 
       state: present
+
+  - name: Set approved ssh key
+    ansible.posix.authorized_key:
+      user: "{{ theuser }}"
+      state: present
+      key: https://github.com/virtualdisk.keys 
 
   roles:
     - role: markosamuli.asdf 
