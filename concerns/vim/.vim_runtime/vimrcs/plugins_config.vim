@@ -232,3 +232,4 @@ let g:startify_bookmarks = [
             \ { 'p': '~/Projects' },
             \ { 'l':  '~/.dotfiles/concerns/vim/.vim_runtime/vimrcs/plugins_config.vim'}           
             \ ]
+highlight StartifyHeader ctermfg=White
