@@ -31,8 +31,12 @@ complete -F __start_kubectl k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+c() {
+    dadir=$(fzf|rev|cut -d'/' -f2- |rev)
+    cd "${dadir}" 
+}
 # Aliases
-alias cdc='cd $(fzf)'
+alias v='vim'
 alias k=kubectl
 alias mk=minikube
 alias tf=terraform
