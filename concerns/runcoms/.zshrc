@@ -32,7 +32,7 @@ complete -F __start_kubectl k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Aliases
-
+alias cdc='cd $(fzf)'
 alias k=kubectl
 alias mk=minikube
 alias tf=terraform
@@ -41,7 +41,8 @@ alias pj="cd ~/Projects"
 alias kt="killall tmux"
 alias gst="git status"
 alias ga="git add"
-alias gcam="git commit -a -m"
+alias gcam="git commit -m"
+alias gco='git checkout $(git branch | fzf)'
 alias gcaml="lint && git commit -a -m"
 alias showhidden="defaults write com.apple.finder AppleShowAllFiles YES && killall Finder"
 alias hidehidden="defaults write com.apple.finder AppleShowAllFiles NO && killall Finder"
@@ -56,6 +57,11 @@ if [ -e "$HOME/.asdf/asdf.sh" ]; then
   source $HOME/.asdf/completions/asdf.bash
 fi
 # END ANSIBLE MANAGED BLOCK: asdf
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd -t d . $HOME"
+
+###
 alias it="cd ~/Greenhouse/IT"
 alias inf="cd ~/Greenhouse/infrastructure"
 alias grnhse="cd ~/Greenhouse"

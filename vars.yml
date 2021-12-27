@@ -58,6 +58,7 @@ pkgs_debian:
   - mtr
   - neofetch
   - python3
+  - qemu-guest-agent
   - rclone
   - rsync
   - silversearcher-ag

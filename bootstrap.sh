@@ -91,7 +91,7 @@ install_collections() {
     ansible-galaxy install cimon-io.asdf
     ansible-galaxy install markosamuli.asdf
     ansible-galaxy install luizgavalda.aur
-    ansible-playbook -i "${PWD}/.ansible/inventory.yml" \
+    ansible-playbook -i "${PWD}/local_inventory.yml" \
         "${PWD}/playbook.yml" --ask-become-pass
 }
 
