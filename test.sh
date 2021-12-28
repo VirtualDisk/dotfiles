@@ -2,7 +2,7 @@
 set -euo pipefail
 
 start="$(date +%s)"
-git pull
+# git pull
 docker-compose build
 stop="$(date +%s)"
 
