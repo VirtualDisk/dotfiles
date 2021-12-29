@@ -5,84 +5,84 @@
     - vars.yml
 
   tasks:
-  - name: Create a symbolic link
+  - name: symlink vimrc
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/vim/.vimrc'
       dest: "{{lookup('env','HOME')}}/.vimrc" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink vim_runtime
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/vim/.vim_runtime'
       dest: "{{lookup('env','HOME')}}/.vim_runtime" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink tmux
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/tmux/.tmux.conf'
       dest: "{{lookup('env','HOME')}}/.tmux.conf" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink tmux.conf
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/tmux/.tmux.conf.local'
       dest: "{{lookup('env','HOME')}}/.tmux.conf.local" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink alacritty
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/alacritty/.alacritty.yml'
       dest: "{{lookup('env','HOME')}}/.alacritty.yml" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zlogin 
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zlogin'
       dest: "{{lookup('env','HOME')}}/.zlogin" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zlogout
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zlogout'
       dest: "{{lookup('env','HOME')}}/.zlogout" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zpreztorc
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zpreztorc'
       dest: "{{lookup('env','HOME')}}/.zpreztorc" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zprofile
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zprofile'
       dest: "{{lookup('env','HOME')}}/.zprofile" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zshenv
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zshenv'
       dest: "{{lookup('env','HOME')}}/.zshenv" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zshsecrets
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zshsecrets'
       dest: "{{lookup('env','HOME')}}/.zshsecrets" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink mac zshrc
     when: ansible_os_family == 'Darwin'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zshrc'
@@ -90,7 +90,7 @@
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link on linux
+  - name: symlink linux zshrc
     when: ansible_os_family == 'Debian' or
           ansible_os_family == 'Archlinux'
     ansible.builtin.file:
@@ -99,7 +99,7 @@
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink p10k
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/.p10k.zsh'
       dest: "{{lookup('env','HOME')}}/.p10k.zsh" 
@@ -138,7 +138,7 @@
 #       owner: "{{ theuser }}" 
 #       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink mesloLGS bold italic
     when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold Italic.ttf'
@@ -147,7 +147,7 @@
       state: link   
     ignore_errors: yes
 
-  - name: Create a symbolic link
+  - name: symlink mesloLGS bold
     when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold.ttf'
@@ -240,6 +240,20 @@
       update_cache: yes
       upgrade: yes
 
+  - name: ensure sshd is running on arch
+    when: ansible_os_family == 'Archlinux'
+    ansible.builtin.systemd:
+      enabled: yes
+      name: sshd
+      state: started
+
+  - name: ensure dockerd is running on arch
+    when: ansible_os_family == 'Archlinux'
+    ansible.builtin.systemd:
+      enabled: yes
+      name: docker
+      state: started
+
   - name: create aur_builder user
     when: ansible_os_family == 'Archlinux'
     ansible.builtin.user:
@@ -272,11 +286,6 @@
     aur: name=ttf-meslo-nerd-font-powerlevel10k 
     become: yes
     become_user: aur_builder
-
-  # - name: install snap pkgs
-  #   when: ansible_os_family == "Debian"
-  #   community.general.snap:
-  #     name: '{{ pkgs_snap }}'
 
   - name: clone prezto repo
     ansible.builtin.git:

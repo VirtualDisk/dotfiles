@@ -54,7 +54,10 @@ check_distro() {
         "Ubuntu")
             check_ansible_debian
             ;;
-        "Debian*")
+        "Debian"*)
+            check_ansible_debian
+            ;;
+        "Raspbian"*)
             check_ansible_debian
             ;;
         *)
@@ -106,6 +109,7 @@ rundazsh(){
 main() {
     check_platform
     echo "Bootstrapping complete. Please run zsh to start the environment."
+    neofetch
 }
 
 main

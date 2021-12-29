@@ -221,7 +221,8 @@ let g:startify_custom_header = 'startify#pad(startify#fortune#cowsay())'
 let g:startify_custom_header_quotes = [
             \ ['trans rights', '     💖'],
             \ ['trans lefts', '     💖'],
-            \ ['omg girl you look so good today','              ✨🌟💫']
+            \ ['omg girl you look so good today','              ✨🌟💫'],
+            \ ['cringe isnt real sweetie, do whatever you want', '                   💖']
             \ ]
 let g:startify_bookmarks = [
             \ { 'z': '~/.zshrc' },
