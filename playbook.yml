@@ -246,6 +246,7 @@
       enabled: yes
       name: sshd
       state: started
+    ignore_errors: yes
 
   - name: ensure dockerd is running on arch
     when: ansible_os_family == 'Archlinux'
