@@ -254,6 +254,7 @@
       enabled: yes
       name: docker
       state: started
+    ignore_errors: yes
 
   - name: create aur_builder user
     when: ansible_os_family == 'Archlinux'
