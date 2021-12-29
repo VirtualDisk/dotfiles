@@ -55,7 +55,7 @@ pkgs_debian:
   - apt-transport-https
   - ca-certificates
   - curl
-  - glances
+  # - glances
   - jq
   # - kubectl
   - mtr

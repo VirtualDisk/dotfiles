@@ -6,7 +6,7 @@ main() {
         exit 1
     fi
 
-    if [ "${1}" = "ubuntu" ] || [  "${1}" = "arch" ]; then
+    if [ "${1}" = "ubuntu" ] || [  "${1}" = "arch" ] || [ "${1}" = "debian" ]; then
         docker-compose run --entrypoint "/usr/bin/zsh" "${1}"
     else
         echo "Unknown platform $1, please select ubuntu or arch."
