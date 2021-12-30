@@ -156,7 +156,7 @@
       state: link   
     ignore_errors: yes
 
-  - name: Create a symbolic link
+  - name: symlink mesloLGS regular
     when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Regular.ttf'
@@ -165,7 +165,7 @@
       state: link   
     ignore_errors: yes
 
-  - name: Create a symbolic link
+  - name: symlink mesloLGS italic
     when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Italic.ttf'
@@ -209,14 +209,6 @@
       keyring: "/usr/share/keyrings/kubernetes-archive-keyring.gpg"
       state: present
     become: yes
-
-  # - name: add k8s repo
-  #   when: ansible_os_family == 'Debian'
-  #   ansible.builtin.apt_repository:
-  #     repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
-  #     update_cache: yes
-  #     validate_certs: no
-  #   become: yes
 
   - name: install apt pkgs
     when: ansible_os_family == 'Debian'
@@ -288,7 +280,7 @@
       create: yes
       validate: 'visudo -cf %s'
 
-  - name: install install aur pkgs
+  - name: install meslo nerd font via aur
     when: ansible_os_family == 'Archlinux'
     aur: name=ttf-meslo-nerd-font-powerlevel10k 
     become: yes
@@ -306,19 +298,19 @@
       repo: https://github.com/asdf-vm/asdf.git
       dest: "{{lookup('env','HOME')}}/.asdf"
 
-  - name: Create Greenhouse directory if it does not exist
+  - name: create Greenhouse directory if it does not exist
     ansible.builtin.file:
       path: "{{lookup('env','HOME')}}/Greenhouse"
       state: directory
       mode: '0755'
 
-  - name: Create Projects directory if it does not exist
+  - name: create Projects directory if it does not exist
     ansible.builtin.file:
       path: "{{lookup('env','HOME')}}/Projects"
       state: directory
       mode: '0755'
 
-  - name: Create Shared directory if it does not exist
+  - name: create shared directory if it does not exist
     when: ansible_os_family == 'Darwin'
     ansible.builtin.file:
       path: /Users/shared 
@@ -326,14 +318,14 @@
       mode: '0755'
     become: yes
 
-  - name: Create Screenshots directory if it does not exist
+  - name: create Screenshots directory if it does not exist
     when: ansible_os_family == 'Darwin'
     ansible.builtin.file:
       path: "{{lookup('env','HOME')}}/Pictures/Screenshots" 
       state: directory
       mode: '0755'
 
-  - name: Create Shared directory if it does not exist
+  - name: create Shared directory if it does not exist
     when: ansible_os_family == 'Debian' or
           ansible_os_family == 'Archlinux'
     ansible.builtin.file:
@@ -342,19 +334,13 @@
       mode: '0755'
     become: yes
 
-  - name: Set timezone to EST
+  - name: set timezone to EST
     community.general.timezone:
       name: America/New_York
     become: yes
     ignore_errors: yes
 
-  # - name: install asdf deps
-  #   when: ansible_os_family == 'Debian'
-  #   ansible.builtin.apt:
-      # name: '{{ asdf_deps }}'
-      # state: present
-
-  - name: set dark mode 
+  - name: set dark mode on mac 
     when: ansible_os_family == 'Darwin'
     community.general.osx_defaults:
       key: NSRequiresAquaSystemAppearance
@@ -371,7 +357,7 @@
       value: false 
       state: present
 
-  - name: Set screenshot dir 
+  - name: set screenshot dir 
     when: ansible_os_family == 'Darwin'
     community.general.osx_defaults:
       key: com.apple.screencapture
@@ -379,7 +365,7 @@
       value: "~/Pictures/Screenshots" 
       state: present
 
-  - name: Set approved ssh key
+  - name: set approved ssh key
     ansible.posix.authorized_key:
       user: "{{ theuser }}"
       state: present
