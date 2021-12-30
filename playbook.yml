@@ -1,87 +1,88 @@
-- hosts: localhost
+- hosts: localhost 
   # become: true
+  connection: local
   vars_files:
     - vars.yml
 
   tasks:
-  - name: Create a symbolic link
+  - name: symlink vimrc
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/vim/.vimrc'
       dest: "{{lookup('env','HOME')}}/.vimrc" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink vim_runtime
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/vim/.vim_runtime'
       dest: "{{lookup('env','HOME')}}/.vim_runtime" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink tmux
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/tmux/.tmux.conf'
       dest: "{{lookup('env','HOME')}}/.tmux.conf" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink tmux.conf
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/tmux/.tmux.conf.local'
       dest: "{{lookup('env','HOME')}}/.tmux.conf.local" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink alacritty
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/alacritty/.alacritty.yml'
       dest: "{{lookup('env','HOME')}}/.alacritty.yml" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zlogin 
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zlogin'
       dest: "{{lookup('env','HOME')}}/.zlogin" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zlogout
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zlogout'
       dest: "{{lookup('env','HOME')}}/.zlogout" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zpreztorc
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zpreztorc'
       dest: "{{lookup('env','HOME')}}/.zpreztorc" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zprofile
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zprofile'
       dest: "{{lookup('env','HOME')}}/.zprofile" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zshenv
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zshenv'
       dest: "{{lookup('env','HOME')}}/.zshenv" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink zshsecrets
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zshsecrets'
       dest: "{{lookup('env','HOME')}}/.zshsecrets" 
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink mac zshrc
     when: ansible_os_family == 'Darwin'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/runcoms/.zshrc'
@@ -89,7 +90,7 @@
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link on linux
+  - name: symlink linux zshrc
     when: ansible_os_family == 'Debian' or
           ansible_os_family == 'Archlinux'
     ansible.builtin.file:
@@ -98,7 +99,7 @@
       owner: "{{ theuser }}" 
       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink p10k
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/.p10k.zsh'
       dest: "{{lookup('env','HOME')}}/.p10k.zsh" 
@@ -137,7 +138,7 @@
 #       owner: "{{ theuser }}" 
 #       state: link   
 
-  - name: Create a symbolic link
+  - name: symlink mesloLGS bold italic
     when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold Italic.ttf'
@@ -146,7 +147,7 @@
       state: link   
     ignore_errors: yes
 
-  - name: Create a symbolic link
+  - name: symlink mesloLGS bold
     when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold.ttf'
@@ -155,7 +156,7 @@
       state: link   
     ignore_errors: yes
 
-  - name: Create a symbolic link
+  - name: symlink mesloLGS regular
     when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Regular.ttf'
@@ -164,7 +165,7 @@
       state: link   
     ignore_errors: yes
 
-  - name: Create a symbolic link
+  - name: symlink mesloLGS italic
     when: ansible_os_family == 'Debian'
     ansible.builtin.file:
       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Italic.ttf'
@@ -209,14 +210,6 @@
       state: present
     become: yes
 
-  # - name: add k8s repo
-  #   when: ansible_os_family == 'Debian'
-  #   ansible.builtin.apt_repository:
-  #     repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
-  #     update_cache: yes
-  #     validate_certs: no
-  #   become: yes
-
   - name: install apt pkgs
     when: ansible_os_family == 'Debian'
     ansible.builtin.apt:
@@ -224,6 +217,11 @@
       state: present
       update_cache: yes
     become: yes
+
+  - name: install glances via pip
+    when: ansible_os_family == 'Debian'
+    ansible.builtin.pip:
+      name: glances
 
   - name: install pacman pkgs
     when: ansible_os_family == 'Archlinux'
@@ -238,6 +236,22 @@
       state: present
       update_cache: yes
       upgrade: yes
+
+  - name: ensure sshd is running on arch
+    when: ansible_os_family == 'Archlinux'
+    ansible.builtin.systemd:
+      enabled: yes
+      name: sshd
+      state: started
+    ignore_errors: yes
+
+  - name: ensure dockerd is running on arch
+    when: ansible_os_family == 'Archlinux'
+    ansible.builtin.systemd:
+      enabled: yes
+      name: docker
+      state: started
+    ignore_errors: yes
 
   - name: create aur_builder user
     when: ansible_os_family == 'Archlinux'
@@ -266,16 +280,11 @@
       create: yes
       validate: 'visudo -cf %s'
 
-  - name: install install aur pkgs
+  - name: install meslo nerd font via aur
     when: ansible_os_family == 'Archlinux'
     aur: name=ttf-meslo-nerd-font-powerlevel10k 
     become: yes
     become_user: aur_builder
-
-  # - name: install snap pkgs
-  #   when: ansible_os_family == "Debian"
-  #   community.general.snap:
-  #     name: '{{ pkgs_snap }}'
 
   - name: clone prezto repo
     ansible.builtin.git:
@@ -289,19 +298,19 @@
       repo: https://github.com/asdf-vm/asdf.git
       dest: "{{lookup('env','HOME')}}/.asdf"
 
-  - name: Create Greenhouse directory if it does not exist
+  - name: create Greenhouse directory if it does not exist
     ansible.builtin.file:
       path: "{{lookup('env','HOME')}}/Greenhouse"
       state: directory
       mode: '0755'
 
-  - name: Create Projects directory if it does not exist
+  - name: create Projects directory if it does not exist
     ansible.builtin.file:
       path: "{{lookup('env','HOME')}}/Projects"
       state: directory
       mode: '0755'
 
-  - name: Create Shared directory if it does not exist
+  - name: create shared directory if it does not exist
     when: ansible_os_family == 'Darwin'
     ansible.builtin.file:
       path: /Users/shared 
@@ -309,14 +318,14 @@
       mode: '0755'
     become: yes
 
-  - name: Create Screenshots directory if it does not exist
+  - name: create Screenshots directory if it does not exist
     when: ansible_os_family == 'Darwin'
     ansible.builtin.file:
       path: "{{lookup('env','HOME')}}/Pictures/Screenshots" 
       state: directory
       mode: '0755'
 
-  - name: Create Shared directory if it does not exist
+  - name: create Shared directory if it does not exist
     when: ansible_os_family == 'Debian' or
           ansible_os_family == 'Archlinux'
     ansible.builtin.file:
@@ -325,19 +334,13 @@
       mode: '0755'
     become: yes
 
-  - name: Set timezone to EST
+  - name: set timezone to EST
     community.general.timezone:
       name: America/New_York
     become: yes
     ignore_errors: yes
 
-  # - name: install asdf deps
-  #   when: ansible_os_family == 'Debian'
-  #   ansible.builtin.apt:
-      # name: '{{ asdf_deps }}'
-      # state: present
-
-  - name: set dark mode 
+  - name: set dark mode on mac 
     when: ansible_os_family == 'Darwin'
     community.general.osx_defaults:
       key: NSRequiresAquaSystemAppearance
@@ -354,7 +357,7 @@
       value: false 
       state: present
 
-  - name: Set screenshot dir 
+  - name: set screenshot dir 
     when: ansible_os_family == 'Darwin'
     community.general.osx_defaults:
       key: com.apple.screencapture
@@ -362,7 +365,7 @@
       value: "~/Pictures/Screenshots" 
       state: present
 
-  - name: Set approved ssh key
+  - name: set approved ssh key
     ansible.posix.authorized_key:
       user: "{{ theuser }}"
       state: present

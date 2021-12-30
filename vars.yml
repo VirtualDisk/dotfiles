@@ -28,12 +28,15 @@ pkgs_arch:
   - aws-cli
   - ca-certificates
   - curl
+  - docker
+  - fakeroot
   - git
   - glances
   - jq
   - kubectl
   - mtr
   - neofetch
+  - openssh
   - python-virtualenv
   - python3
   - rclone
@@ -52,12 +55,13 @@ pkgs_debian:
   - apt-transport-https
   - ca-certificates
   - curl
-  - glances
+  # - glances
   - jq
   # - kubectl
   - mtr
   - neofetch
   - python3
+  - qemu-guest-agent
   - rclone
   - rsync
   - silversearcher-ag

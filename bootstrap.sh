@@ -54,6 +54,12 @@ check_distro() {
         "Ubuntu")
             check_ansible_debian
             ;;
+        "Debian"*)
+            check_ansible_debian
+            ;;
+        "Raspbian"*)
+            check_ansible_debian
+            ;;
         *)
             echo "Unsupported distro $DISTRO"
             ;;
@@ -85,13 +91,13 @@ check_ansible_arch() {
 }
 
 install_collections() {
-    ansible-galaxy collection install community.general
     ansible-galaxy collection install ansible.posix
     ansible-galaxy collection install community.docker
+    ansible-galaxy collection install community.general
     ansible-galaxy install cimon-io.asdf
-    ansible-galaxy install markosamuli.asdf
     ansible-galaxy install luizgavalda.aur
-    ansible-playbook -i "${PWD}/.ansible/inventory.yml" \
+    ansible-galaxy install markosamuli.asdf
+    ansible-playbook -i "${PWD}/local_inventory.yml" \
         "${PWD}/playbook.yml" --ask-become-pass
 }
 
@@ -103,6 +109,7 @@ rundazsh(){
 main() {
     check_platform
     echo "Bootstrapping complete. Please run zsh to start the environment."
+    neofetch
 }
 
 main

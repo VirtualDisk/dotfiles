@@ -205,3 +205,32 @@ let g:autoformat_remove_trailing_spaces = 0
 " => indentLine
 """""""""""""""""""""""""""""""
 let g:indentLine_char = '⦙'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Vim fzf
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set rtp+=/usr/local/opt/fzf
+nmap <C-P> :Files<CR>
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -l -g ""'
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Start screen
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:startify_custom_header = 'startify#pad(startify#fortune#cowsay())'
+let g:startify_custom_header_quotes = [
+            \ ['trans rights', '     💖'],
+            \ ['trans lefts', '     💖'],
+            \ ['omg girl you look so good today','              ✨🌟💫'],
+            \ ['cringe isnt real sweetie, do whatever you want', '                   💖']
+            \ ]
+let g:startify_bookmarks = [
+            \ { 'z': '~/.zshrc' },
+            \ { 'd': '~/.dotfiles' },
+            \ { 't': '~/transfrastructure' },
+            \ { 'i': '~/Greenhouse/infrastructure' },
+            \ { 'g': '~/Greenhouse/' },
+            \ { 'p': '~/Projects' },
+            \ { 'l':  '~/.dotfiles/concerns/vim/.vim_runtime/vimrcs/plugins_config.vim'}           
+            \ ]
+highlight StartifyHeader ctermfg=White

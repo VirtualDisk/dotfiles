@@ -56,16 +56,16 @@ au FileType coffee call CoffeeScriptFold()
 au FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
 
-""""""""""""""""""""""""""""""
-" => Shell section
-""""""""""""""""""""""""""""""
-if exists('$TMUX') 
-    if has('nvim')
-        set termguicolors
-    else
-        set term=screen-256color 
-    endif
-endif
+"""""""""""""""""""""""""""""
+ " => Shell section
+"""""""""""""""""""""""""""""
+ if exists('$TMUX') 
+     if has('nvim')
+         set termguicolors
+     else
+         set term=screen-256color 
+     endif
+ endif
 
 
 """"""""""""""""""""""""""""""

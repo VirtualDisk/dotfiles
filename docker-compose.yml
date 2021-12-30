@@ -14,4 +14,10 @@ services:
     volumes: 
       - .:/.dotfiles
 
+  debian:
+    build: 
+      context: .
+      dockerfile: ./testing/debian/Dockerfile
+    volumes: 
+      - .:/.dotfiles
 
