@@ -166,12 +166,16 @@
     become: yes
 
   - name: create docker group
+    when: ansible_os_family == 'Archlinux' or
+          ansible_os_family == 'Debian'
     ansible.builtin.group:
       name: docker
       state: present
     become: yes
   
   - name: add user to docker group
+    when: ansible_os_family == 'Archlinux' or
+          ansible_os_family == 'Debian'
     ansible.builtin.user:
       name: "{{ theuser }}"
       group: docker
