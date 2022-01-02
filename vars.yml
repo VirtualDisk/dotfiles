@@ -68,6 +68,7 @@ pkgs_debian:
   - python3
   - qemu-guest-agent
   - rclone
+  - k9s
   - rsync
   - silversearcher-ag
   - snapd
