@@ -23,6 +23,7 @@ pkgs_mac:
   - virtualenv
   - youtube-dl
   - yq
+  - z
   - zsh
 
 pkgs_arch:
@@ -51,6 +52,7 @@ pkgs_arch:
   - tree
   - vim
   - youtube-dl
+  - z
   - zsh
 
 pkgs_debian:
@@ -66,7 +68,6 @@ pkgs_debian:
   - python3
   - qemu-guest-agent
   - rclone
-  - k9s
   - rsync
   - silversearcher-ag
   - snapd
@@ -78,6 +79,7 @@ pkgs_debian:
   - virtualenv
   - youtube-dl
   - zsh
+  - z
 
 pkgs_snap:
   - yq

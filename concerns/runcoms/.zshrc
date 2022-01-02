@@ -28,6 +28,8 @@ source '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh
 source <(kubectl completion zsh)
 complete -F __start_kubectl k
 
+. "/opt/homebrew/etc/profile.d/z.sh"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
