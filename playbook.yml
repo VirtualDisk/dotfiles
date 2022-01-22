@@ -74,19 +74,19 @@
       state: link   
     ignore_errors: yes
 
-  - name: install and update brew
-    when: ansible_os_family == 'Darwin'
-    community.general.homebrew:
-      name: '{{ pkgs_mac }}' 
-      state: present 
-      update_homebrew: yes
-      upgrade_all: yes
+  # - name: install and update brew
+  #   when: ansible_os_family == 'Darwin'
+  #   community.general.homebrew:
+  #     name: '{{ pkgs_mac }}' 
+  #     state: present 
+  #     update_homebrew: yes
+  #     upgrade_all: yes
 
-  - name: install brew casks
-    when: ansible_os_family == 'Darwin'
-    community.general.homebrew_cask:
-      name: '{{ casks }}' 
-      state: present 
+  # - name: install brew casks
+  #   when: ansible_os_family == 'Darwin'
+  #   community.general.homebrew_cask:
+  #     name: '{{ casks }}' 
+  #     state: present 
 
   - name: update apt pkgs
     when: ansible_os_family == 'Debian'
@@ -237,9 +237,25 @@
 
   - name: create Greenhouse directory if it does not exist
     ansible.builtin.file:
-      path: "{{lookup('env','HOME')}}/Greenhouse"
+      path: "{{lookup('env','HOME')}}/greenhouse"
       state: directory
       mode: '0755'
+
+  - name: clone infra repo
+    ansible.builtin.git:
+      repo: git@github.com:grnhse/infrastructure.git
+      dest: "{{lookup('env','HOME')}}/greenhouse/infrastructure"
+      recursive: yes
+    ignore_errors: yes 
+
+  - name: clone infrastructure repo
+    when: ansible_os_family == 'Darwin' and
+          "lookup('env','WORK_MACHINE')" == "true"
+    ansible.builtin.git:
+      repo: "git@github.com:grnhse/infrastructure.git"
+      dest: "{{lookup('env','HOME')}}/Greenhouse/infrastructure"
+      recursive: yes
+    ignore_errors: yes
 
   - name: create Projects directory if it does not exist
     ansible.builtin.file:
@@ -270,6 +286,7 @@
       state: directory
       mode: '0755'
     become: yes
+
 
   - name: set timezone to EST
     community.general.timezone:
