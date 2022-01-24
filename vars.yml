@@ -13,6 +13,7 @@ pkgs_mac:
   - neofetch
   - python3
   - rclone
+  - minikube
   - k9s
   - rsync
   - the_silver_searcher
@@ -34,7 +35,7 @@ pkgs_arch:
   - fakeroot
   - git
   - glances
-  - lazydocker
+  # - lazydocker
   - jq
   - kubectl
   - k9s
@@ -68,7 +69,7 @@ pkgs_debian:
   - python3
   - qemu-guest-agent
   - rclone
-  - k9s
+  # - k9s
   - rsync
   - silversearcher-ag
   - snapd
@@ -80,7 +81,7 @@ pkgs_debian:
   - virtualenv
   - youtube-dl
   - zsh
-  - z
+  # - z
 
 pkgs_snap:
   - yq

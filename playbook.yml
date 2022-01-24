@@ -325,6 +325,19 @@
       state: present
       key: https://github.com/virtualdisk.keys 
 
+  - name: symlink wallpaper
+    when: ansible_os_family == 'Darwin'
+    ansible.builtin.file:
+      src:  '{{ playbook_dir }}/concerns/wallpaper/Nevada.jpg'
+      dest: "{{lookup('env','HOME')}}/Pictures/Nevada.jpg" 
+      owner: "{{ theuser }}" 
+      state: link   
+  
+  - name: set default wallpaper on macOS
+    when: ansible_os_family == 'Darwin'
+    ansible.builtin.command:
+      cmd: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/zoe.blanco/Pictures/Nevada.jpg"' 
+
   - include: linux_symlinks.yml
     when: ansible_os_family == 'Archlinux' or
           ansible_os_family == 'Debian'

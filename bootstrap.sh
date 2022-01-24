@@ -92,6 +92,7 @@ check_ansible_arch() {
 
 install_collections() {
     ansible-galaxy install -r "${PWD}/requirements.yml"
+    ansible-galaxy collection install -r "${PWD}/requirements.yml"
     ansible-playbook -i "${PWD}/local_inventory.yml" \
         "${PWD}/playbook.yml" --ask-become-pass
 }
