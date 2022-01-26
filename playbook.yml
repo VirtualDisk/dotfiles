@@ -5,106 +5,6 @@
     - vars.yml
 
   tasks:
-  - name: symlink vimrc
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/vim/.vimrc'
-      dest: "{{lookup('env','HOME')}}/.vimrc" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink vim_runtime
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/vim/.vim_runtime'
-      dest: "{{lookup('env','HOME')}}/.vim_runtime" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink tmux
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/tmux/.tmux.conf'
-      dest: "{{lookup('env','HOME')}}/.tmux.conf" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink tmux.conf
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/tmux/.tmux.conf.local'
-      dest: "{{lookup('env','HOME')}}/.tmux.conf.local" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink alacritty
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/alacritty/.alacritty.yml'
-      dest: "{{lookup('env','HOME')}}/.alacritty.yml" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink zlogin 
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/runcoms/.zlogin'
-      dest: "{{lookup('env','HOME')}}/.zlogin" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink zlogout
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/runcoms/.zlogout'
-      dest: "{{lookup('env','HOME')}}/.zlogout" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink zpreztorc
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/runcoms/.zpreztorc'
-      dest: "{{lookup('env','HOME')}}/.zpreztorc" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink zprofile
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/runcoms/.zprofile'
-      dest: "{{lookup('env','HOME')}}/.zprofile" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink zshenv
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/runcoms/.zshenv'
-      dest: "{{lookup('env','HOME')}}/.zshenv" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink zshsecrets
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/runcoms/.zshsecrets'
-      dest: "{{lookup('env','HOME')}}/.zshsecrets" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink mac zshrc
-    when: ansible_os_family == 'Darwin'
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/runcoms/.zshrc'
-      dest: "{{lookup('env','HOME')}}/.zshrc" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink linux zshrc
-    when: ansible_os_family == 'Debian' or
-          ansible_os_family == 'Archlinux'
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/runcoms/.zshrc.linux'
-      dest: "{{lookup('env','HOME')}}/.zshrc" 
-      owner: "{{ theuser }}" 
-      state: link   
-
-  - name: symlink p10k
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/p10k/.p10k.zsh'
-      dest: "{{lookup('env','HOME')}}/.p10k.zsh" 
-      owner: "{{ theuser }}" 
-      state: link   
 
 #   - name: Create a symbolic link
 #     when: ansible_os_family == 'Darwin'
@@ -174,19 +74,19 @@
       state: link   
     ignore_errors: yes
 
-  - name: install and update brew
-    when: ansible_os_family == 'Darwin'
-    community.general.homebrew:
-      name: '{{ pkgs_mac }}' 
-      state: present 
-      update_homebrew: yes
-      upgrade_all: yes
+  # - name: install and update brew
+  #   when: ansible_os_family == 'Darwin'
+  #   community.general.homebrew:
+  #     name: '{{ pkgs_mac }}' 
+  #     state: present 
+  #     update_homebrew: yes
+  #     upgrade_all: yes
 
-  - name: install brew casks
-    when: ansible_os_family == 'Darwin'
-    community.general.homebrew_cask:
-      name: '{{ casks }}' 
-      state: present 
+  # - name: install brew casks
+  #   when: ansible_os_family == 'Darwin'
+  #   community.general.homebrew_cask:
+  #     name: '{{ casks }}' 
+  #     state: present 
 
   - name: update apt pkgs
     when: ansible_os_family == 'Debian'
@@ -229,6 +129,7 @@
       name: '{{ pkgs_arch }}'
       state: present
       update_cache: yes
+    become: yes
 
   - name: update pacman pkgs
     when: ansible_os_family == 'Archlinux'
@@ -236,6 +137,7 @@
       state: present
       update_cache: yes
       upgrade: yes
+    become: yes
 
   - name: ensure sshd is running on arch
     when: ansible_os_family == 'Archlinux'
@@ -244,6 +146,7 @@
       name: sshd
       state: started
     ignore_errors: yes
+    become: yes
 
   - name: ensure dockerd is running on arch
     when: ansible_os_family == 'Archlinux'
@@ -252,6 +155,7 @@
       name: docker
       state: started
     ignore_errors: yes
+    become: yes
 
   - name: create aur_builder user
     when: ansible_os_family == 'Archlinux'
@@ -259,17 +163,37 @@
       name: aur_builder
       create_home: no
       group: wheel
+    become: yes
 
   - name: create docker group
+    when: ansible_os_family == 'Archlinux' or
+          ansible_os_family == 'Debian'
     ansible.builtin.group:
       name: docker
       state: present
     become: yes
   
   - name: add user to docker group
+    when: ansible_os_family == 'Archlinux' or
+          ansible_os_family == 'Debian'
     ansible.builtin.user:
       name: "{{ theuser }}"
       group: docker
+    become: yes
+
+  - name: ensure wheel group exists
+    group: 
+      name: wheel
+      state: present
+    become: yes
+
+  - name: Allow 'wheel' group to have passwordless sudo
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: '^%wheel'
+      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s'
     become: yes
 
   - name: add aur_builder to wheel
@@ -279,12 +203,25 @@
       line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
       create: yes
       validate: 'visudo -cf %s'
+    become: yes
 
   - name: install meslo nerd font via aur
     when: ansible_os_family == 'Archlinux'
     aur: name=ttf-meslo-nerd-font-powerlevel10k 
     become: yes
     become_user: aur_builder
+
+  - name: ensure user exists on arch and debian
+    when: ansible_os_family == 'Archlinux' or 
+          ansible_os_family == 'Debian'
+    ansible.builtin.user:
+      name: "{{ explicit_user }}"
+      comment: we out here
+      shell: /bin/zsh
+      create_home: yes
+      groups: wheel,docker
+      password: "{{ '$6$mysecretsalt$mqF71rPutgHoEx7nTnkwFbjoh3OmRmClb6e3lUTsZm8lIJL1fT33A/9Upvrn5ZLhTUmJzdoxs99BsQlRT5zpZ0' | password_hash('sha512', 'mysecretsalt') }}"
+    become: yes
 
   - name: clone prezto repo
     ansible.builtin.git:
@@ -300,9 +237,25 @@
 
   - name: create Greenhouse directory if it does not exist
     ansible.builtin.file:
-      path: "{{lookup('env','HOME')}}/Greenhouse"
+      path: "{{lookup('env','HOME')}}/greenhouse"
       state: directory
       mode: '0755'
+
+  - name: clone infra repo
+    ansible.builtin.git:
+      repo: git@github.com:grnhse/infrastructure.git
+      dest: "{{lookup('env','HOME')}}/greenhouse/infrastructure"
+      recursive: yes
+    ignore_errors: yes 
+
+  - name: clone infrastructure repo
+    when: ansible_os_family == 'Darwin' and
+          "lookup('env','WORK_MACHINE')" == "true"
+    ansible.builtin.git:
+      repo: "git@github.com:grnhse/infrastructure.git"
+      dest: "{{lookup('env','HOME')}}/Greenhouse/infrastructure"
+      recursive: yes
+    ignore_errors: yes
 
   - name: create Projects directory if it does not exist
     ansible.builtin.file:
@@ -334,6 +287,7 @@
       mode: '0755'
     become: yes
 
+
   - name: set timezone to EST
     community.general.timezone:
       name: America/New_York
@@ -348,7 +302,7 @@
       value: false 
       state: present
 
-  - name: VSCode vim key repeat fix 
+  - name: VSCode vim key repeat fix on mac 
     when: ansible_os_family == 'Darwin'
     community.general.osx_defaults:
       domain: com.microsoft.VSCode 
@@ -357,7 +311,7 @@
       value: false 
       state: present
 
-  - name: set screenshot dir 
+  - name: set screenshot dir on mac 
     when: ansible_os_family == 'Darwin'
     community.general.osx_defaults:
       key: com.apple.screencapture
@@ -370,6 +324,26 @@
       user: "{{ theuser }}"
       state: present
       key: https://github.com/virtualdisk.keys 
+
+  - name: symlink wallpaper
+    when: ansible_os_family == 'Darwin'
+    ansible.builtin.file:
+      src:  '{{ playbook_dir }}/concerns/wallpaper/Nevada.jpg'
+      dest: "{{lookup('env','HOME')}}/Pictures/Nevada.jpg" 
+      owner: "{{ theuser }}" 
+      state: link   
+  
+  - name: set default wallpaper on macOS
+    when: ansible_os_family == 'Darwin'
+    ansible.builtin.command:
+      cmd: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/zoe.blanco/Pictures/Nevada.jpg"' 
+
+  - include: linux_symlinks.yml
+    when: ansible_os_family == 'Archlinux' or
+          ansible_os_family == 'Debian'
+
+  - include: mac_symlinks.yml
+    when: ansible_os_family == 'Darwin'
 
   roles:
     - role: markosamuli.asdf 

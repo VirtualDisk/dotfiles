@@ -1,7 +1,6 @@
 theuser: "{{lookup('env','USER')}}" 
-links_src: [ '{{ playbook_dir }}/.vimrc' ]
-links_dest: [ "{{lookup('env','HOME')}}/.vimrc" ]
 asdf_user: '{{ theuser }}'
+explicit_user: zoe
 asdf_legacy_version_file: "yes"
 pkgs_mac:
   - asdf
@@ -9,10 +8,13 @@ pkgs_mac:
   - awscli
   - glances
   - jq
+  - lazydocker
   - mtr
   - neofetch
   - python3
   - rclone
+  - minikube
+  - k9s
   - rsync
   - the_silver_searcher
   - tldr
@@ -22,6 +24,7 @@ pkgs_mac:
   - virtualenv
   - youtube-dl
   - yq
+  - z
   - zsh
 
 pkgs_arch:
@@ -32,8 +35,10 @@ pkgs_arch:
   - fakeroot
   - git
   - glances
+  # - lazydocker
   - jq
   - kubectl
+  - k9s
   - mtr
   - neofetch
   - openssh
@@ -48,6 +53,7 @@ pkgs_arch:
   - tree
   - vim
   - youtube-dl
+  - z
   - zsh
 
 pkgs_debian:
@@ -63,6 +69,7 @@ pkgs_debian:
   - python3
   - qemu-guest-agent
   - rclone
+  # - k9s
   - rsync
   - silversearcher-ag
   - snapd
@@ -74,51 +81,11 @@ pkgs_debian:
   - virtualenv
   - youtube-dl
   - zsh
+  # - z
 
 pkgs_snap:
   - yq
 
 casks:
   - alacritty
-
-asdf_pkgs:
-  - aws-vault
-  - gcloud
-  - helm
-  - kubectl
-  - terraform
-  - sops
-
-asdf_deps:
-  - curl 
-  - dirmngr 
-  - gawk
-  - gpg 
-
-links:
-  - '{{ playbook_dir }}/concerns/vim/.vimrc'
-  - '{{ playbook_dir }}/concerns/vim/.vim_runtime'
-  - '{{ playbook_dir }}/concerns/tmux/.tmux.conf'
-  - '{{ playbook_dir }}/concerns/tmux/.tmux.conf.local'
-  - '{{ playbook_dir }}/concerns/alacritty/.alacritty.yml'
-  - '{{ playbook_dir }}/concerns/runcoms/.zlogin'
-  - '{{ playbook_dir }}/concerns/runcoms/.zlogout'
-  - '{{ playbook_dir }}/concerns/runcoms/.zpreztorc'
-  - '{{ playbook_dir }}/concerns/runcoms/.zprofile'
-  - '{{ playbook_dir }}/concerns/runcoms/.zshenv'
-  - '{{ playbook_dir  }}/concerns/runcoms/.zshrc'
-  - '{{ playbook_dir }}/concerns/p10k/.p10k.zsh'
-
-dests:
-  - "{{lookup('env','HOME')}}/.vimrc" 
-  - "{{lookup('env','HOME')}}/.vim_runtime" 
-  - "{{lookup('env','HOME')}}/.tmux.conf" 
-  - "{{lookup('env','HOME')}}/.tmux.conf.local" 
-  - "{{lookup('env','HOME')}}/.alacritty.yml" 
-  - "{{lookup('env','HOME')}}/.zlogin" 
-  - "{{lookup('env','HOME')}}/.zlogout" 
-  - "{{lookup('env','HOME')}}/.zpreztorc" 
-  - "{{lookup('env','HOME')}}/.zprofile" 
-  - "{{lookup('env','HOME')}}/.zshenv" 
-  - "{{lookup('env','HOME')}}/.zshrc" 
-  - "{{lookup('env','HOME')}}/.p10k.zsh" 
+  - docker

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-set -x
+# set -x
 
 check_platform() {
     case "${OSTYPE}" in
@@ -91,12 +91,8 @@ check_ansible_arch() {
 }
 
 install_collections() {
-    ansible-galaxy collection install ansible.posix
-    ansible-galaxy collection install community.docker
-    ansible-galaxy collection install community.general
-    ansible-galaxy install cimon-io.asdf
-    ansible-galaxy install luizgavalda.aur
-    ansible-galaxy install markosamuli.asdf
+    ansible-galaxy install -r "${PWD}/requirements.yml"
+    ansible-galaxy collection install -r "${PWD}/requirements.yml"
     ansible-playbook -i "${PWD}/local_inventory.yml" \
         "${PWD}/playbook.yml" --ask-become-pass
 }
