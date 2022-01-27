@@ -68,12 +68,12 @@
     owner: "{{ theuser }}" 
     state: link   
 
-- name: symlink zshsecrets
-  ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/runcoms/.zshsecrets'
-    dest: "{{lookup('env','HOME')}}/.zshsecrets" 
-    owner: "{{ theuser }}" 
-    state: link   
+# - name: symlink zshsecrets
+#   ansible.builtin.file:
+#     src:  '{{ playbook_dir }}/concerns/runcoms/.zshsecrets'
+#     dest: "{{lookup('env','HOME')}}/.zshsecrets" 
+#     owner: "{{ theuser }}" 
+#     state: link   
 
 - name: symlink mac zshrc
   when: ansible_os_family == 'Darwin'

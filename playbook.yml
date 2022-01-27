@@ -74,19 +74,19 @@
       state: link   
     ignore_errors: yes
 
-  # - name: install and update brew
-  #   when: ansible_os_family == 'Darwin'
-  #   community.general.homebrew:
-  #     name: '{{ pkgs_mac }}' 
-  #     state: present 
-  #     update_homebrew: yes
-  #     upgrade_all: yes
+  - name: install and update brew
+    when: ansible_os_family == 'Darwin'
+    community.general.homebrew:
+      name: '{{ pkgs_mac }}' 
+      state: present 
+      update_homebrew: yes
+      upgrade_all: yes
 
-  # - name: install brew casks
-  #   when: ansible_os_family == 'Darwin'
-  #   community.general.homebrew_cask:
-  #     name: '{{ casks }}' 
-  #     state: present 
+  - name: install brew casks
+    when: ansible_os_family == 'Darwin'
+    community.general.homebrew_cask:
+      name: '{{ casks }}' 
+      state: present 
 
   - name: update apt pkgs
     when: ansible_os_family == 'Debian'
