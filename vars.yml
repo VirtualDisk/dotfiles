@@ -7,15 +7,17 @@ pkgs_mac:
   - aws-vault
   - awscli
   - glances
+  - google-cloud-sdk
   - jq
+  - k9s
   - lazydocker
+  - minikube
   - mtr
   - neofetch
   - python3
   - rclone
-  - minikube
-  - k9s
   - rsync
+  - teleport
   - the_silver_searcher
   - tldr
   - tmux

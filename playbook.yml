@@ -235,25 +235,19 @@
       repo: https://github.com/asdf-vm/asdf.git
       dest: "{{lookup('env','HOME')}}/.asdf"
 
-  - name: create Greenhouse directory if it does not exist
-    ansible.builtin.file:
-      path: "{{lookup('env','HOME')}}/greenhouse"
-      state: directory
-      mode: '0755'
-
-  - name: clone infra repo
-    ansible.builtin.git:
-      repo: git@github.com:grnhse/infrastructure.git
-      dest: "{{lookup('env','HOME')}}/greenhouse/infrastructure"
-      recursive: yes
-    ignore_errors: yes 
-
   - name: clone infrastructure repo
-    when: ansible_os_family == 'Darwin' and
-          "lookup('env','WORK_MACHINE')" == "true"
+    when: ansible_os_family == 'Darwin'
     ansible.builtin.git:
       repo: "git@github.com:grnhse/infrastructure.git"
       dest: "{{lookup('env','HOME')}}/Greenhouse/infrastructure"
+      recursive: yes
+    ignore_errors: yes
+
+  - name: clone penicillin repo
+    when: ansible_os_family == 'Darwin'
+    ansible.builtin.git:
+      repo: "git@github.com:grnhse/penicillin.git"
+      dest: "{{lookup('env','HOME')}}/Greenhouse/penicillin"
       recursive: yes
     ignore_errors: yes
 
