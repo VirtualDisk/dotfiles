@@ -1,0 +1,12 @@
+[k8s_host]
+192.168.1.16 ansible_user="root" kubernetes_role="master"
+[k8s_workers]
+192.168.1.17 ansible_user="root" kubernetes_role="node"
+192.168.1.18 ansible_user="root" kubernetes_role="node"
+192.168.1.19 ansible_user="root" kubernetes_role="node"
+192.168.1.20 ansible_user="root" kubernetes_role="node"
+192.168.1.21 ansible_user="root" kubernetes_role="node"
+
+[k8s_cluster:children]
+k8s_host
+k8s_workers
