@@ -7,7 +7,6 @@ pkgs_mac:
   - aws-vault
   - awscli
   - glances
-  - google-cloud-sdk
   - jq
   - k9s
   - lazydocker
@@ -28,6 +27,11 @@ pkgs_mac:
   - yq
   - z
   - zsh
+
+casks:
+  - alacritty
+  - docker
+  - google-cloud-sdk
 
 pkgs_arch:
   - aws-cli
@@ -88,6 +92,3 @@ pkgs_debian:
 pkgs_snap:
   - yq
 
-casks:
-  - alacritty
-  - docker
