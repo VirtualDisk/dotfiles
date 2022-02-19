@@ -10,7 +10,6 @@ pkgs_mac:
   - fd
   - jq
   - k9s
-  - lens
   - lazydocker
   - minikube
   - mtr
@@ -34,6 +33,7 @@ casks:
   - alacritty
   - docker
   - google-cloud-sdk
+  - lens
 
 pkgs_arch:
   - aws-cli
