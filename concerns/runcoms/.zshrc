@@ -34,11 +34,25 @@ complete -F __start_kubectl k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 c() {
-    dadir=$(fzf|rev|cut -d'/' -f2- |rev)
+    dadir=${HOME}/$(cd && fzf|rev|cut -d'/' -f2- |rev)
     cd "${dadir}" 
 }
+
+v() {
+    dafile=${HOME}/$(cd && fzf)
+    dadir="$(echo ${dafile}|rev|cut -d'/' -f2- |rev)"
+    vi "${dafile}"
+    cd "${dadir}"
+}
+kd() {
+    daobject=$(kubectl get "${1}") | fzf
+    kubectl describe "${daobject}"
+}
+tlogin() {
+    tsh login --proxy=tele.zoeblan.co:443 --auth=local --user=zoe
+    tsh kube login tele.zoeblan.co 
+}
 # Aliases
-alias v='vim'
 alias k=kubectl
 alias mk=minikube
 alias tf=terraform
@@ -74,6 +88,7 @@ alias grnhse="cd ~/Greenhouse"
 alias td=terraform-docs
 alias tfi='tf init -backend-config=state.conf'
 alias tfp='tf plan -out .tfplan'
+alias tfpv='tfp -var-file=secrets.tfvars'
 alias tfa='tf apply .tfplan && rm -v .tfplan'
 alias dj="dajoku"
 alias tserv="ssh -i $HOME/.ssh/transerv zoe@transerv"

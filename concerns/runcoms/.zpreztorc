@@ -38,9 +38,9 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'utility' \
   'completion' \
+  'tmux' \
   'history-substring-search' \
   'prompt' \
-  'tmux' \
   'git' \
   'ssh' \
   'docker'

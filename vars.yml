@@ -7,8 +7,10 @@ pkgs_mac:
   - aws-vault
   - awscli
   - glances
+  - fd
   - jq
   - k9s
+  - lens
   - lazydocker
   - minikube
   - mtr
