@@ -44,14 +44,17 @@ v() {
     vi "${dafile}"
     cd "${dadir}"
 }
+
 kd() {
     daobject=$(kubectl get "${1}") | fzf
     kubectl describe "${daobject}"
 }
+
 tlogin() {
     tsh login --proxy=tele.zoeblan.co:443 --auth=local --user=zoe
     tsh kube login tele.zoeblan.co 
 }
+
 # Aliases
 alias k=kubectl
 alias mk=minikube
@@ -136,52 +139,8 @@ fi
 eval "$(echo "$output" | awk '/^AWS/ && !/^AWS_VAULT/ { print "export " $1 }')"
 }
 
-n2ip() {
-    aws \
-        ec2 describe-instances \
-        --filters "Name=tag:Name,Values=*${1}*" Name=instance-state-name,Values=running \
-        | jq -r '
-            .Reservations[].Instances[]
-            | [.NetworkInterfaces[0].PrivateIpAddress,
-            (.Tags[] |
-                select(.Key == "Name").Value),(.InstanceId),(.LaunchTime)] | join("\t")
-                    '
-                }
-
-            teamid() {
-                codesign -dv "${1}" 2>&1 | awk -F'=' '/TeamIdentifier/ {print $2}'
-            }
-
-        dread() #short for "defaults read"
-        {
-            defaults read $(pwd)/"${1}"
-        }
-
-    GAM_DIR="${HOME}/.gam"
-    gamgetcurrentcontext() {
-        awk -F/ '/config_dir/ {print $5}' ${GAM_DIR}/gam.cfg
-    }
-
-printgamcurrentcontext() {
-    echo "$(gamgetcurrentcontext)"
+dread() #short for "defaults read"
+{
+    defaults read $(pwd)/"${1}"
 }
 
-gamlistcontexts() {
-    awk '/"email":/ {print $2}' ${GAM_DIR}/*/oauth2.txt \
-        |sed -e 's/\"//g' \
-        -e 's/\,//g' \
-        | fzf
-            echo "GAM current context: $(printgamcurrentcontext)"
-        }
-
-    gamswitchcontexts() {
-        sed -i -e "s/$(printgamcurrentcontext)/${1}/" "${GAM_DIR}/gam.cfg"
-    }
-
-gamc() {
-    if [[ "${1}" == "" ]]; then
-        gamlistcontexts
-    else
-        gamswitchcontexts "${1}"
-    fi
-}
