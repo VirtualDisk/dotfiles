@@ -8,6 +8,8 @@ pkgs_mac:
   - awscli
   - glances
   - fd
+  - ffmpeg
+  - gpg
   - jq
   - k9s
   - lazydocker
@@ -22,7 +24,7 @@ pkgs_mac:
   - tldr
   - tmux
   - tree
-  - vim
+  - neovim
   - virtualenv
   - youtube-dl
   - yq

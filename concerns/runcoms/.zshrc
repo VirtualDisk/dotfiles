@@ -50,9 +50,25 @@ kd() {
     kubectl describe "${daobject}"
 }
 
-tlogin() {
-    tsh login --proxy=tele.zoeblan.co:443 --auth=local --user=zoe
-    tsh kube login tele.zoeblan.co 
+zoemode() {
+    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
+        echo "not switching"
+    else
+       mv "${HOME}/.kube/config" "${HOME}/.kube/config.gh"
+       mv "${HOME}/.kube/config.zoe" "${HOME}/.kube/config" 
+       echo "zoe mode"
+    fi
+}
+
+workmode() {
+    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
+       mv "${HOME}/.kube/config" "${HOME}/.kube/config.zoe"
+       mv "${HOME}/.kube/config.gh" "${HOME}/.kube/config" 
+       echo "work mode"
+    else
+        echo "not switching"
+    fi
+
 }
 
 # Aliases
