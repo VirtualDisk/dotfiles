@@ -7,12 +7,16 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export HISTFILE="${HOME}/.zsh_history"
+export HISTFILESIZE=1000000000000
+export HISTSIZE=10000000000000
+
 # Executes commands at the start of an interactive session.
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
-source "~/.zshsecrets"
+# source "~/.zshsecrets"
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
     source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -108,11 +112,9 @@ alias td=terraform-docs
 alias tfi='tf init -backend-config=state.conf'
 alias tfp='tf plan -out .tfplan'
 alias tfpv='tfp -var-file=secrets.tfvars'
+alias tfdv='tf destroy -var-file=secrets.tfvars'
 alias tfa='tf apply .tfplan && rm -v .tfplan'
 alias dj="dajoku"
-alias tserv="ssh -i $HOME/.ssh/transerv zoe@transerv"
-alias pi="ssh pi@192.168.1.2"
-alias trf="cd ${HOME}/Projects/tranfrastructure"
 
 export ASDF_HASHICORP_OVERWRITE_ARCH=amd64
 
