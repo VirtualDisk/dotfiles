@@ -93,6 +93,7 @@ check_ansible_arch() {
 install_collections() {
     ansible-galaxy install -r "${PWD}/requirements.yml"
     ansible-galaxy collection install -r "${PWD}/requirements.yml"
+    #TODO: make ask become pass a flag bc of kubernetes unintended installs
     ansible-playbook -i "${PWD}/local_inventory.yml" \
         "${PWD}/playbook.yml" --ask-become-pass
 }

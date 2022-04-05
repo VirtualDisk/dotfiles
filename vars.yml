@@ -17,6 +17,7 @@ pkgs_mac:
   - mtr
   - neofetch
   - python3
+  - ultralist
   - rclone
   - rsync
   - teleport

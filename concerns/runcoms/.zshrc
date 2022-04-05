@@ -10,6 +10,7 @@ fi
 export HISTFILE="${HOME}/.zsh_history"
 export HISTFILESIZE=1000000000000
 export HISTSIZE=10000000000000
+setopt HIST_FIND_NO_DUPS
 
 # Executes commands at the start of an interactive session.
 #
@@ -49,12 +50,11 @@ v() {
     cd "${dadir}"
 }
 
-kd() {
-    daobject=$(kubectl get "${1}") | fzf
-    kubectl describe "${daobject}"
+kn() {
+    kubectl config set-context --current --namespace="${1}"
 }
 
-zoemode() {
+kzoe() {
     if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
         echo "not switching"
     else
@@ -64,7 +64,7 @@ zoemode() {
     fi
 }
 
-workmode() {
+kwork() {
     if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
        mv "${HOME}/.kube/config" "${HOME}/.kube/config.zoe"
        mv "${HOME}/.kube/config.gh" "${HOME}/.kube/config" 
@@ -72,7 +72,6 @@ workmode() {
     else
         echo "not switching"
     fi
-
 }
 
 # Aliases
@@ -92,6 +91,20 @@ alias hidehidden="defaults write com.apple.finder AppleShowAllFiles NO && killal
 alias dockerid="docker ps |awk 'FNR == 2 {print $1}' |pbcopy"
 alias ansible="ansible -i ~/.ansible/inventory.yml"
 alias ap="ansible-playbook -i ~/.ansible/inventory.yml --ask-become-pass"
+alias u="ultralist"
+alias uc="ultralist l group:context"
+alias uct="ultralist l due:agenda group:context"
+alias up="ultralist l due:agenda group:project"
+alias tod="ultralist l group:project due:tod"
+alias tom="ultralist l group:project due:tom"
+alias mon="ultralist l group:project due:mon"
+alias tue="ultralist l group:project due:tue"
+alias wed="ultralist l group:project due:wed"
+alias thu="ultralist l group:project due:thu"
+alias fri="ultralist l group:project due:fri"
+
+# pipe ultralist into fzf for ultra-fast searching of tasks!
+alias uf="script -c \"ultralist l\"  < /dev/null | fzf --ansi"
 
 # Functions
 # BEGIN ANSIBLE MANAGED BLOCK: asdf
@@ -162,3 +175,4 @@ dread() #short for "defaults read"
     defaults read $(pwd)/"${1}"
 }
 
+uc
