@@ -30,8 +30,8 @@ source /opt/homebrew/opt/asdf/libexec/asdf.sh
 source '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 
 # Source kubectl completion
-source <(kubectl completion zsh)
-complete -F __start_kubectl k
+source <(/usr/local/bin/kubectl completion zsh)
+# complete -F __start_kubectl k
 
 . "/opt/homebrew/etc/profile.d/z.sh"
 
@@ -51,7 +51,7 @@ v() {
 }
 
 kn() {
-    kubectl config set-context --current --namespace="${1}"
+    /usr/local/bin/kubectl config set-context --current --namespace="${1}"
 }
 
 kzoe() {
@@ -75,6 +75,8 @@ kwork() {
 }
 
 # Aliases
+# alias k=kubectl
+alias a=argo
 alias k=kubectl
 alias mk=minikube
 alias tf=terraform
@@ -91,18 +93,19 @@ alias hidehidden="defaults write com.apple.finder AppleShowAllFiles NO && killal
 alias dockerid="docker ps |awk 'FNR == 2 {print $1}' |pbcopy"
 alias ansible="ansible -i ~/.ansible/inventory.yml"
 alias ap="ansible-playbook -i ~/.ansible/inventory.yml --ask-become-pass"
-alias u="ultralist"
-alias uc="ultralist l group:context"
-alias uct="ultralist l due:agenda group:context"
-alias up="ultralist l due:agenda group:project"
-alias tod="ultralist l group:project due:tod"
-alias tom="ultralist l group:project due:tom"
-alias mon="ultralist l group:project due:mon"
-alias tue="ultralist l group:project due:tue"
-alias wed="ultralist l group:project due:wed"
-alias thu="ultralist l group:project due:thu"
-alias fri="ultralist l group:project due:fri"
+alias llights="curl -X POST http://192.168.1.254/api/webhook/living-room-lights"
+alias zbright="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-bright"
+alias zdim="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-dim"
 
+kubectl() {
+    # only sort if we are listing objects
+    if [[ $(echo "${@}" |ag "get") ]]; then
+     /usr/local/bin/kubectl "${@}" |sort
+    else
+     /usr/local/bin/kubectl "${@}"
+    fi
+}
+ 
 # pipe ultralist into fzf for ultra-fast searching of tasks!
 alias uf="script -c \"ultralist l\"  < /dev/null | fzf --ansi"
 
@@ -151,7 +154,7 @@ lint() {
 }
 
 kc() {
-    kubectl config use-context "${1}"
+    /usr/local/bin/kubectl config use-context "${1}"
 }
 
 export AWS_SDK_LOAD_CONFIG=true
@@ -174,5 +177,3 @@ dread() #short for "defaults read"
 {
     defaults read $(pwd)/"${1}"
 }
-
-uc

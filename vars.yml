@@ -6,6 +6,7 @@ pkgs_mac:
   - asdf
   - aws-vault
   - awscli
+  - dust
   - glances
   - fd
   - ffmpeg
@@ -43,6 +44,7 @@ pkgs_arch:
   - ca-certificates
   - curl
   - docker
+  - dust
   - fakeroot
   - git
   - glances
@@ -73,6 +75,7 @@ pkgs_debian:
   - ca-certificates
   - curl
   # - glances
+  - dust
   - jq
   # - kubectl
   - mtr

@@ -55,6 +55,11 @@ path=(
   $path
 )
 
+fpath=( 
+    $HOME/.dotfiles/concerns/argo
+    $fpath 
+)
+
 
 export PATH="/usr/local/sbin:/usr/local/bin:$HOME/Greenhouse/infrastructure/bin:$HOME/.asdf/shims:$PATH"
 #

@@ -227,7 +227,7 @@ tmux_conf_theme_right_separator_sub="|"
 #     - #{username}
 #     - #{username_ssh}
 
-tmux_conf_theme_status_left=" ❐ #S"
+tmux_conf_theme_status_left=' ❐ #S #{pomodoro_status}'
 tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}, ${cpu_icon} #{cpu_percentage} , %d %b | #{username}#{root} | #{hostname} "
 
 # tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , ${cpu_icon} #{cpu_percentage} , %d %b | #{username}#{root} | #{hostname} "
