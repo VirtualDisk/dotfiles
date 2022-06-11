@@ -38,48 +38,18 @@ source <(/usr/local/bin/kubectl completion zsh)
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-c() {
-    dadir=${HOME}/$(cd && fzf|rev|cut -d'/' -f2- |rev)
-    cd "${dadir}" 
-}
-
-v() {
-    dafile=${HOME}/$(cd && fzf)
-    dadir="$(echo ${dafile}|rev|cut -d'/' -f2- |rev)"
-    vi "${dafile}"
-    cd "${dadir}"
-}
-
-kn() {
-    /usr/local/bin/kubectl config set-context --current --namespace="${1}"
-}
-
-kzoe() {
-    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
-        echo "not switching"
-    else
-       mv "${HOME}/.kube/config" "${HOME}/.kube/config.gh"
-       mv "${HOME}/.kube/config.zoe" "${HOME}/.kube/config" 
-       echo "zoe mode"
-    fi
-}
-
-kwork() {
-    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
-       mv "${HOME}/.kube/config" "${HOME}/.kube/config.zoe"
-       mv "${HOME}/.kube/config.gh" "${HOME}/.kube/config" 
-       echo "work mode"
-    else
-        echo "not switching"
-    fi
-}
-
 # Aliases
-# alias k=kubectl
 alias a=argo
 alias k=kubectl
 alias mk=minikube
 alias tf=terraform
+alias inf="cd ~/Greenhouse/infrastructure"
+alias tfi='tf init -backend-config=state.conf'
+alias tfp='tf plan -out .tfplan'
+alias tfpv='tfp -var-file=secrets.tfvars'
+alias tfdv='tf destroy -var-file=secrets.tfvars'
+alias tfa='tf apply .tfplan && rm -v .tfplan'
+alias dj="dajoku"
 alias y="yes > /dev/null"
 alias pj="cd ~/Projects"
 alias kt="killall tmux"
@@ -93,21 +63,10 @@ alias hidehidden="defaults write com.apple.finder AppleShowAllFiles NO && killal
 alias dockerid="docker ps |awk 'FNR == 2 {print $1}' |pbcopy"
 alias ansible="ansible -i ~/.ansible/inventory.yml"
 alias ap="ansible-playbook -i ~/.ansible/inventory.yml --ask-become-pass"
-alias llights="curl -X POST http://192.168.1.254/api/webhook/living-room-lights"
+alias livingroom="curl -X POST http://192.168.1.254/api/webhook/living-room-bright"
 alias zbright="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-bright"
 alias zdim="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-dim"
-
-kubectl() {
-    # only sort if we are listing objects
-    if [[ $(echo "${@}" |ag "get") ]]; then
-     /usr/local/bin/kubectl "${@}" |sort
-    else
-     /usr/local/bin/kubectl "${@}"
-    fi
-}
- 
-# pipe ultralist into fzf for ultra-fast searching of tasks!
-alias uf="script -c \"ultralist l\"  < /dev/null | fzf --ansi"
+alias fan="curl -X POST http://192.168.1.254/api/webhook/toggle-ac"
 
 # Functions
 # BEGIN ANSIBLE MANAGED BLOCK: asdf
@@ -120,19 +79,61 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 
-###
-alias it="cd ~/Greenhouse/IT"
-alias inf="cd ~/Greenhouse/infrastructure"
-alias grnhse="cd ~/Greenhouse"
-alias td=terraform-docs
-alias tfi='tf init -backend-config=state.conf'
-alias tfp='tf plan -out .tfplan'
-alias tfpv='tfp -var-file=secrets.tfvars'
-alias tfdv='tf destroy -var-file=secrets.tfvars'
-alias tfa='tf apply .tfplan && rm -v .tfplan'
-alias dj="dajoku"
-
 export ASDF_HASHICORP_OVERWRITE_ARCH=amd64
+
+## FUNCTIONS ##
+c() {
+    dadir=${HOME}/$(cd && fzf|rev|cut -d'/' -f2- |rev)
+    cd "${dadir}" 
+}
+
+v() {
+    dafile=${HOME}/$(cd && fzf)
+    dadir="$(echo ${dafile}|rev|cut -d'/' -f2- |rev)"
+    vi "${dafile}"
+    cd "${dadir}"
+}
+
+kn() {
+    if [[ $(kubectl get ns |ag "${1}") ]]; then
+        /usr/local/bin/kubectl config set-context --current --namespace="${1}"
+    else
+        echo "invalid namespace"
+    fi
+}
+
+kzoe() {
+    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
+        echo "not switching"
+    elif [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then
+        echo "not switching"
+    elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
+        echo "not switching"
+    else
+       mv "${HOME}/.kube/config" "${HOME}/.kube/config.gh"
+       mv "${HOME}/.kube/config.zoe" "${HOME}/.kube/config" 
+       echo "zoe mode"
+    fi
+}
+
+kwork() {
+    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
+       mv "${HOME}/.kube/config" "${HOME}/.kube/config.zoe"
+       mv "${HOME}/.kube/config.gh" "${HOME}/.kube/config" 
+       echo "work mode"
+    elif [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then
+       mv "${HOME}/.kube/config" "${HOME}/.kube/config.zoe"
+       mv "${HOME}/.kube/config.gh" "${HOME}/.kube/config" 
+       echo "work mode"
+    elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
+       mv "${HOME}/.kube/config" "${HOME}/.kube/config.zoe"
+       mv "${HOME}/.kube/config.gh" "${HOME}/.kube/config" 
+       echo "work mode"
+    else
+        echo "not switching"
+    fi
+}
+
 
 lint() {
     cd "${HOME}/Greenhouse/infrastructure"
@@ -157,23 +158,66 @@ kc() {
     /usr/local/bin/kubectl config use-context "${1}"
 }
 
+node1() {
+    if [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then 
+        sed -i '' 's/192.168.1.222/192.168.1.221/g' "${HOME}/.kube/config"
+        echo "Went from node2 to node1"
+    elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
+        sed -i '' 's/192.168.1.223/192.168.1.221/g' "${HOME}/.kube/config"
+    echo "Went from node3 to node1"
+    elif [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
+        echo "Already on node1"
+    fi
+}
+
+node2() {
+    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then 
+        sed -i '' 's/192.168.1.221/192.168.1.222/g' "${HOME}/.kube/config"
+        echo "Went from node1 to node2"
+    elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
+        sed -i '' 's/192.168.1.223/192.168.1.222/g' "${HOME}/.kube/config"
+        echo "Went from node3 to node2"
+    elif [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then
+        echo "Already on node2"
+    fi
+}
+
+node3() {
+    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
+        sed -i '' 's/192.168.1.221/192.168.1.223/g' "${HOME}/.kube/config"
+        echo "Went from node1 to node3"
+    elif [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then
+        sed -i '' 's/192.168.1.222/192.168.1.223/g' "${HOME}/.kube/config"
+        echo "Went from node2 to node3"
+    elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
+        echo "Already on node3"
+    fi
+}
+
+kubectl() {
+    # only sort if we are listing objects
+    if [[ $(echo "${@}" |ag "get all") ]]; then
+     /usr/local/bin/kubectl "${@}"
+    elif [[ $(echo "${@}" |ag "get") ]]; then
+     /usr/local/bin/kubectl "${@}" |sort
+    else
+     /usr/local/bin/kubectl "${@}"
+    fi
+}
+
+
 export AWS_SDK_LOAD_CONFIG=true
 export AWS_DEFAULT_PROFILE="dev.use1"
 aws-vault-use() {
-local profile output
+    local profile output
 
-profile="$1"
+    profile="$1"
 
-output="$(aws-vault exec "$profile" -- env)"
-if [[ $? -ne 0 ]]; then
-    echo "$output" >&2
-    return 1
-fi
+    output="$(aws-vault exec "$profile" -- env)"
+    if [[ $? -ne 0 ]]; then
+        echo "$output" >&2
+        return 1
+    fi
 
-eval "$(echo "$output" | awk '/^AWS/ && !/^AWS_VAULT/ { print "export " $1 }')"
-}
-
-dread() #short for "defaults read"
-{
-    defaults read $(pwd)/"${1}"
+    eval "$(echo "$output" | awk '/^AWS/ && !/^AWS_VAULT/ { print "export " $1 }')"
 }
