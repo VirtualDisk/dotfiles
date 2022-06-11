@@ -95,8 +95,10 @@ v() {
 }
 
 kn() {
-    if [[ $(kubectl get ns |ag "${1}") ]]; then
+    if [[ $(kubectl get ns |ag "${1}" 2>/dev/null) ]]; then
         /usr/local/bin/kubectl config set-context --current --namespace="${1}"
+    elif [[ -z "${1}" ]]; then
+        kubectl config set-context --current --namespace="$(kubectl get ns |grep -v 'NAME'|fzf|awk '{print $1}')"
     else
         echo "invalid namespace"
     fi
