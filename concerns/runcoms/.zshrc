@@ -19,6 +19,7 @@ setopt HIST_FIND_NO_DUPS
 #
 # source "~/.zshsecrets"
 # Source Prezto.
+
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
     source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
@@ -65,6 +66,7 @@ alias ansible="ansible -i ~/.ansible/inventory.yml"
 alias ap="ansible-playbook -i ~/.ansible/inventory.yml --ask-become-pass"
 alias livingroom="curl -X POST http://192.168.1.254/api/webhook/living-room-bright"
 alias zbright="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-bright"
+alias zoff="curl -X POST http://192.168.1.254/api/webhook/zoe-off"
 alias zdim="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-dim"
 alias fan="curl -X POST http://192.168.1.254/api/webhook/toggle-ac"
 
@@ -95,7 +97,7 @@ v() {
 }
 
 kn() {
-    if [[ $(kubectl get ns |ag "${1}" 2>/dev/null) ]]; then
+    if [[ $(kubectl get ns "${1}" 2>/dev/null) ]]; then
         /usr/local/bin/kubectl config set-context --current --namespace="${1}"
     elif [[ -z "${1}" ]]; then
         kubectl config set-context --current --namespace="$(kubectl get ns |grep -v 'NAME'|fzf|awk '{print $1}')"
@@ -163,36 +165,48 @@ kc() {
 node1() {
     if [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then 
         sed -i '' 's/192.168.1.222/192.168.1.221/g' "${HOME}/.kube/config"
+        sed -i '' 's/node2/node1/g' "${HOME}/.kube/config"
         echo "Went from node2 to node1"
     elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
         sed -i '' 's/192.168.1.223/192.168.1.221/g' "${HOME}/.kube/config"
-    echo "Went from node3 to node1"
+        sed -i '' 's/node3/node1/g' "${HOME}/.kube/config"
+        echo "Went from node3 to node1"
     elif [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
         echo "Already on node1"
+    else
+        echo "Wrong mode!"
     fi
 }
 
 node2() {
     if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then 
         sed -i '' 's/192.168.1.221/192.168.1.222/g' "${HOME}/.kube/config"
+        sed -i '' 's/node1/node2/g' "${HOME}/.kube/config"
         echo "Went from node1 to node2"
     elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
         sed -i '' 's/192.168.1.223/192.168.1.222/g' "${HOME}/.kube/config"
+        sed -i '' 's/node3/node2/g' "${HOME}/.kube/config"
         echo "Went from node3 to node2"
     elif [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then
         echo "Already on node2"
+    else
+        echo "Wrong mode!"
     fi
 }
 
 node3() {
     if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
         sed -i '' 's/192.168.1.221/192.168.1.223/g' "${HOME}/.kube/config"
+        sed -i '' 's/node1/node3/g' "${HOME}/.kube/config"
         echo "Went from node1 to node3"
     elif [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then
         sed -i '' 's/192.168.1.222/192.168.1.223/g' "${HOME}/.kube/config"
+        sed -i '' 's/node2/node3/g' "${HOME}/.kube/config"
         echo "Went from node2 to node3"
     elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
         echo "Already on node3"
+    else
+        echo "Wrong mode!"
     fi
 }
 
@@ -207,9 +221,14 @@ kubectl() {
     fi
 }
 
+ips() {
+    kubectl get svc -A | ag '192' | awk '{print $5 " " $2}' | sort -n
+}
+
 
 export AWS_SDK_LOAD_CONFIG=true
 export AWS_DEFAULT_PROFILE="dev.use1"
+
 aws-vault-use() {
     local profile output
 
