@@ -42,7 +42,7 @@ source <(/usr/local/bin/kubectl completion zsh)
 # Aliases
 alias a=argo
 alias k=kubectl
-alias mk=minikube
+alias t=talosctl
 alias tf=terraform
 alias inf="cd ~/Greenhouse/infrastructure"
 alias tfi='tf init -backend-config=state.conf'
@@ -58,7 +58,6 @@ alias gst="git status"
 alias ga="git add"
 alias gcam="git commit -m"
 alias gco='git checkout $(git branch | fzf)'
-alias gcaml="lint && git commit -a -m"
 alias showhidden="defaults write com.apple.finder AppleShowAllFiles YES && killall Finder"
 alias hidehidden="defaults write com.apple.finder AppleShowAllFiles NO && killall Finder"
 alias dockerid="docker ps |awk 'FNR == 2 {print $1}' |pbcopy"
@@ -69,6 +68,8 @@ alias zbright="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-bright"
 alias zoff="curl -X POST http://192.168.1.254/api/webhook/zoe-off"
 alias zdim="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-dim"
 alias fan="curl -X POST http://192.168.1.254/api/webhook/toggle-ac"
+alias zpurple="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-purple"
+alias zbi="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-bi"
 
 # Functions
 # BEGIN ANSIBLE MANAGED BLOCK: asdf

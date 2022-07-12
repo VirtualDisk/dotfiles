@@ -51,7 +51,7 @@ check_distro() {
         "Arch Linux")
             check_ansible_arch
             ;;
-        "Ubuntu")
+        "Ubuntu"*)
             check_ansible_debian
             ;;
         "Debian"*)
