@@ -1,6 +1,6 @@
 theuser: "{{lookup('env','USER')}}" 
 asdf_user: '{{ theuser }}'
-explicit_user: root
+explicit_user: ubuntu
 asdf_legacy_version_file: "yes"
 pkgs_mac:
   - asdf
