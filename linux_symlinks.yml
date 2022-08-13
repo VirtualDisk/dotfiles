@@ -2,99 +2,82 @@
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/vim/.vimrc'
     dest: "/home/{{ explicit_user }}/.vimrc" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   
 
 - name: symlink vim_runtime
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/vim/.vim_runtime'
     dest: "/home/{{ explicit_user }}/.vim_runtime" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   
 
 - name: symlink tmux
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/tmux/.tmux.conf'
     dest: "/home/{{ explicit_user }}/.tmux.conf" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   
 
 - name: symlink tmux.conf
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/tmux/.tmux.conf.local'
     dest: "/home/{{ explicit_user }}/.tmux.conf.local" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   
 
 - name: symlink alacritty
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/alacritty/.alacritty.yml'
     dest: "/home/{{ explicit_user }}/.alacritty.yml" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   
 
 - name: symlink zlogin 
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/runcoms/.zlogin'
     dest: "/home/{{ explicit_user }}/.zlogin" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   
 
 - name: symlink zlogout
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/runcoms/.zlogout'
     dest: "/home/{{ explicit_user }}/.zlogout" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   
 
 - name: symlink zpreztorc
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/runcoms/.zpreztorc'
     dest: "/home/{{ explicit_user }}/.zpreztorc" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   
 
 - name: symlink zprofile
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/runcoms/.zprofile'
     dest: "/home/{{ explicit_user }}/.zprofile" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   
 
 - name: symlink zshenv
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/runcoms/.zshenv'
     dest: "/home/{{ explicit_user }}/.zshenv" 
-    owner: "{{ theuser }}" 
-    state: link   
-
-# - name: symlink zshsecrets
-#   ansible.builtin.file:
-#     src:  '{{ playbook_dir }}/concerns/runcoms/.zshsecrets'
-#     dest: "/home/{{ explicit_user }}/.zshsecrets" 
-#     owner: "{{ theuser }}" 
-#     state: link   
-
-- name: symlink mac zshrc
-  when: ansible_os_family == 'Darwin'
-  ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/runcoms/.zshrc'
-    dest: "/home/{{ explicit_user }}/.zshrc" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   
 
 - name: symlink linux zshrc
-  when: ansible_os_family == 'Debian' or
-        ansible_os_family == 'Archlinux'
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/runcoms/.zshrc.linux'
     dest: "/home/{{ explicit_user }}/.zshrc" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   
 
 - name: symlink p10k
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/p10k/.p10k.zsh'
     dest: "/home/{{ explicit_user }}/.p10k.zsh" 
-    owner: "{{ theuser }}" 
+    owner: "{{ explicit_user }}" 
     state: link   

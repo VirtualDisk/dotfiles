@@ -12,6 +12,8 @@ export HISTFILESIZE=1000000000000
 export HISTSIZE=10000000000000
 setopt HIST_FIND_NO_DUPS
 
+export TF_LOG="INFO"
+
 # Executes commands at the start of an interactive session.
 #
 # Authors:
@@ -43,6 +45,7 @@ source <(/usr/local/bin/kubectl completion zsh)
 alias a=argo
 alias k=kubectl
 alias t=talosctl
+alias dev='ssh -i ${HOME}/.ssh/ubuntu ubuntu@dev.zoe'
 alias tf=terraform
 alias inf="cd ~/Greenhouse/infrastructure"
 alias tfi='tf init -backend-config=state.conf'
@@ -50,6 +53,9 @@ alias tfp='tf plan -out .tfplan'
 alias tfpv='tfp -var-file=secrets.tfvars'
 alias tfdv='tf destroy -var-file=secrets.tfvars'
 alias tfa='tf apply .tfplan && rm -v .tfplan'
+alias tfix='docker run -it -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform -chdir=/terraform init'
+alias tfpx='docker run -it -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform -chdir=/terraform plan'
+alias tfax='docker run -it -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform -chdir=/terraform apply'
 alias dj="dajoku"
 alias y="yes > /dev/null"
 alias pj="cd ~/Projects"
@@ -63,13 +69,31 @@ alias hidehidden="defaults write com.apple.finder AppleShowAllFiles NO && killal
 alias dockerid="docker ps |awk 'FNR == 2 {print $1}' |pbcopy"
 alias ansible="ansible -i ~/.ansible/inventory.yml"
 alias ap="ansible-playbook -i ~/.ansible/inventory.yml --ask-become-pass"
-alias livingroom="curl -X POST http://192.168.1.254/api/webhook/living-room-bright"
-alias zbright="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-bright"
-alias zoff="curl -X POST http://192.168.1.254/api/webhook/zoe-off"
-alias zdim="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-dim"
-alias fan="curl -X POST http://192.168.1.254/api/webhook/toggle-ac"
-alias zpurple="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-purple"
-alias zbi="curl -X POST http://192.168.1.254/api/webhook/zoe-lights-bi"
+alias livingroom="curl -X POST http://homeassistant.default.zoe/api/webhook/living-room-bright"
+alias zbright="curl -X POST http://homeassistant.default.zoe/api/webhook/zoe-lights-bright"
+alias zoff="curl -X POST http://homeassistant.default.zoe/api/webhook/zoe-off"
+alias zdim="curl -X POST http://homeassistant.default.zoe/api/webhook/zoe-lights-dim"
+alias fan="curl -X POST http://homeassistant.default.zoe/api/webhook/toggle-ac"
+alias zpurple="curl -X POST http://homeassistant.default.zoe/api/webhook/zoe-lights-purple"
+alias zbi="curl -X POST http://homeassistant.default.zoe/api/webhook/zoe-lights-bi"
+
+alias os='openstack --os-cloud=openstack --insecure'
+# os() {
+#     if [[ -z "${@}" ]]; then
+#         echo "Running interactively."
+#         ssh -i ~/.ssh/ubuntu zoe@192.168.1.34 "microstack.openstack"
+#     else
+#         ssh -i ~/.ssh/ubuntu zoe@192.168.1.34 "microstack.openstack ${@}"
+#     fi
+# }
+
+shipdev() {
+    if [[ -z "${1}" ]]; then
+        echo "Error: file name required"
+    else
+        scp -r -i ~/.ssh/ubuntu ${1} ubuntu@192.168.1.232:~ && dev
+    fi
+}
 
 # Functions
 # BEGIN ANSIBLE MANAGED BLOCK: asdf
@@ -107,36 +131,21 @@ kn() {
     fi
 }
 
+kzke() {
+        echo "switched to Zoë Kubernetes Engine"
+        export KUBECONFIG="${HOME}/.kube/config.talos"
+}
+
 kzoe() {
-    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
-        echo "not switching"
-    elif [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then
-        echo "not switching"
-    elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
-        echo "not switching"
-    else
-       mv "${HOME}/.kube/config" "${HOME}/.kube/config.gh"
-       mv "${HOME}/.kube/config.zoe" "${HOME}/.kube/config" 
-       echo "zoe mode"
-    fi
+        echo "zoe mode"
+        export KUBECONFIG="${HOME}/.kube/k3s.yaml"
 }
 
 kwork() {
-    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
-       mv "${HOME}/.kube/config" "${HOME}/.kube/config.zoe"
-       mv "${HOME}/.kube/config.gh" "${HOME}/.kube/config" 
-       echo "work mode"
-    elif [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then
-       mv "${HOME}/.kube/config" "${HOME}/.kube/config.zoe"
-       mv "${HOME}/.kube/config.gh" "${HOME}/.kube/config" 
-       echo "work mode"
-    elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
-       mv "${HOME}/.kube/config" "${HOME}/.kube/config.zoe"
-       mv "${HOME}/.kube/config.gh" "${HOME}/.kube/config" 
-       echo "work mode"
-    else
-        echo "not switching"
-    fi
+        echo "Switched to work mode. You've got this!"
+        echo "Say aloud what you are about to do."
+        sleep 5
+        export KUBECONFIG="${HOME}/.kube/config.gh"
 }
 
 
@@ -163,64 +172,16 @@ kc() {
     /usr/local/bin/kubectl config use-context "${1}"
 }
 
-node1() {
-    if [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then 
-        sed -i '' 's/192.168.1.222/192.168.1.221/g' "${HOME}/.kube/config"
-        sed -i '' 's/node2/node1/g' "${HOME}/.kube/config"
-        echo "Went from node2 to node1"
-    elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
-        sed -i '' 's/192.168.1.223/192.168.1.221/g' "${HOME}/.kube/config"
-        sed -i '' 's/node3/node1/g' "${HOME}/.kube/config"
-        echo "Went from node3 to node1"
-    elif [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
-        echo "Already on node1"
-    else
-        echo "Wrong mode!"
-    fi
-}
-
-node2() {
-    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then 
-        sed -i '' 's/192.168.1.221/192.168.1.222/g' "${HOME}/.kube/config"
-        sed -i '' 's/node1/node2/g' "${HOME}/.kube/config"
-        echo "Went from node1 to node2"
-    elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
-        sed -i '' 's/192.168.1.223/192.168.1.222/g' "${HOME}/.kube/config"
-        sed -i '' 's/node3/node2/g' "${HOME}/.kube/config"
-        echo "Went from node3 to node2"
-    elif [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then
-        echo "Already on node2"
-    else
-        echo "Wrong mode!"
-    fi
-}
-
-node3() {
-    if [[ $(ag "192.168.1.221" "${HOME}/.kube/config") ]]; then
-        sed -i '' 's/192.168.1.221/192.168.1.223/g' "${HOME}/.kube/config"
-        sed -i '' 's/node1/node3/g' "${HOME}/.kube/config"
-        echo "Went from node1 to node3"
-    elif [[ $(ag "192.168.1.222" "${HOME}/.kube/config") ]]; then
-        sed -i '' 's/192.168.1.222/192.168.1.223/g' "${HOME}/.kube/config"
-        sed -i '' 's/node2/node3/g' "${HOME}/.kube/config"
-        echo "Went from node2 to node3"
-    elif [[ $(ag "192.168.1.223" "${HOME}/.kube/config") ]]; then
-        echo "Already on node3"
-    else
-        echo "Wrong mode!"
-    fi
-}
-
-kubectl() {
-    # only sort if we are listing objects
-    if [[ $(echo "${@}" |ag "get all") ]]; then
-     /usr/local/bin/kubectl "${@}"
-    elif [[ $(echo "${@}" |ag "get") ]]; then
-     /usr/local/bin/kubectl "${@}" |sort
-    else
-     /usr/local/bin/kubectl "${@}"
-    fi
-}
+# kubectl() {
+#     # only sort if we are listing objects
+#     if [[ $(echo "${@}" |ag "get all") ]]; then
+#      /usr/local/bin/kubectl "${@}"
+#     elif [[ $(echo "${@}" |ag "get") ]]; then
+#      /usr/local/bin/kubectl "${@}" |sort --numeric-sort
+#     else
+#      /usr/local/bin/kubectl "${@}"
+#     fi
+# }
 
 ips() {
     kubectl get svc -A | ag '192' | awk '{print $5 " " $2}' | sort -n
@@ -243,3 +204,7 @@ aws-vault-use() {
 
     eval "$(echo "$output" | awk '/^AWS/ && !/^AWS_VAULT/ { print "export " $1 }')"
 }
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/zoe.blanco/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
