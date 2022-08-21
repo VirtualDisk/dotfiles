@@ -133,7 +133,7 @@ kn() {
 
 kzke() {
         echo "switched to Zoë Kubernetes Engine"
-        export KUBECONFIG="${HOME}/.kube/config.talos"
+        export KUBECONFIG="${HOME}/.kube/config.zke"
 }
 
 kzoe() {
