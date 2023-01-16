@@ -48,8 +48,10 @@ path=(
   $HOME/.dotfiles/bin
   $HOME/Greenhouse/infrastructure/bin
   $HOME/Greenhouse/it/bin
+  $HOME/.linkerd2/bin
   $HOME/.asdf/shims
   $HOME/.dajoku-cli/bin
+  $HOME/.krew/bin
   /opt/homebrew/opt/ruby/bin
   /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
   $path

@@ -12,7 +12,9 @@ export HISTFILESIZE=1000000000000
 export HISTSIZE=10000000000000
 setopt HIST_FIND_NO_DUPS
 
-export TF_LOG="INFO"
+export ZOEREPO="${HOME}/Projects/zoes-bakery"
+
+# export TF_LOG="INFO"
 
 # Executes commands at the start of an interactive session.
 #
@@ -33,6 +35,8 @@ source /opt/homebrew/opt/asdf/libexec/asdf.sh
 source '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 
 # Source kubectl completion
+source <(argo completion zsh)
+source <(talosctl completion zsh)
 source <(/usr/local/bin/kubectl completion zsh)
 # complete -F __start_kubectl k
 
@@ -49,13 +53,12 @@ alias dev='ssh -i ${HOME}/.ssh/ubuntu ubuntu@dev.zoe'
 alias tf=terraform
 alias inf="cd ~/Greenhouse/infrastructure"
 alias tfi='tf init -backend-config=state.conf'
+alias zop="docker-compose --file ${ZOEREPO}/secrets/onepassword/docker-compose.yaml up -d && OP_CONNECT_TOKEN=$(op item get 'zoe connect token terraform' |yq .Fields.credential)"
+alias ztfp='tf plan -out .tfplan'
 alias tfp='tf plan -out .tfplan'
 alias tfpv='tfp -var-file=secrets.tfvars'
 alias tfdv='tf destroy -var-file=secrets.tfvars'
 alias tfa='tf apply .tfplan && rm -v .tfplan'
-alias tfix='docker run -it -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform -chdir=/terraform init'
-alias tfpx='docker run -it -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform -chdir=/terraform plan'
-alias tfax='docker run -it -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform -chdir=/terraform apply'
 alias dj="dajoku"
 alias y="yes > /dev/null"
 alias pj="cd ~/Projects"
@@ -69,30 +72,40 @@ alias hidehidden="defaults write com.apple.finder AppleShowAllFiles NO && killal
 alias dockerid="docker ps |awk 'FNR == 2 {print $1}' |pbcopy"
 alias ansible="ansible -i ~/.ansible/inventory.yml"
 alias ap="ansible-playbook -i ~/.ansible/inventory.yml --ask-become-pass"
-alias livingroom="curl -X POST http://homeassistant.default.zoe/api/webhook/living-room-bright"
-alias zbright="curl -X POST http://homeassistant.default.zoe/api/webhook/zoe-lights-bright"
-alias zoff="curl -X POST http://homeassistant.default.zoe/api/webhook/zoe-off"
-alias zdim="curl -X POST http://homeassistant.default.zoe/api/webhook/zoe-lights-dim"
-alias fan="curl -X POST http://homeassistant.default.zoe/api/webhook/toggle-ac"
-alias zpurple="curl -X POST http://homeassistant.default.zoe/api/webhook/zoe-lights-purple"
-alias zbi="curl -X POST http://homeassistant.default.zoe/api/webhook/zoe-lights-bi"
+alias livingroom="curl -X POST http://homeassistant.zoe/api/webhook/living-room-bright"
+alias zbright="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-bright"
+alias zoff="curl -X POST http://homeassistant.zoe/api/webhook/zoe-off"
+alias zdim="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-dim"
+alias fan="curl -X POST http://homeassistant.zoe/api/webhook/toggle-ac"
+alias zpurple="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-purple"
+alias zbi="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-bi"
+alias cleardns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 
-alias os='openstack --os-cloud=openstack --insecure'
-# os() {
-#     if [[ -z "${@}" ]]; then
-#         echo "Running interactively."
-#         ssh -i ~/.ssh/ubuntu zoe@192.168.1.34 "microstack.openstack"
-#     else
-#         ssh -i ~/.ssh/ubuntu zoe@192.168.1.34 "microstack.openstack ${@}"
-#     fi
-# }
+tfix() {
+    PREVDIR="$(pwd | rev| awk -F / '{print $1}' | rev)"
+    cd ..
+    docker run -it -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform "-chdir=/terraform/${PREVDIR}" init
+    cd "${PREVDIR}"
+}
 
-shipdev() {
-    if [[ -z "${1}" ]]; then
-        echo "Error: file name required"
-    else
-        scp -r -i ~/.ssh/ubuntu ${1} ubuntu@192.168.1.232:~ && dev
-    fi
+tfax() {
+    PREVDIR="$(pwd | rev| awk -F / '{print $1}' | rev)"
+    cd ..
+    docker run -it -v "${HOME}/.kube":"/root/.kube" -v "${HOME}/.ssh":"/root/.ssh" -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform "-chdir=/terraform/${PREVDIR}" apply
+    cd "${PREVDIR}"
+}
+
+av() {
+  case $1 in
+    s) export AWS_PROFILE="dev.use1";;
+    sw) export AWS_PROFILE="dev.usw2";;
+    p) export AWS_PROFILE="prod.use1";;
+    pw) export AWS_PROFILE="prod.usw2";;
+    pec) export AWS_PROFILE="prod.euc1";;
+    pew) export AWS_PROFILE="prod.euw1";;
+    b) export AWS_PROFILE="bastion.use1";;
+    *) export AWS_PROFILE="$1";;
+  esac
 }
 
 # Functions
@@ -131,14 +144,9 @@ kn() {
     fi
 }
 
-kzke() {
-        echo "switched to Zoë Kubernetes Engine"
-        export KUBECONFIG="${HOME}/.kube/config.zke"
-}
-
 kzoe() {
         echo "zoe mode"
-        export KUBECONFIG="${HOME}/.kube/k3s.yaml"
+        export KUBECONFIG="${HOME}/.kube/config.zoe"
 }
 
 kwork() {
@@ -169,7 +177,18 @@ lint() {
 }
 
 kc() {
-    /usr/local/bin/kubectl config use-context "${1}"
+    context="$(cat $(echo $KUBECONFIG) |ag -C 3 context: |ag name: |awk '{print $2}'|fzf)"
+    /usr/local/bin/kubectl config use-context "${context}"
+}
+
+tc() {
+    contexts=$(cat <<-EOF
+lasagana
+bionicle
+EOF
+)
+    context="$(echo ${contexts} |fzf)"
+    talosctl config context "${context}"
 }
 
 # kubectl() {
@@ -205,6 +224,69 @@ aws-vault-use() {
     eval "$(echo "$output" | awk '/^AWS/ && !/^AWS_VAULT/ { print "export " $1 }')"
 }
 
+flipstate () {
+        to_local () {
+                echo "Moving state to local"
+                if mv _state.tf _state.tf.local
+                then
+                        echo "Done"
+                        return 0
+                else
+                        echo "Failed"
+                        return 1
+                fi
+        }
+        to_remote () {
+                echo "Moving state to remote"
+                if mv _state.tf.local _state.tf
+                then
+                        echo "Done"
+                        return 0
+                else
+                        echo "Failed"
+                        return 1
+                fi
+        }
+        if [[ $# -eq 1 ]]
+        then
+                case "$1" in
+                        (local) to_local ;;
+                        (remote) to_remote ;;
+                esac
+        else
+                if [[ -f "_state.tf" ]]
+                then
+                        to_local
+                else
+                        to_remote
+                fi
+        fi
+}
+
+param () {
+	aws ssm get-parameters --with-decryption --names "$(aws ssm get-parameters-by-path --path / --recursive \
+  | jq -r '.Parameters[].Name' | fzf)" | jq -er '.Parameters[].Value' | pbcopy
+}
+
+# ap () {
+# 	case $1 in
+# 		(d) export AWS_PROFILE="dev.use1"  ;;
+# 		(dw) export AWS_PROFILE="dev.usw2"  ;;
+# 		(p) export AWS_PROFILE="prod.use1"  ;;
+# 		(pw) export AWS_PROFILE="prod.usw2"  ;;
+# 		(pec) export AWS_PROFILE="prod.euc1"  ;;
+# 		(pew) export AWS_PROFILE="prod.euw1"  ;;
+# 		(b) export AWS_PROFILE="bastion.use1"  ;;
+# 		(*) export AWS_PROFILE="$1"  ;;
+# 	esac
+# }
+
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/zoe.blanco/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/zoe.blanco/Greenhouse/infrastructure/docker/zookeeper/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/zoe.blanco/Greenhouse/infrastructure/docker/zookeeper/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/zoe.blanco/Greenhouse/infrastructure/docker/zookeeper/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/zoe.blanco/Greenhouse/infrastructure/docker/zookeeper/google-cloud-sdk/completion.zsh.inc'; fi
