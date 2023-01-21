@@ -53,7 +53,6 @@ alias dev='ssh -i ${HOME}/.ssh/ubuntu ubuntu@dev.zoe'
 alias tf=terraform
 alias inf="cd ~/Greenhouse/infrastructure"
 alias tfi='tf init -backend-config=state.conf'
-alias zop="docker-compose --file ${ZOEREPO}/secrets/onepassword/docker-compose.yaml up -d && OP_CONNECT_TOKEN=$(op item get 'zoe connect token terraform' |yq .Fields.credential)"
 alias ztfp='tf plan -out .tfplan'
 alias tfp='tf plan -out .tfplan'
 alias tfpv='tfp -var-file=secrets.tfvars'
@@ -81,6 +80,14 @@ alias zpurple="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-purp
 alias zbi="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-bi"
 alias cleardns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 
+zop() {
+    if [[ $(pgrep 'Docker Desktop') ]];  then
+        open "/Applications/Docker"
+    fi
+    docker-compose --file ${ZOEREPO}/secrets/onepassword/docker-compose.yaml up -d
+    export OP_CONNECT_TOKEN=$(op item get 'zoe connect token terraform' |yq .Fields.credential)
+}
+
 tfix() {
     PREVDIR="$(pwd | rev| awk -F / '{print $1}' | rev)"
     cd ..
@@ -94,6 +101,33 @@ tfax() {
     docker run -it -v "${HOME}/.kube":"/root/.kube" -v "${HOME}/.ssh":"/root/.ssh" -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform "-chdir=/terraform/${PREVDIR}" apply
     cd "${PREVDIR}"
 }
+
+tfaxd() {
+    PREVDIR="$(pwd | rev| awk -F / '{print $1}' | rev)"
+    cd ..
+    docker run -e TF_LOG="DEBUG" -it -v "${HOME}/.kube":"/root/.kube" -v "${HOME}/.ssh":"/root/.ssh" -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform "-chdir=/terraform/${PREVDIR}" apply
+    cd "${PREVDIR}"
+}
+
+#!/bin/bash
+# find_and_replace.sh
+findreplace() {
+    echo "Find and replace in current directory!"
+    echo "File pattern to look for? (eg '*.txt')"
+    read filepattern
+    echo "Existing string?"
+    read existing
+    echo "Replacement string?"
+    read replacement
+    echo "Replacing all occurences of $existing with $replacement in files matching $filepattern"
+
+    find . -type f -name $filepattern -print0 | xargs -0 sed -i '' -e "s#$existing#$replacement#g"
+}
+
+udmdns() {
+    ssh -i "~/.ssh/unifi" "root@192.168.1.1" "pkill dnsmasq"
+}
+
 
 av() {
   case $1 in
