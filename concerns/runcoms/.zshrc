@@ -79,10 +79,11 @@ alias fan="curl -X POST http://homeassistant.zoe/api/webhook/toggle-ac"
 alias zpurple="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-purple"
 alias zbi="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-bi"
 alias cleardns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
+alias sshm="aws ssm start-session --target"
 
 zop() {
-    if [[ $(pgrep 'Docker Desktop') ]];  then
-        open "/Applications/Docker"
+    if [[ ! $(pgrep 'Docker Desktop') ]];  then
+        open "/Applications/Docker.app"
     fi
     docker-compose --file ${ZOEREPO}/secrets/onepassword/docker-compose.yaml up -d
     export OP_CONNECT_TOKEN=$(op item get 'zoe connect token terraform' |yq .Fields.credential)
@@ -144,10 +145,10 @@ av() {
 
 # Functions
 # BEGIN ANSIBLE MANAGED BLOCK: asdf
-if [ -e "$HOME/.asdf/asdf.sh" ]; then
-  source $HOME/.asdf/asdf.sh
-  source $HOME/.asdf/completions/asdf.bash
-fi
+# if [ -e "$HOME/.asdf/asdf.sh" ]; then
+#   source $HOME/.asdf/asdf.sh
+#   source $HOME/.asdf/completions/asdf.bash
+# fi
 # END ANSIBLE MANAGED BLOCK: asdf
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -300,6 +301,48 @@ flipstate () {
 param () {
 	aws ssm get-parameters --with-decryption --names "$(aws ssm get-parameters-by-path --path / --recursive \
   | jq -r '.Parameters[].Name' | fzf)" | jq -er '.Parameters[].Value' | pbcopy
+}
+
+get_command_output() {
+    aws ssm list-command-invocations \
+        --command-id "${1}" \
+        --details \
+    | jq -r '.CommandInvocations[].CommandPlugins[].Output'
+}
+
+ssm() {
+    if [[ -z "${1}" ]]; then
+        cat <<-EOF | yq .
+To start a session: ssm <instance id>
+To run a command once and print output: ssm <instance id> <command>
+EOF
+        return
+    fi
+
+    if [[ ! "$(echo "${1}" | grep 'i-*' )" ]]; then
+        echo "${1} is not a valid instance ID."
+        return
+    fi
+
+    if [[ -z "${2}" ]]; then
+        aws ssm start-session --target "${1}"
+    else
+        COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "${1}" \
+            --document-name "AWS-RunShellScript" \
+            --parameters commands="${2}" \
+            | jq -r '.Command.CommandId')
+        i=0
+        while [[ ! $(get_command_output "${COMMAND_ID}") ]]; do
+            i=i++
+            while [[ i < 3 ]]; do
+            echo "This is taking longer than usual. Trying again in 5 seconds."
+        done
+            sleep 5
+        done
+
+        get_command_output "${COMMAND_ID}"
+    fi
 }
 
 # ap () {

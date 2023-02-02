@@ -406,4 +406,5 @@ com! WP call WordProcessor()
 
 au BufNewFile,BufRead *.txt call WordProcessor()
 
-
+" word boundary for underscore
+set iskeyword-=_
