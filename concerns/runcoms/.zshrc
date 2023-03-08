@@ -55,6 +55,7 @@ alias inf="cd ~/Greenhouse/infrastructure"
 alias tfi='tf init -backend-config=state.conf'
 alias ztfp='tf plan -out .tfplan'
 alias tfp='tf plan -out .tfplan'
+alias tfpl='tf show -json .tfplan | jq '"'"'.resource_changes[]|select(.change.actions != ["no-op"])|(.change.actions|join(","))+": "+.address'"'"' -r'
 alias tfpv='tfp -var-file=secrets.tfvars'
 alias tfdv='tf destroy -var-file=secrets.tfvars'
 alias tfa='tf apply .tfplan && rm -v .tfplan'
@@ -82,17 +83,21 @@ alias cleardns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 alias sshm="aws ssm start-session --target"
 
 zop() {
-    if [[ ! $(pgrep 'Docker Desktop') ]];  then
+    while [[ ! $(pgrep 'Docker Desktop') ]];  do
         open "/Applications/Docker.app"
-    fi
-    docker-compose --file ${ZOEREPO}/secrets/onepassword/docker-compose.yaml up -d
+        echo "Docker desktop is not open. Waiting for Docker to start..."
+        sleep 8
+    done
+
+    docker-compose --file ${ZOEREPO}/docker/onepassword/docker-compose.yaml up -d
     export OP_CONNECT_TOKEN=$(op item get 'zoe connect token terraform' |yq .Fields.credential)
 }
 
 tfix() {
     PREVDIR="$(pwd | rev| awk -F / '{print $1}' | rev)"
     cd ..
-    docker run -it -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform "-chdir=/terraform/${PREVDIR}" init
+    # docker run -it -v $(pwd):/terraform -v "${HOME}/.aws:/root/.aws" --platform=linux/amd64 virtualdisk/terraform "/usr/bin/terraform"
+    docker run -it -v $(pwd):/terraform -v "${HOME}/.aws:/root/.aws" --platform=linux/amd64 virtualdisk/terraform "-chdir=/terraform/${PREVDIR} init"
     cd "${PREVDIR}"
 }
 
@@ -106,7 +111,7 @@ tfax() {
 tfaxd() {
     PREVDIR="$(pwd | rev| awk -F / '{print $1}' | rev)"
     cd ..
-    docker run -e TF_LOG="DEBUG" -it -v "${HOME}/.kube":"/root/.kube" -v "${HOME}/.ssh":"/root/.ssh" -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform "-chdir=/terraform/${PREVDIR}" apply
+    docker run -e TF_LOG="DEBUG" -it -v "${HOME}/.kube":"/root/.kube" -v "${HOME}/.ssh":"/root/.ssh" -v $(pwd):/terraform --platform=linux/amd64 hashicorp/terraform "terraform init -chdir=/terraform/${PREVDIR}" apply
     cd "${PREVDIR}"
 }
 
@@ -216,10 +221,20 @@ kc() {
     /usr/local/bin/kubectl config use-context "${context}"
 }
 
+kcrm() {
+    if [[ -z "${1}" ]]; then
+        echo "usage: kcrm <context name>"
+        return
+    else
+        kubectl config delete-cluster "${1}"
+        kubectl config delete-context "${1}"
+        kubectl config unset "users.${1}"
+    fi
+}
+
 tc() {
     contexts=$(cat <<-EOF
-lasagana
-bionicle
+grapefruit
 EOF
 )
     context="$(echo ${contexts} |fzf)"
@@ -343,6 +358,13 @@ EOF
 
         get_command_output "${COMMAND_ID}"
     fi
+}
+
+tfstatemove() {
+    for i in "$(terraform state list |ag 'rbac.kubernetes')"; do
+        echo "terraform state mv $i $(echo $i | sed 's/rbac.kubernetes/rbac-okta.kubernetes/g')"
+    done
+
 }
 
 # ap () {
