@@ -36,7 +36,7 @@ casks:
   - alacritty
   - docker
   - google-cloud-sdk
-  - lens
+  - openlens
 
 pkgs_arch:
   - aws-cli
@@ -46,7 +46,6 @@ pkgs_arch:
   - fakeroot
   - git
   - glances
-  # - lazydocker
   - jq
   - kubectl
   - k9s
