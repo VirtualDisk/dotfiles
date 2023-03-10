@@ -12,7 +12,7 @@ export HISTFILESIZE=1000000000000
 export HISTSIZE=10000000000000
 setopt HIST_FIND_NO_DUPS
 
-export ZOEREPO="${HOME}/Projects/zoes-bakery"
+export ZOEREPO="${HOME}/Projects/zoe-infrastructure"
 
 # export TF_LOG="INFO"
 
@@ -90,7 +90,7 @@ zop() {
     done
 
     docker-compose --file ${ZOEREPO}/docker/onepassword/docker-compose.yaml up -d
-    export OP_CONNECT_TOKEN=$(op item get 'zoe connect token terraform' |yq .Fields.credential)
+    export OP_CONNECT_TOKEN=$(op item get 'zoe Access Token terraform' |yq .Fields.credential)
 }
 
 tfix() {
