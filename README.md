@@ -1,4 +1,4 @@
-# zab's dotfiles
+# zoë's dotfiles
 
 This will set up your workspace to be identical to mine. It will install several tools. 
 Note that for my actual toolchain I use with my work, such as terraform and helm, are managed with asdf and are using old versions by default.
@@ -23,4 +23,3 @@ Note that different platforms require different dependencies to work properly, b
 
 - Run the bootstrap script, giving it exec permissions first
     `sudo chmod +x ./bootstrap.sh && ./bootstrap.sh`
-
