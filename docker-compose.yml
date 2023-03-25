@@ -3,21 +3,21 @@ services:
   ubuntu:
     build: 
       context: .
-      dockerfile: ./testing/ubuntu/Dockerfile 
+      dockerfile: ./docker/ubuntu/Dockerfile 
     volumes: 
       - .:/.dotfiles
 
   arch:
     build: 
       context: .
-      dockerfile: ./testing/arch/Dockerfile
+      dockerfile: ./docker/arch/Dockerfile
     volumes: 
       - .:/.dotfiles
 
   debian:
     build: 
       context: .
-      dockerfile: ./testing/debian/Dockerfile
+      dockerfile: ./docker/debian/Dockerfile
     volumes: 
       - .:/.dotfiles
 
