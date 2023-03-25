@@ -63,12 +63,12 @@ jobs:
       - name: Kaniko build ubuntu
         uses: aevea/action-kaniko@master
         with:
-          image: docker.io/${{ env.REPO }}
+          image: docker.io/virtualdisk/dotfiles
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           tag: ${{ env.SHORTSHA }}
           cache: true
-          cache_registry: docker.io/${{ env.REPO }}
+          cache_registry: docker.io/virtualdisk/dotfiles
           tag_with_latest: true
           strip_tag_prefix: v
           path: ./docker/ubuntu
@@ -76,12 +76,12 @@ jobs:
       - name: Kaniko build arch
         uses: aevea/action-kaniko@master
         with:
-          image: docker.io/${{ env.REPO }}
+          image: docker.io/virtualdisk/dotfiles
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           tag: ${{ env.SHORTSHA }}
           cache: true
-          cache_registry: docker.io/${{ env.REPO }}
+          cache_registry: docker.io/virtualdisk/dotfiles
           tag_with_latest: true
           strip_tag_prefix: v
           path: ./docker/arch
@@ -89,12 +89,12 @@ jobs:
       - name: Kaniko build catalina
         uses: aevea/action-kaniko@master
         with:
-          image: docker.io/${{ env.REPO }}
+          image: docker.io/virtualdisk/dotfiles
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           tag: ${{ env.SHORTSHA }}
           cache: true
-          cache_registry: docker.io/${{ env.REPO }}
+          cache_registry: docker.io/virtualdisk/dotfiles
           tag_with_latest: true
           strip_tag_prefix: v
           path: ./docker/arch
