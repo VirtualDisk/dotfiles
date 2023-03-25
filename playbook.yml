@@ -182,12 +182,16 @@
     become: yes
 
   - name: ensure wheel group exists
+    when: ansible_os_family == 'Archlinux' or
+          ansible_os_family == 'Debian'
     group: 
       name: wheel
       state: present
     become: yes
 
   - name: Allow 'wheel' group to have passwordless sudo
+    when: ansible_os_family == 'Archlinux' or
+          ansible_os_family == 'Debian'
     lineinfile:
       dest: /etc/sudoers
       state: present
@@ -234,22 +238,6 @@
     ansible.builtin.git:
       repo: https://github.com/asdf-vm/asdf.git
       dest: "{{lookup('env','HOME')}}/.asdf"
-
-  - name: clone infrastructure repo
-    when: ansible_os_family == 'Darwin'
-    ansible.builtin.git:
-      repo: "git@github.com:grnhse/infrastructure.git"
-      dest: "{{lookup('env','HOME')}}/Greenhouse/infrastructure"
-      recursive: yes
-    ignore_errors: yes
-
-  - name: clone penicillin repo
-    when: ansible_os_family == 'Darwin'
-    ansible.builtin.git:
-      repo: "git@github.com:grnhse/penicillin.git"
-      dest: "{{lookup('env','HOME')}}/Greenhouse/penicillin"
-      recursive: yes
-    ignore_errors: yes
 
   - name: create Projects directory if it does not exist
     ansible.builtin.file:
@@ -327,10 +315,11 @@
       owner: "{{ theuser }}" 
       state: link   
   
-  - name: set default wallpaper on macOS
-    when: ansible_os_family == 'Darwin'
-    ansible.builtin.command:
-      cmd: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/zoe.blanco/Pictures/Nevada.jpg"' 
+  # - name: set default wallpaper on macOS
+  #   when: ansible_os_family == 'Darwin'
+  #   ansible.builtin.command:
+  #     cmd: osascript -e \"{{lookup('env','HOME')}}/Pictures/Nevada.jpg\"
+
 
   - include: linux_symlinks.yml
     when: ansible_os_family == 'Archlinux' or
