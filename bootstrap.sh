@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# set -x
+set -x
 
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
@@ -115,7 +115,7 @@ main() {
 
     start="$(date +%s)"
 
-    # check_platform
+    check_platform
 
     stop="$(date +%s)"
     runtime="$((stop-start))"
