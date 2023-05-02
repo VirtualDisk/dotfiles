@@ -2,6 +2,12 @@
 set -euo pipefail
 # set -x
 
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+GREEN='\033[0;32m'
+NOCOLOR='\033[0m'
+
 check_platform() {
     case "${OSTYPE}" in
         "darwin"*)
@@ -104,8 +110,18 @@ rundazsh(){
 }
 
 main() {
-    check_platform
-    echo "Bootstrapping complete. Please run zsh to start the environment."
+    printf "${YELLOW}Now bootstrapping the highly opinionated Zoë Environment...\n"
+    printf "${BLUE}Detected ${OSTYPE} environment.\n"
+
+    start="$(date +%s)"
+
+    # check_platform
+
+    stop="$(date +%s)"
+    runtime="$((stop-start))"
+
+    printf "${GREEN}Bootstrap was successful and took ${YELLOW}${runtime} ${GREEN}seconds to run.\n"
+    printf "\n"
     neofetch
 }
 

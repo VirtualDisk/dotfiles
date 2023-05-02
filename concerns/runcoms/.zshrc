@@ -54,11 +54,11 @@ alias tf=terraform
 alias inf="cd ~/Greenhouse/infrastructure"
 alias tfi='tf init -backend-config=state.conf'
 alias ztfp='tf plan -out .tfplan'
-alias tfp='tf plan -out .tfplan'
+alias tfp='tf plan'
 alias tfpl='tf show -json .tfplan | jq '"'"'.resource_changes[]|select(.change.actions != ["no-op"])|(.change.actions|join(","))+": "+.address'"'"' -r'
 alias tfpv='tfp -var-file=secrets.tfvars'
 alias tfdv='tf destroy -var-file=secrets.tfvars'
-alias tfa='tf apply .tfplan && rm -v .tfplan'
+alias tfa='tf apply'
 alias dj="dajoku"
 alias y="yes > /dev/null"
 alias pj="cd ~/Projects"
@@ -71,7 +71,7 @@ alias showhidden="defaults write com.apple.finder AppleShowAllFiles YES && killa
 alias hidehidden="defaults write com.apple.finder AppleShowAllFiles NO && killall Finder"
 alias dockerid="docker ps |awk 'FNR == 2 {print $1}' |pbcopy"
 alias ansible="ansible -i ~/.ansible/inventory.yml"
-alias ap="ansible-playbook -i ~/.ansible/inventory.yml --ask-become-pass"
+# alias ap="ansible-playbook -i ~/.ansible/inventory.yml --ask-become-pass"
 alias livingroom="curl -X POST http://homeassistant.zoe/api/webhook/living-room-bright"
 alias zbright="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-bright"
 alias zoff="curl -X POST http://homeassistant.zoe/api/webhook/zoe-off"
@@ -162,6 +162,19 @@ export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 export ASDF_HASHICORP_OVERWRITE_ARCH=amd64
 
 ## FUNCTIONS ##
+find-asg-instance-ids () {
+        local _asg _instances _instance_ids _name
+        _name="${1:-.*}"
+        _asg=("${(@f)$(_find-asgs ${_name})}")
+        _instance_ids=("${(@f)$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names ${_asg[@]} | jq -er '.AutoScalingGroups[].Instances[].InstanceId')}")
+        _instances="$(aws ec2 describe-instances --instance-ids ${_instance_ids[@]} | jq -er '.Reservations[].Instances[] | .PrivateDnsName + " " + .InstanceId')"
+        echo "${_instances}" | fzf | awk '{print $2}'
+}
+
+_find-asgs () {
+        find-asgs "${1}" | fzf -m
+}
+
 c() {
     dadir=${HOME}/$(cd && fzf|rev|cut -d'/' -f2- |rev)
     cd "${dadir}" 
@@ -325,41 +338,6 @@ get_command_output() {
     | jq -r '.CommandInvocations[].CommandPlugins[].Output'
 }
 
-ssm() {
-    if [[ -z "${1}" ]]; then
-        cat <<-EOF | yq .
-To start a session: ssm <instance id>
-To run a command once and print output: ssm <instance id> <command>
-EOF
-        return
-    fi
-
-    if [[ ! "$(echo "${1}" | grep 'i-*' )" ]]; then
-        echo "${1} is not a valid instance ID."
-        return
-    fi
-
-    if [[ -z "${2}" ]]; then
-        aws ssm start-session --target "${1}"
-    else
-        COMMAND_ID=$(aws ssm send-command \
-            --instance-ids "${1}" \
-            --document-name "AWS-RunShellScript" \
-            --parameters commands="${2}" \
-            | jq -r '.Command.CommandId')
-        i=0
-        while [[ ! $(get_command_output "${COMMAND_ID}") ]]; do
-            i=i++
-            while [[ i < 3 ]]; do
-            echo "This is taking longer than usual. Trying again in 5 seconds."
-        done
-            sleep 5
-        done
-
-        get_command_output "${COMMAND_ID}"
-    fi
-}
-
 tfstatemove() {
     for i in "$(terraform state list |ag 'rbac.kubernetes')"; do
         echo "terraform state mv $i $(echo $i | sed 's/rbac.kubernetes/rbac-okta.kubernetes/g')"
@@ -367,17 +345,33 @@ tfstatemove() {
 
 }
 
-# ap () {
+# ap() {
 # 	case $1 in
-# 		(d) export AWS_PROFILE="dev.use1"  ;;
-# 		(dw) export AWS_PROFILE="dev.usw2"  ;;
-# 		(p) export AWS_PROFILE="prod.use1"  ;;
-# 		(pw) export AWS_PROFILE="prod.usw2"  ;;
-# 		(pec) export AWS_PROFILE="prod.euc1"  ;;
-# 		(pew) export AWS_PROFILE="prod.euw1"  ;;
-# 		(b) export AWS_PROFILE="bastion.use1"  ;;
-# 		(*) export AWS_PROFILE="$1"  ;;
-# 	esac
+#     d) 
+#         export AWS_PROFILE="dev.use1"  
+#         ;;
+#     dw) 
+#         export AWS_PROFILE="dev.usw2"  
+#         ;;
+#     p) 
+#         export AWS_PROFILE="prod.use1"  
+#         ;;
+#     pw) 
+#         export AWS_PROFILE="prod.usw2"  
+#         ;;
+#     pec) 
+#         export AWS_PROFILE="prod.euc1"  
+#         ;;
+#     pew) 
+#         export AWS_PROFILE="prod.euw1"  
+#         ;;
+#     b) 
+#         export AWS_PROFILE="bastion.use1"  
+#         ;;
+#     *) 
+#         export AWS_PROFILE="$1"  
+#         ;;
+# esac
 # }
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)

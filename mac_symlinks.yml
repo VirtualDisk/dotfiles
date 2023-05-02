@@ -1,5 +1,12 @@
 - name: symlink vimrc
   ansible.builtin.file:
+    src:  '{{ playbook_dir }}/concerns/terraform/terraform.rc'
+    dest: "{{lookup('env','HOME')}}/terraform.rc"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink vimrc
+  ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/vim/.vimrc'
     dest: "{{lookup('env','HOME')}}/.vimrc"
     owner: "{{ theuser }}"
