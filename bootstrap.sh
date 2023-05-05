@@ -1,12 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
-set -x
 
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-BLUE='\033[0;34m'
-GREEN='\033[0;32m'
-NOCOLOR='\033[0m'
+RESTORE=$(echo -en '\033[0m')
+RED=$(echo -en '\033[00;31m')
+GREEN=$(echo -en '\033[00;32m')
+YELLOW=$(echo -en '\033[00;33m')
+BLUE=$(echo -en '\033[00;34m')
+MAGENTA=$(echo -en '\033[00;35m')
+PURPLE=$(echo -en '\033[00;35m')
+CYAN=$(echo -en '\033[00;36m')
+LIGHTGRAY=$(echo -en '\033[00;37m')
+LRED=$(echo -en '\033[01;31m')
+LGREEN=$(echo -en '\033[01;32m')
+LYELLOW=$(echo -en '\033[01;33m')
+LBLUE=$(echo -en '\033[01;34m')
+LMAGENTA=$(echo -en '\033[01;35m')
+LPURPLE=$(echo -en '\033[01;35m')
+LCYAN=$(echo -en '\033[01;36m')
+WHITE=$(echo -en '\033[01;37m')
 
 check_platform() {
     case "${OSTYPE}" in
@@ -110,8 +121,9 @@ rundazsh(){
 }
 
 main() {
-    printf "${YELLOW}Now bootstrapping the highly opinionated Zoë Environment...\n"
-    printf "${BLUE}Detected ${OSTYPE} environment.\n"
+    printf "${YELLOW}Now bootstrapping the highly opinionated Zoë Environment...${RESTORE}\n"
+    printf "${BLUE}Detected ${OSTYPE} environment.${RESTORE}\n"
+    echo ${RED}weeee${YELLOW}eeeee${GREEN}eeeee${BLUE}eeeee${PURPLE}eeeee${RESTORE}
 
     start="$(date +%s)"
 
@@ -120,7 +132,7 @@ main() {
     stop="$(date +%s)"
     runtime="$((stop-start))"
 
-    printf "${GREEN}Bootstrap was successful and took ${YELLOW}${runtime} ${GREEN}seconds to run.\n"
+    echo "${GREEN}Bootstrap was successful and took ${YELLOW}${runtime} ${GREEN}seconds to run.${RESTORE}\n"
     printf "\n"
     neofetch
 }

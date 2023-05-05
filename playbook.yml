@@ -234,10 +234,10 @@
       recursive: yes
     ignore_errors: yes 
   
-  - name: clone asdf repo
-    ansible.builtin.git:
-      repo: https://github.com/asdf-vm/asdf.git
-      dest: "{{lookup('env','HOME')}}/.asdf"
+  # - name: clone asdf repo
+  #   ansible.builtin.git:
+  #     repo: https://github.com/asdf-vm/asdf.git
+  #     dest: "{{lookup('env','HOME')}}/.asdf"
 
   - name: create Projects directory if it does not exist
     ansible.builtin.file:
@@ -329,25 +329,25 @@
     when: ansible_os_family == 'Darwin'
 
   roles:
-    - role: markosamuli.asdf 
-      asdf_plugins:
-      - name: argo
-      - name: aws-vault 
-        versions: ["2.2.2"]
-      - name: gcloud
-        versions: ["331.0.0"]
-      - name: helm
-        versions: ["3.2.3"]
-      - name: kubectl
-        versions: ["1.19.15"]
-      - name: sops
-        versions: ["3.7.0"]
-      - name: terraform
-        versions: ["1.0.6"]
+    # - role: markosamuli.asdf 
+    #   asdf_plugins:
+    #   - name: argo
+    #   - name: aws-vault 
+    #     versions: ["2.2.2"]
+    #   - name: gcloud
+    #     versions: ["331.0.0"]
+    #   - name: helm
+    #     versions: ["3.2.3"]
+    #   - name: kubectl
+    #     versions: ["1.19.15"]
+    #   - name: sops
+    #     versions: ["3.7.0"]
+    #   - name: terraform
+    #     versions: ["1.0.6"]
 
-      vars:
-        asdf_init_shell: false
-      ignore_errors: yes
+    #   vars:
+    #     asdf_init_shell: false
+    #   ignore_errors: yes
 
     - role: luizgavalda.aur 
       when: ansible_os_family == 'Archlinux' 

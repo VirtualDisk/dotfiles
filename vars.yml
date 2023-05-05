@@ -6,9 +6,9 @@ pkgs_mac:
   - asdf
   - aws-vault
   - awscli
-  - glances
   - fd
   - ffmpeg
+  - glances
   - gpg
   - jq
   - k9s
@@ -16,8 +16,8 @@ pkgs_mac:
   - minikube
   - mtr
   - neofetch
+  - neovim
   - python3
-  - ultralist
   - rclone
   - rsync
   - teleport
@@ -25,8 +25,9 @@ pkgs_mac:
   - tldr
   - tmux
   - tree
-  - neovim
+  - ultralist
   - virtualenv
+  - xml-tooling-c
   - youtube-dl
   - yq
   - z
