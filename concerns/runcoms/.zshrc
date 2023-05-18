@@ -383,3 +383,18 @@ if [ -f '/Users/zoe.blanco/Greenhouse/infrastructure/docker/zookeeper/google-clo
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/zoe.blanco/Greenhouse/infrastructure/docker/zookeeper/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/zoe.blanco/Greenhouse/infrastructure/docker/zookeeper/google-cloud-sdk/completion.zsh.inc'; fi
+
+alias rotate="aws autoscaling terminate-instance-in-auto-scaling-group \
+  --no-should-decrement-desired-capacity --instance-id"
+
+function git-pr-create() {
+  local reviewer branch branch_items card
+  reviewer="${1:-grnhse/cloud-platform}"
+
+  branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+  branch_items=($(echo $branch | tr "-" "\n"))
+  card="${branch_items[1]}-${branch_items[2]}"
+
+  gh pr create -t "$branch" -b "https://greenhouseio.atlassian.net/browse/$card" -r "$reviewer" "$@"
+  gh pr view --web
+}
