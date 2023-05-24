@@ -46,6 +46,8 @@ source <(/usr/local/bin/kubectl completion zsh)
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Aliases
+alias vim=nvim
+alias vi=nvim
 alias a=argo
 alias k=kubectl
 alias t=talosctl
@@ -183,7 +185,7 @@ c() {
 v() {
     dafile=${HOME}/$(cd && fzf)
     dadir="$(echo ${dafile}|rev|cut -d'/' -f2- |rev)"
-    vi "${dafile}"
+    nvim "${dafile}"
     cd "${dadir}"
 }
 

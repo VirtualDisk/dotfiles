@@ -5,10 +5,10 @@
     owner: "{{ theuser }}"
     state: link
 
-- name: symlink vimrc
+- name: symlink neovim config
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/vim/.vimrc'
-    dest: "{{lookup('env','HOME')}}/.vimrc"
+    dest: "{{lookup('env','HOME')}}/.config/nvim"
     owner: "{{ theuser }}"
     state: link
 
