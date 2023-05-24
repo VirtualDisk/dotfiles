@@ -398,3 +398,15 @@ function git-pr-create() {
   gh pr create -t "$branch" -b "https://greenhouseio.atlassian.net/browse/$card" -r "$reviewer" "$@"
   gh pr view --web
 }
+
+get-ec2() {
+    aws ec2 describe-instances \
+        --query "Reservations[*].Instances[*].{PublicIP:PublicIpAddress,Name:Tags[?Key=='Name']|[0].Value,Status:State.Name}" \
+        --output table
+}
+
+describe-ec2() {
+    aws ec2 describe-instances \
+        --output table \
+        --filters "Name=tag:Name,Values=${1}"
+}
