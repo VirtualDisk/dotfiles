@@ -14,3 +14,5 @@ vim.cmd([[autocmd BufRead,BufNewFile *.tf,*.tfvars set filetype=terraform]])
 vim.cmd([[autocmd BufRead,BufNewFile *.tfstate,*.tfstate.backup set filetype=json]])
 require("lspconfig").terraformls.setup({})
 require("lspconfig").tflint.setup({})
+
+vim.cmd([[autocmd BufRead,BufNewFile *.yaml.tpl set filetype=yaml]])
