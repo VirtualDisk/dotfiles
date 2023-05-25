@@ -9,6 +9,7 @@ pkgs_mac:
   - fd
   - ffmpeg
   - glances
+  - gcc
   - gpg
   - jq
   - k9s
@@ -24,6 +25,8 @@ pkgs_mac:
   - the_silver_searcher
   - tldr
   - tmux
+  - terraform-ls
+  - tflint
   - tree
   - ultralist
   - virtualenv

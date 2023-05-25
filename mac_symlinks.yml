@@ -7,7 +7,7 @@
 
 - name: symlink neovim config
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/vim/.vimrc'
+    src:  '{{ playbook_dir }}/concerns/vim/starter'
     dest: "{{lookup('env','HOME')}}/.config/nvim"
     owner: "{{ theuser }}"
     state: link

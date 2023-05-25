@@ -77,8 +77,8 @@
   - name: install and update brew
     when: ansible_os_family == 'Darwin'
     community.general.homebrew:
-      name: '{{ pkgs_mac }}' 
-      state: present 
+      name: '{{ pkgs_mac }}'
+      state: present
       update_homebrew: yes
       upgrade_all: yes
 
