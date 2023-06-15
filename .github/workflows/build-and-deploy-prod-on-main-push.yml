@@ -47,7 +47,7 @@ jobs:
           cache_registry: docker.io/virtualdisk/dotfiles
           tag_with_latest: true
           strip_tag_prefix: v
-          path: ./docker/arch
+          path: .
 
       - name: Kaniko build catalina
         uses: aevea/action-kaniko@master
