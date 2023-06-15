@@ -118,10 +118,10 @@
       update_cache: yes
     become: yes
 
-  - name: install glances via pip
-    when: ansible_os_family == 'Debian'
-    ansible.builtin.pip:
-      name: glances
+    #- name: install glances via pip
+    #  when: ansible_os_family == 'Debian'
+    #  ansible.builtin.pip:
+    #    name: glances
 
   - name: install pacman pkgs
     when: ansible_os_family == 'Archlinux'
