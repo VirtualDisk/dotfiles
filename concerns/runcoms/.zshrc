@@ -13,6 +13,9 @@ export HISTSIZE=10000000000000
 setopt HIST_FIND_NO_DUPS
 
 export ZOEREPO="${HOME}/Projects/zoe-infrastructure"
+export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
+export EDITOR=nvim
+export KUBE_EDITOR=nvim
 
 # export TF_LOG="INFO"
 
@@ -411,4 +414,51 @@ describe-ec2() {
     aws ec2 describe-instances \
         --output table \
         --filters "Name=tag:Name,Values=${1}"
+}
+
+taintmodule() {
+  #!/bin/bash
+
+  array_contains () {
+      local array="$1[@]"
+      local seeking=$2
+      local in=1
+      for element in "${!array}"; do
+          if [[ ${seeking} == *"${element}"* ]]; then
+              in=0
+              break
+          fi
+      done
+      return $in
+  }
+
+  if [ -z "$1" ]; then
+      echo "Current modules"
+      terraform state list | grep "\.module\." | cut -f 2 -d "." | sort | uniq
+      echo "----"
+      echo "Enter module to taint"
+      read module
+  else
+      module=$1
+  fi
+
+  #excluded_resources=('google_compute_address.ip_address')
+  excluded_resources=('google_compute_address.ip_address' 'google_compute_disk')
+
+  echo "Tainting all resources in ${module} excluding ${excluded_resources[*]}"
+  read -p "Press [Enter] key to start..."
+
+  for resource in $(terraform state list |                    # Get a list of all the 'resources'
+                      grep "^module.${module}" |          # Filter to the specific module
+                      grep -v "\.module\." |              # Ignore sub modules
+                      sed "s/module\.${module}\.//g" |    # replace the module.* to get resource sans module prefix
+                      sed -E "s/\[(.*)\]/.\1/g"           # replace the [#] suffix with .# (needed by taint command)
+                      ); do
+    if array_contains excluded_resources ${resource}; then
+      echo "<<< Skipping ${resource} >>>"
+    else
+        echo "--- Tainting ${resource} ---"
+        bash -c "terraform taint --module=${module} `echo ${resource} | tr -d '[:space:]'`"
+    fi
+  done
 }
