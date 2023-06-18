@@ -12,13 +12,6 @@
     owner: "{{ theuser }}"
     state: link
 
-- name: symlink vim_runtime
-  ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/vim/.vim_runtime'
-    dest: "{{lookup('env','HOME')}}/.vim_runtime"
-    owner: "{{ theuser }}"
-    state: link
-
 - name: symlink tmux
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/tmux/.tmux.conf'
