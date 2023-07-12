@@ -417,31 +417,6 @@ describe-ec2() {
 }
 
 taintmodule() {
-  #!/bin/bash
-
-  array_contains () {
-      local array="$1[@]"
-      local seeking=$2
-      local in=1
-      for element in "${!array}"; do
-          if [[ ${seeking} == *"${element}"* ]]; then
-              in=0
-              break
-          fi
-      done
-      return $in
-  }
-
-  if [ -z "$1" ]; then
-      echo "Current modules"
-      terraform state list | grep "\.module\." | cut -f 2 -d "." | sort | uniq
-      echo "----"
-      echo "Enter module to taint"
-      read module
-  else
-      module=$1
-  fi
-
   #excluded_resources=('google_compute_address.ip_address')
   excluded_resources=('google_compute_address.ip_address' 'google_compute_disk')
 
