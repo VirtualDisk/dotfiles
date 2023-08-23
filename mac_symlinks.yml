@@ -108,7 +108,7 @@
 
 - name: download talosctl
   ansible.builtin.get_url:
-    url: "https://github.com/siderolabs/talos/releases/download/v1.4.0-alpha.2/talosctl-darwin-arm64"
+    url: "https://github.com/siderolabs/talos/releases/download/v1.5.1/talosctl-darwin-arm64"
     dest: "/usr/local/bin/talosctl"
     mode: a+x
   become: yes

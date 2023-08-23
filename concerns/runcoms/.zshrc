@@ -437,3 +437,32 @@ taintmodule() {
     fi
   done
 }
+
+rotate_asg_instance_by_id () {
+        local _instance_id
+        _instance_id="${1}"
+        if [ -z "${_instance_id}" ]
+        then
+                echo "Provide an instance ID" >&2
+                return 1
+        else
+                echo "About to delete instance id: ${_instance_id}..." >&2
+                sleep 3
+                PAGER=cat aws autoscaling terminate-instance-in-auto-scaling-group --no-should-decrement-desired-capacity --instance-id "${_instance_id}"
+        fi
+}
+
+rotate_asg_instance_by_hostname () {
+        local _instance_dns_name _instance_id
+        _instance_dns_name="${1}"
+        _instance_id="$(aws ec2 describe-instances --filters Name=instance-state-name,Values=pending,running Name=private-dns-name,Values="${_instance_dns_name}" | jq '.Reservations[].Instances[].InstanceId' -r | head -1)"
+        if [ -z "${_instance_id}" ]
+        then
+                echo "Didn't find any instance ID with private dns name: ${_instance_dns_name}" >&2
+                return 1
+        else
+                echo "About to delete instance id: ${_instance_id}..." >&2
+                sleep 3
+                PAGER=cat aws autoscaling terminate-instance-in-auto-scaling-group --no-should-decrement-desired-capacity --instance-id "${_instance_id}"
+        fi
+}
