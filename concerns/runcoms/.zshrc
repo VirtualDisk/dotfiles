@@ -466,3 +466,27 @@ rotate_asg_instance_by_hostname () {
                 PAGER=cat aws autoscaling terminate-instance-in-auto-scaling-group --no-should-decrement-desired-capacity --instance-id "${_instance_id}"
         fi
 }
+
+ssh-nucs() {
+  LAST_WINDOW_ID="$(tmux list-windows |awk '{print $1}' | sed 's/://g' | tail -n 1)"
+  NEXT_WINDOW_ID=$((LAST_WINDOW_ID + 1))
+
+  tmux new-window
+  tmux send-keys -t prezto:${NEXT_WINDOW_ID} "ssh -i ~/.ssh/proxmox root@nuc1.zoe" Enter
+  tmux split-window -t prezto:"${NEXT_WINDOW_ID}" -v -p 20
+  tmux next-layout -t prezto:"${NEXT_WINDOW_ID}"
+  tmux send-keys -t prezto:"${NEXT_WINDOW_ID}" "ssh -i ~/.ssh/proxmox root@nuc2.zoe" Enter
+  tmux split-window -t prezto:"${NEXT_WINDOW_ID}" -v -p 20
+  tmux next-layout -t prezto:"${NEXT_WINDOW_ID}"
+  tmux send-keys -t prezto:"${NEXT_WINDOW_ID}" "ssh -i ~/.ssh/proxmox root@nuc3.zoe" Enter
+  tmux split-window -t prezto:"${NEXT_WINDOW_ID}" -v -p 20
+  tmux next-layout -t prezto:"${NEXT_WINDOW_ID}"
+  tmux send-keys -t prezto:"${NEXT_WINDOW_ID}" "ssh -i ~/.ssh/proxmox root@nuc4.zoe" Enter
+  tmux split-window -t prezto:"${NEXT_WINDOW_ID}" -v -p 20
+  tmux next-layout -t prezto:"${NEXT_WINDOW_ID}"
+  tmux send-keys -t prezto:"${NEXT_WINDOW_ID}" "ssh -i ~/.ssh/proxmox root@nuc5.zoe" Enter
+  tmux split-window -t prezto:"${NEXT_WINDOW_ID}" -v -p 20
+  tmux next-layout -t prezto:"${NEXT_WINDOW_ID}"
+  tmux send-keys -t prezto:"${NEXT_WINDOW_ID}" "ssh -i ~/.ssh/proxmox root@nuc6.zoe" Enter
+  tmux set-window-option -t prezto:"${NEXT_WINDOW_ID}" synchronize-panes
+}

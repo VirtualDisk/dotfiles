@@ -380,6 +380,11 @@ set -g @plugin 'tmux-plugins/tmux-cpu'
 #set -g @plugin 'tmux-plugins/tmux-resurrect'
 #set -g @plugin 'tmux-plugins/tmux-continuum'
 #set -g @continuum-restore 'on'
+# synchronize all panes in a window
+# don't use control S, too easily confused
+# with navigation key sequences in tmux (show sessions)
+unbind C-S
+bind C-Y set-window-option synchronize-panes
 
 # -- custom variables ----------------------------------------------------------
 
