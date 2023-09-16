@@ -65,6 +65,7 @@ alias tfpv='tfp -var-file=secrets.tfvars'
 alias tfdv='tf destroy -var-file=secrets.tfvars'
 alias tfa='tf apply'
 alias dj="dajoku"
+alias music="ncmpcpp --host mpd.zoe"
 alias y="yes > /dev/null"
 alias pj="cd ~/Projects"
 alias kt="killall tmux"

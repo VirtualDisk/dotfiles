@@ -1,3 +1,10 @@
+- name: symlink ncmpcpp bindings
+  ansible.builtin.file:
+    src:  '{{ playbook_dir }}/concerns/ncmpcpp/bindings'
+    dest: "{{lookup('env','HOME')}}/.ncmpcpp/bindings"
+    owner: "{{ theuser }}"
+    state: link
+
 - name: symlink vimrc
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/terraform/terraform.rc'
