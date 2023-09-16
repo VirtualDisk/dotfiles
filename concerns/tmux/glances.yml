@@ -1,0 +1,14 @@
+# tmuxp config
+session_name: nucs-glances
+windows:
+  - window_name: nucs-glances
+    layout: tiled
+    panes:
+      - glances -c nuc1.zoe
+      - glances -c nuc2.zoe
+      - glances -c nuc3.zoe
+      - glances -c nuc4.zoe
+      - glances -c nuc5.zoe
+      - glances -c nuc6.zoe
+    options_after:
+      synchronize-panes: on

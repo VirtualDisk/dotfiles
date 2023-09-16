@@ -276,7 +276,7 @@ ips() {
 
 
 export AWS_SDK_LOAD_CONFIG=true
-export AWS_DEFAULT_PROFILE="dev.use1"
+#export AWS_DEFAULT_PROFILE="dev.use1"
 
 aws-vault-use() {
     local profile output
@@ -488,5 +488,29 @@ ssh-nucs() {
   tmux split-window -t prezto:"${NEXT_WINDOW_ID}" -v -p 20
   tmux next-layout -t prezto:"${NEXT_WINDOW_ID}"
   tmux send-keys -t prezto:"${NEXT_WINDOW_ID}" "ssh -i ~/.ssh/proxmox root@nuc6.zoe" Enter
+  tmux set-window-option -t prezto:"${NEXT_WINDOW_ID}" synchronize-panes
+}
+
+ping-nucs() {
+  LAST_WINDOW_ID="$(tmux list-windows |awk '{print $1}' | sed 's/://g' | tail -n 1)"
+  NEXT_WINDOW_ID=$((LAST_WINDOW_ID + 1))
+
+  tmux new-window
+  tmux send-keys -t prezto:${NEXT_WINDOW_ID} "ping nuc1.zoe" Enter
+  tmux split-window -t prezto:"${NEXT_WINDOW_ID}" -v -p 20
+  tmux next-layout -t prezto:"${NEXT_WINDOW_ID}"
+  tmux send-keys -t prezto:${NEXT_WINDOW_ID} "ping nuc2.zoe" Enter
+  tmux split-window -t prezto:"${NEXT_WINDOW_ID}" -v -p 20
+  tmux next-layout -t prezto:"${NEXT_WINDOW_ID}"
+  tmux send-keys -t prezto:${NEXT_WINDOW_ID} "ping nuc3.zoe" Enter
+  tmux split-window -t prezto:"${NEXT_WINDOW_ID}" -v -p 20
+  tmux next-layout -t prezto:"${NEXT_WINDOW_ID}"
+  tmux send-keys -t prezto:${NEXT_WINDOW_ID} "ping nuc4.zoe" Enter
+  tmux split-window -t prezto:"${NEXT_WINDOW_ID}" -v -p 20
+  tmux next-layout -t prezto:"${NEXT_WINDOW_ID}"
+  tmux send-keys -t prezto:${NEXT_WINDOW_ID} "ping nuc5.zoe" Enter
+  tmux split-window -t prezto:"${NEXT_WINDOW_ID}" -v -p 20
+  tmux next-layout -t prezto:"${NEXT_WINDOW_ID}"
+  tmux send-keys -t prezto:${NEXT_WINDOW_ID} "ping nuc6.zoe" Enter
   tmux set-window-option -t prezto:"${NEXT_WINDOW_ID}" synchronize-panes
 }
