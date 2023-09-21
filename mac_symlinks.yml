@@ -1,3 +1,9 @@
+- name: Create ncmpcpp config directory
+  ansible.builtin.file:
+    path: "{{lookup('env','HOME')}}/.ncmpcpp"
+    state: directory
+    mode: '0755'
+
 - name: symlink ncmpcpp bindings
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/ncmpcpp/bindings'

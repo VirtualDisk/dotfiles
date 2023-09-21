@@ -1,4 +1,17 @@
-- name: symlink terraformrn
+- name: Create ncmpcpp config directory
+  ansible.builtin.file:
+    path: "{{lookup('env','HOME')}}/.ncmpcpp"
+    state: directory
+    mode: '0755'
+
+- name: symlink ncmpcpp bindings
+  ansible.builtin.file:
+    src:  '{{ playbook_dir }}/concerns/ncmpcpp/bindings'
+    dest: "{{lookup('env','HOME')}}/.ncmpcpp/bindings"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink terraformrc
   ansible.builtin.file:
     src:  '{{ playbook_dir }}/concerns/terraform/terraform.rc'
     dest: "/home/{{ explicit_user }}/.terraform.rc" 
