@@ -1,6 +1,6 @@
 .DS_Store
-/concerns/vim/.vim_runtime/temp_dirs
+concerns/vim/.vim_runtime/temp_dirs
 test
 .zshsecrets
 bin
-/concerns/vim/starter/lazy-lock.json
+concerns/vim/starter/lazy-lock.json
