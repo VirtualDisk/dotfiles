@@ -12,7 +12,6 @@ return {
         "go",
         "sql",
         "vim",
-        "hcl",
         "html",
       },
     },
