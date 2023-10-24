@@ -16,3 +16,6 @@ require("lspconfig").terraformls.setup({})
 require("lspconfig").tflint.setup({})
 
 vim.cmd([[autocmd BufRead,BufNewFile *.yaml.tpl set filetype=yaml]])
+vim.cmd([[autocmd BufRead,BufNewFile *.yml.tpl set filetype=yaml]])
+vim.cmd([[autocmd BufRead,BufNewFile *.yaml set filetype=yaml]])
+vim.cmd([[autocmd BufRead,BufNewFile *.yml set filetype=yaml]])
