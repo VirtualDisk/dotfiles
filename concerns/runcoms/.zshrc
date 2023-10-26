@@ -141,17 +141,20 @@ udmdns() {
 }
 
 
-av() {
-  case $1 in
-    s) export AWS_PROFILE="dev.use1";;
-    sw) export AWS_PROFILE="dev.usw2";;
-    p) export AWS_PROFILE="prod.use1";;
-    pw) export AWS_PROFILE="prod.usw2";;
-    pec) export AWS_PROFILE="prod.euc1";;
-    pew) export AWS_PROFILE="prod.euw1";;
-    b) export AWS_PROFILE="bastion.use1";;
-    *) export AWS_PROFILE="$1";;
-  esac
+awsp() {
+  PROFILES=$(cat <<EOF
+  dev.use1
+  dev.usw2
+  prod.use1
+  prod.usw2
+  prod.euc1
+  prod.euw1
+  bastion.use1
+EOF
+  )
+  PROFILE=$(echo $PROFILES | fzf)
+
+  export AWS_PROFILE="${PROFILE}"
 }
 
 # Functions
