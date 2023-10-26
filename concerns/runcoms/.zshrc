@@ -143,13 +143,13 @@ udmdns() {
 
 awsp() {
   PROFILES=$(cat <<EOF
-  dev.use1
-  dev.usw2
-  prod.use1
-  prod.usw2
-  prod.euc1
-  prod.euw1
-  bastion.use1
+dev.use1
+dev.usw2
+prod.use1
+prod.usw2
+prod.euc1
+prod.euw1
+bastion.use1
 EOF
   )
   PROFILE=$(echo $PROFILES | fzf)
