@@ -1,0 +1,14 @@
+# tmuxp config
+session_name: nucs-btop
+windows:
+  - window_name: nucs-btop
+    layout: tiled
+    panes:
+      - ssh root@nuc1.zoe btop --preset 3
+      - ssh root@nuc2.zoe btop --preset 3
+      - ssh root@nuc3.zoe btop --preset 3
+      - ssh root@nuc4.zoe btop --preset 3
+      - ssh root@nuc5.zoe btop --preset 3
+      - ssh root@nuc6.zoe btop --preset 3
+    options_after:
+      synchronize-panes: on
