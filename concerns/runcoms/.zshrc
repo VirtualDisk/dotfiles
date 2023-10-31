@@ -144,6 +144,7 @@ udmdns() {
 awsp() {
   PROFILES=$(cat <<EOF
 dev.use1
+dev.use2
 dev.usw2
 prod.use1
 prod.usw2
