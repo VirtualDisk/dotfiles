@@ -3,4 +3,4 @@ concerns/vim/.vim_runtime/temp_dirs
 test
 .zshsecrets
 bin
-concerns/vim/starter/lazy-lock.json
+lazy-lock.json
