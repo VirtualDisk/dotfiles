@@ -77,6 +77,7 @@ alias showhidden="defaults write com.apple.finder AppleShowAllFiles YES && killa
 alias hidehidden="defaults write com.apple.finder AppleShowAllFiles NO && killall Finder"
 alias dockerid="docker ps |awk 'FNR == 2 {print $1}' |pbcopy"
 alias ansible="ansible -i ~/.ansible/inventory.yml"
+alias realpath=grealpath
 # alias ap="ansible-playbook -i ~/.ansible/inventory.yml --ask-become-pass"
 alias livingroom="curl -X POST http://homeassistant.zoe/api/webhook/living-room-bright"
 alias zbright="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-bright"
