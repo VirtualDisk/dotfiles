@@ -1,338 +1,339 @@
-- hosts: localhost 
+- hosts: localhost
   # become: true
   connection: local
   vars_files:
     - vars.yml
 
   tasks:
+    #   - name: Create a symbolic link
+    #     when: ansible_os_family == 'Darwin'
+    #     ansible.builtin.file:
+    #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold Italic.ttf'
+    #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Bold Italic.ttf"
+    #       owner: "{{ theuser }}"
+    #       state: link
 
-#   - name: Create a symbolic link
-#     when: ansible_os_family == 'Darwin'
-#     ansible.builtin.file:
-#       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold Italic.ttf'
-#       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Bold Italic.ttf"
-#       owner: "{{ theuser }}" 
-#       state: link   
+    #   - name: Create a symbolic link
+    #     when: ansible_os_family == 'Darwin'
+    #     ansible.builtin.file:
+    #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold.ttf'
+    #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Bold.ttf"
+    #       owner: "{{ theuser }}"
+    #       state: link
 
-#   - name: Create a symbolic link
-#     when: ansible_os_family == 'Darwin'
-#     ansible.builtin.file:
-#       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold.ttf'
-#       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Bold.ttf"
-#       owner: "{{ theuser }}" 
-#       state: link   
+    #   - name: Create a symbolic link
+    #     when: ansible_os_family == 'Darwin'
+    #     ansible.builtin.file:
+    #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Regular.ttf'
+    #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Regular.ttf"
+    #       owner: "{{ theuser }}"
+    #       state: link
 
-#   - name: Create a symbolic link
-#     when: ansible_os_family == 'Darwin'
-#     ansible.builtin.file:
-#       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Regular.ttf'
-#       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Regular.ttf"
-#       owner: "{{ theuser }}" 
-#       state: link   
+    #   - name: Create a symbolic link
+    #     when: ansible_os_family == 'Darwin'
+    #     ansible.builtin.file:
+    #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Italic.ttf'
+    #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Italic.ttf"
+    #       owner: "{{ theuser }}"
+    #       state: link
 
-#   - name: Create a symbolic link
-#     when: ansible_os_family == 'Darwin'
-#     ansible.builtin.file:
-#       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Italic.ttf'
-#       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Italic.ttf"
-#       owner: "{{ theuser }}" 
-#       state: link   
+    - name: symlink mesloLGS bold italic
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold Italic.ttf"
+        dest: "/usr/share/fonts/MesloLGS NF Bold Italic.ttf"
+        owner: "{{ theuser }}"
+        state: link
+      ignore_errors: yes
 
-  - name: symlink mesloLGS bold italic
-    when: ansible_os_family == 'Debian'
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold Italic.ttf'
-      dest: "/usr/share/fonts/MesloLGS NF Bold Italic.ttf" 
-      owner: "{{ theuser }}" 
-      state: link   
-    ignore_errors: yes
+    - name: symlink mesloLGS bold
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold.ttf"
+        dest: "/usr/share/fonts/MesloLGS NF Bold.ttf"
+        owner: "{{ theuser }}"
+        state: link
+      ignore_errors: yes
 
-  - name: symlink mesloLGS bold
-    when: ansible_os_family == 'Debian'
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold.ttf'
-      dest: "/usr/share/fonts/MesloLGS NF Bold.ttf" 
-      owner: "{{ theuser }}" 
-      state: link   
-    ignore_errors: yes
+    - name: symlink mesloLGS regular
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Regular.ttf"
+        dest: "/usr/share/fonts/MesloLGS NF Regular.ttf"
+        owner: "{{ theuser }}"
+        state: link
+      ignore_errors: yes
 
-  - name: symlink mesloLGS regular
-    when: ansible_os_family == 'Debian'
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Regular.ttf'
-      dest: "/usr/share/fonts/MesloLGS NF Regular.ttf" 
-      owner: "{{ theuser }}" 
-      state: link   
-    ignore_errors: yes
+    - name: symlink mesloLGS italic
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Italic.ttf"
+        dest: "/usr/share/fonts/MesloLGS NF Italic.ttf"
+        owner: "{{ theuser }}"
+        state: link
+      ignore_errors: yes
 
-  - name: symlink mesloLGS italic
-    when: ansible_os_family == 'Debian'
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Italic.ttf'
-      dest: "/usr/share/fonts/MesloLGS NF Italic.ttf" 
-      owner: "{{ theuser }}" 
-      state: link   
-    ignore_errors: yes
+    - name: install and update brew
+      when: ansible_os_family == 'Darwin'
+      community.general.homebrew:
+        name: "{{ pkgs_mac }}"
+        state: present
+        update_homebrew: yes
+        upgrade_all: yes
 
-  - name: install and update brew
-    when: ansible_os_family == 'Darwin'
-    community.general.homebrew:
-      name: '{{ pkgs_mac }}'
-      state: present
-      update_homebrew: yes
-      upgrade_all: yes
+    - name: install brew casks
+      when: ansible_os_family == 'Darwin'
+      community.general.homebrew_cask:
+        name: "{{ casks }}"
+        state: present
 
-  - name: install brew casks
-    when: ansible_os_family == 'Darwin'
-    community.general.homebrew_cask:
-      name: '{{ casks }}' 
-      state: present 
+    - name: update apt pkgs
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.apt:
+        update_cache: yes
+      become: yes
 
-  - name: update apt pkgs
-    when: ansible_os_family == 'Debian'
-    ansible.builtin.apt:
-      update_cache: yes
-    become: yes
+    - name: install gpg
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.apt:
+        name: gpg
+        state: present
+        update_cache: yes
+      become: yes
 
-  - name: install gpg 
-    when: ansible_os_family == 'Debian'
-    ansible.builtin.apt:
-      name: gpg 
-      state: present
-      update_cache: yes
-    become: yes
+    - name: add k8s repo key
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.apt_key:
+        url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+        keyring: "/usr/share/keyrings/kubernetes-archive-keyring.gpg"
+        state: present
+      become: yes
 
-  - name: add k8s repo key
-    when: ansible_os_family == 'Debian'
-    ansible.builtin.apt_key:
-      url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
-      keyring: "/usr/share/keyrings/kubernetes-archive-keyring.gpg"
-      state: present
-    become: yes
+    - name: install apt pkgs
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.apt:
+        name: "{{ pkgs_debian }}"
+        state: present
+        update_cache: yes
+      become: yes
 
-  - name: install apt pkgs
-    when: ansible_os_family == 'Debian'
-    ansible.builtin.apt:
-      name: '{{ pkgs_debian }}' 
-      state: present
-      update_cache: yes
-    become: yes
+      #- name: install glances via pip
+      #  when: ansible_os_family == 'Debian'
+      #  ansible.builtin.pip:
+      #    name: glances
 
-    #- name: install glances via pip
-    #  when: ansible_os_family == 'Debian'
-    #  ansible.builtin.pip:
-    #    name: glances
+    - name: install pacman pkgs
+      when: ansible_os_family == 'Archlinux'
+      community.general.pacman:
+        name: "{{ pkgs_arch }}"
+        state: present
+        update_cache: yes
+      become: yes
 
-  - name: install pacman pkgs
-    when: ansible_os_family == 'Archlinux'
-    community.general.pacman:
-      name: '{{ pkgs_arch }}'
-      state: present
-      update_cache: yes
-    become: yes
+    - name: update pacman pkgs
+      when: ansible_os_family == 'Archlinux'
+      community.general.pacman:
+        state: present
+        update_cache: yes
+        upgrade: yes
+      become: yes
 
-  - name: update pacman pkgs
-    when: ansible_os_family == 'Archlinux'
-    community.general.pacman:
-      state: present
-      update_cache: yes
-      upgrade: yes
-    become: yes
+    - name: ensure sshd is running on arch
+      when: ansible_os_family == 'Archlinux'
+      ansible.builtin.systemd:
+        enabled: yes
+        name: sshd
+        state: started
+      ignore_errors: yes
+      become: yes
 
-  - name: ensure sshd is running on arch
-    when: ansible_os_family == 'Archlinux'
-    ansible.builtin.systemd:
-      enabled: yes
-      name: sshd
-      state: started
-    ignore_errors: yes
-    become: yes
+    - name: ensure dockerd is running on arch
+      when: ansible_os_family == 'Archlinux'
+      ansible.builtin.systemd:
+        enabled: yes
+        name: docker
+        state: started
+      ignore_errors: yes
+      become: yes
 
-  - name: ensure dockerd is running on arch
-    when: ansible_os_family == 'Archlinux'
-    ansible.builtin.systemd:
-      enabled: yes
-      name: docker
-      state: started
-    ignore_errors: yes
-    become: yes
+    - name: create aur_builder user
+      when: ansible_os_family == 'Archlinux'
+      ansible.builtin.user:
+        name: aur_builder
+        create_home: no
+        group: wheel
+      become: yes
 
-  - name: create aur_builder user
-    when: ansible_os_family == 'Archlinux'
-    ansible.builtin.user:
-      name: aur_builder
-      create_home: no
-      group: wheel
-    become: yes
+    - name: create docker group
+      when: ansible_os_family == 'Archlinux' or
+        ansible_os_family == 'Debian'
+      ansible.builtin.group:
+        name: docker
+        state: present
+      become: yes
 
-  - name: create docker group
-    when: ansible_os_family == 'Archlinux' or
-          ansible_os_family == 'Debian'
-    ansible.builtin.group:
-      name: docker
-      state: present
-    become: yes
-  
-  - name: add user to docker group
-    when: ansible_os_family == 'Archlinux' or
-          ansible_os_family == 'Debian'
-    ansible.builtin.user:
-      name: "{{ theuser }}"
-      group: docker
-    become: yes
+    - name: add user to docker group
+      when: ansible_os_family == 'Archlinux' or
+        ansible_os_family == 'Debian'
+      ansible.builtin.user:
+        name: "{{ theuser }}"
+        group: docker
+      become: yes
 
-  - name: ensure wheel group exists
-    when: ansible_os_family == 'Archlinux' or
-          ansible_os_family == 'Debian'
-    group: 
-      name: wheel
-      state: present
-    become: yes
+    - name: ensure wheel group exists
+      when: ansible_os_family == 'Archlinux' or
+        ansible_os_family == 'Debian'
+      group:
+        name: wheel
+        state: present
+      become: yes
 
-  - name: Allow 'wheel' group to have passwordless sudo
-    when: ansible_os_family == 'Archlinux' or
-          ansible_os_family == 'Debian'
-    lineinfile:
-      dest: /etc/sudoers
-      state: present
-      regexp: '^%wheel'
-      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
-      validate: 'visudo -cf %s'
-    become: yes
+    - name: Allow 'wheel' group to have passwordless sudo
+      when: ansible_os_family == 'Archlinux' or
+        ansible_os_family == 'Debian'
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: "^%wheel"
+        line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+        validate: "visudo -cf %s"
+      become: yes
 
-  - name: add aur_builder to wheel
-    when: ansible_os_family == 'Archlinux'
-    ansible.builtin.lineinfile:
-      path: /etc/sudoers.d/11-install-aur_builder
-      line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
-      create: yes
-      validate: 'visudo -cf %s'
-    become: yes
+    - name: add aur_builder to wheel
+      when: ansible_os_family == 'Archlinux'
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/11-install-aur_builder
+        line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        create: yes
+        validate: "visudo -cf %s"
+      become: yes
 
-  - name: install meslo nerd font via aur
-    when: ansible_os_family == 'Archlinux'
-    aur: name=ttf-meslo-nerd-font-powerlevel10k 
-    become: yes
-    become_user: aur_builder
+    - name: install meslo nerd font via aur
+      when: ansible_os_family == 'Archlinux'
+      aur: name=ttf-meslo-nerd-font-powerlevel10k
+      become: yes
+      become_user: aur_builder
 
-  - name: ensure user exists on arch and debian
-    when: ansible_os_family == 'Archlinux' or 
-          ansible_os_family == 'Debian'
-    ansible.builtin.user:
-      name: "{{ explicit_user }}"
-      comment: we out here
-      shell: /bin/zsh
-      create_home: yes
-      groups: wheel,docker
-      password: "{{ '$6$mysecretsalt$mqF71rPutgHoEx7nTnkwFbjoh3OmRmClb6e3lUTsZm8lIJL1fT33A/9Upvrn5ZLhTUmJzdoxs99BsQlRT5zpZ0' | password_hash('sha512', 'mysecretsalt') }}"
-    become: yes
+    - name: ensure user exists on arch and debian
+      when: ansible_os_family == 'Archlinux' or
+        ansible_os_family == 'Debian'
+      ansible.builtin.user:
+        name: "{{ explicit_user }}"
+        comment: we out here
+        shell: /bin/zsh
+        create_home: yes
+        groups: wheel,docker
+        password: "{{ '$6$mysecretsalt$mqF71rPutgHoEx7nTnkwFbjoh3OmRmClb6e3lUTsZm8lIJL1fT33A/9Upvrn5ZLhTUmJzdoxs99BsQlRT5zpZ0' | password_hash('sha512', 'mysecretsalt') }}"
+      become: yes
 
-  - name: clone prezto repo
-    ansible.builtin.git:
-      repo: https://github.com/sorin-ionescu/prezto.git
-      dest: "{{lookup('env','HOME')}}/.zprezto"
-      recursive: yes
-    ignore_errors: yes 
-  
-  # - name: clone asdf repo
-  #   ansible.builtin.git:
-  #     repo: https://github.com/asdf-vm/asdf.git
-  #     dest: "{{lookup('env','HOME')}}/.asdf"
+    - name: clone prezto repo
+      ansible.builtin.git:
+        repo: https://github.com/sorin-ionescu/prezto.git
+        dest: "{{lookup('env','HOME')}}/.zprezto"
+        recursive: yes
+      ignore_errors: yes
 
-  - name: create Projects directory if it does not exist
-    ansible.builtin.file:
-      path: "{{lookup('env','HOME')}}/Projects"
-      state: directory
-      mode: '0755'
+    # - name: clone asdf repo
+    #   ansible.builtin.git:
+    #     repo: https://github.com/asdf-vm/asdf.git
+    #     dest: "{{lookup('env','HOME')}}/.asdf"
 
-  - name: create shared directory if it does not exist
-    when: ansible_os_family == 'Darwin'
-    ansible.builtin.file:
-      path: /Users/shared 
-      state: directory
-      mode: '0755'
-    become: yes
+    - name: create Projects directory if it does not exist
+      ansible.builtin.file:
+        path: "{{lookup('env','HOME')}}/Projects"
+        state: directory
+        mode: "0755"
 
-  - name: create Screenshots directory if it does not exist
-    when: ansible_os_family == 'Darwin'
-    ansible.builtin.file:
-      path: "{{lookup('env','HOME')}}/Pictures/Screenshots" 
-      state: directory
-      mode: '0755'
+    - name: create shared directory if it does not exist
+      when: ansible_os_family == 'Darwin'
+      ansible.builtin.file:
+        path: /Users/shared
+        state: directory
+        mode: "0755"
+      become: yes
 
-  - name: create Shared directory if it does not exist
-    when: ansible_os_family == 'Debian' or
-          ansible_os_family == 'Archlinux'
-    ansible.builtin.file:
-      path: /home/shared 
-      state: directory
-      mode: '0755'
-    become: yes
+    - name: create Screenshots directory if it does not exist
+      when: ansible_os_family == 'Darwin'
+      ansible.builtin.file:
+        path: "{{lookup('env','HOME')}}/Pictures/Screenshots"
+        state: directory
+        mode: "0755"
 
+    - name: create Shared directory if it does not exist
+      when: ansible_os_family == 'Debian' or
+        ansible_os_family == 'Archlinux'
+      ansible.builtin.file:
+        path: /home/shared
+        state: directory
+        mode: "0755"
+      become: yes
 
-  - name: set timezone to EST
-    community.general.timezone:
-      name: America/New_York
-    become: yes
-    ignore_errors: yes
+    - name: set timezone to EST
+      community.general.timezone:
+        name: America/New_York
+      become: yes
+      ignore_errors: yes
 
-  - name: set dark mode on mac 
-    when: ansible_os_family == 'Darwin'
-    community.general.osx_defaults:
-      key: NSRequiresAquaSystemAppearance
-      type: bool
-      value: false 
-      state: present
+    - name: set dark mode on mac
+      when: ansible_os_family == 'Darwin'
+      community.general.osx_defaults:
+        key: NSRequiresAquaSystemAppearance
+        type: bool
+        value: false
+        state: present
 
-  - name: VSCode vim key repeat fix on mac 
-    when: ansible_os_family == 'Darwin'
-    community.general.osx_defaults:
-      domain: com.microsoft.VSCode 
-      key: ApplePressAndHoldEnabled
-      type: bool
-      value: false 
-      state: present
+    - name: VSCode vim key repeat fix on mac
+      when: ansible_os_family == 'Darwin'
+      community.general.osx_defaults:
+        domain: com.microsoft.VSCode
+        key: ApplePressAndHoldEnabled
+        type: bool
+        value: false
+        state: present
 
-  - name: set screenshot dir on mac 
-    when: ansible_os_family == 'Darwin'
-    community.general.osx_defaults:
-      key: com.apple.screencapture
-      type: string
-      value: "~/Pictures/Screenshots" 
-      state: present
+    - name: set screenshot dir on mac
+      when: ansible_os_family == 'Darwin'
+      community.general.osx_defaults:
+        key: com.apple.screencapture
+        type: string
+        value: "~/Pictures/Screenshots"
+        state: present
 
-  - name: set approved ssh key
-    ansible.posix.authorized_key:
-      user: "{{ theuser }}"
-      state: present
-      key: https://github.com/virtualdisk.keys 
+    - name: set approved ssh key
+      ansible.posix.authorized_key:
+        user: "{{ theuser }}"
+        state: present
+        key: https://github.com/virtualdisk.keys
 
-  - name: symlink wallpaper
-    when: ansible_os_family == 'Darwin'
-    ansible.builtin.file:
-      src:  '{{ playbook_dir }}/concerns/wallpaper/Nevada.jpg'
-      dest: "{{lookup('env','HOME')}}/Pictures/Nevada.jpg" 
-      owner: "{{ theuser }}" 
-      state: link   
-  
-  # - name: set default wallpaper on macOS
-  #   when: ansible_os_family == 'Darwin'
-  #   ansible.builtin.command:
-  #     cmd: osascript -e \"{{lookup('env','HOME')}}/Pictures/Nevada.jpg\"
+    - name: symlink wallpaper
+      when: ansible_os_family == 'Darwin'
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/concerns/wallpaper/Nevada.jpg"
+        dest: "{{lookup('env','HOME')}}/Pictures/Nevada.jpg"
+        owner: "{{ theuser }}"
+        state: link
 
+    # - name: set default wallpaper on macOS
+    #   when: ansible_os_family == 'Darwin'
+    #   ansible.builtin.command:
+    #     cmd: osascript -e \"{{lookup('env','HOME')}}/Pictures/Nevada.jpg\"
 
-  - include: linux_symlinks.yml
-    when: ansible_os_family == 'Archlinux' or
-          ansible_os_family == 'Debian'
+    - name: Apply Linux Symlinks
+      when: ansible_os_family == 'Archlinux' or
+        ansible_os_family == 'Debian'
+      ansible.builtin.include_tasks:
+        file: linux_symlinks.yml
 
-  - include: mac_symlinks.yml
-    when: ansible_os_family == 'Darwin'
+    - name: Apply Mac Symlinks
+      when: ansible_os_family == 'Darwin'
+      ansible.builtin.include_tasks:
+        file: mac_symlinks.yml
 
   roles:
-    # - role: markosamuli.asdf 
+    # - role: markosamuli.asdf
     #   asdf_plugins:
     #   - name: argo
-    #   - name: aws-vault 
+    #   - name: aws-vault
     #     versions: ["2.2.2"]
     #   - name: gcloud
     #     versions: ["331.0.0"]
@@ -349,5 +350,5 @@
     #     asdf_init_shell: false
     #   ignore_errors: yes
 
-    - role: luizgavalda.aur 
-      when: ansible_os_family == 'Archlinux' 
+    - role: luizgavalda.aur
+      when: ansible_os_family == 'Archlinux'

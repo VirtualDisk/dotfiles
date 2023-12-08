@@ -87,7 +87,11 @@ alias fan="curl -X POST http://homeassistant.zoe/api/webhook/toggle-ac"
 alias zpurple="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-purple"
 alias zbi="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-bi"
 alias cleardns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
-alias sshm="aws ssm start-session --target"
+
+
+tmuxpl()  {
+  tmuxp load "$(find ${HOME}/.tmuxp/ -type f | fzf)"
+}
 
 zop() {
     while [[ ! $(pgrep 'Docker Desktop') ]];  do
