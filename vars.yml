@@ -1,5 +1,5 @@
-theuser: "{{lookup('env','USER')}}" 
-asdf_user: '{{ theuser }}'
+theuser: "{{lookup('env','USER')}}"
+asdf_user: "{{ theuser }}"
 explicit_user: ubuntu
 asdf_legacy_version_file: "yes"
 pkgs_mac:
@@ -10,6 +10,7 @@ pkgs_mac:
   - ffmpeg
   - glances
   - gcc
+  - go-task
   - gpg
   - jq
   - k9s
@@ -25,6 +26,7 @@ pkgs_mac:
   - the_silver_searcher
   - tldr
   - tmux
+  - tmuxp
   - terraform-ls
   - tflint
   - tree
@@ -61,9 +63,10 @@ pkgs_arch:
   - rclone
   - rsync
   - sudo
-  - the_silver_searcher 
+  - the_silver_searcher
   - tldr
   - tmux
+  - tmuxp
   - tree
   - vim
   - youtube-dl
@@ -77,6 +80,7 @@ pkgs_debian:
   - curl
   # - glances
   - jq
+  - go-task
   # - kubectl
   - mtr
   - neofetch
@@ -89,6 +93,7 @@ pkgs_debian:
   - snapd
   - tldr
   - tmux
+  - tmuxp
   - tree
   - python3-pip
   - vim
@@ -99,3 +104,4 @@ pkgs_debian:
 
 pkgs_snap:
   - yq
+  - task
