@@ -7,5 +7,7 @@ windows:
       - ssh -i ~/.ssh/flatcar -o StrictHostKeyChecking=false zoe@10.254.25.1
       - ssh -i ~/.ssh/flatcar -o StrictHostKeyChecking=false zoe@10.254.25.2
       - ssh -i ~/.ssh/flatcar -o StrictHostKeyChecking=false zoe@10.254.25.3
+      - ssh -i ~/.ssh/flatcar -o StrictHostKeyChecking=false zoe@10.254.25.4
+      - ssh -i ~/.ssh/flatcar -o StrictHostKeyChecking=false zoe@10.254.25.5
     options_after:
       synchronize-panes: on
