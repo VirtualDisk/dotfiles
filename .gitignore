@@ -4,3 +4,4 @@ test
 .zshsecrets
 bin
 lazy-lock.json
+concerns/vim/starter/lazy-lock.json
