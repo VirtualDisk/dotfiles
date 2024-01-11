@@ -87,6 +87,7 @@ alias fan="curl -X POST http://homeassistant.zoe/api/webhook/toggle-ac"
 alias zpurple="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-purple"
 alias zbi="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-bi"
 alias cleardns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
+alias ytmp3="yt-dlp -x --audio-format mp3"
 
 
 tmuxpl()  {
