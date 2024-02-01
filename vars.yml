@@ -8,6 +8,7 @@ pkgs_mac:
   - awscli
   - fd
   - ffmpeg
+  - fzf
   - glances
   - gcc
   - go-task
