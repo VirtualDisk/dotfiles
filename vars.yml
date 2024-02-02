@@ -9,8 +9,8 @@ pkgs_mac:
   - fd
   - ffmpeg
   - fzf
-  - glances
   - gcc
+  - glances
   - go-task
   - gpg
   - jq
@@ -23,13 +23,14 @@ pkgs_mac:
   - python3
   - rclone
   - rsync
+  - session-manager-plugin
   - teleport
+  - terraform-ls
+  - tflint
   - the_silver_searcher
   - tldr
   - tmux
   - tmuxp
-  - terraform-ls
-  - tflint
   - tree
   - ultralist
   - virtualenv
