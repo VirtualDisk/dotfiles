@@ -24,6 +24,7 @@ pkgs_mac:
   - rclone
   - rsync
   - session-manager-plugin
+  - stern
   - teleport
   - terraform-ls
   - tflint
