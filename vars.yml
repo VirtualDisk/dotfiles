@@ -44,6 +44,7 @@ casks:
   - docker
   - google-cloud-sdk
   - openlens
+  - rectangle
 
 pkgs_arch:
   - aws-cli
