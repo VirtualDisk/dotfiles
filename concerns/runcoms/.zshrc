@@ -55,6 +55,7 @@ alias a=argo
 alias k=kubectl
 alias t=talosctl
 alias dev='ssh -i ${HOME}/.ssh/ubuntu ubuntu@dev.zoe'
+alias linstor='kubectl exec -n cozy-linstor deploy/linstor-controller -- linstor'
 alias tf=terraform
 alias inf="cd ~/Greenhouse/infrastructure"
 alias tfi='tf init -backend-config=state.conf'
