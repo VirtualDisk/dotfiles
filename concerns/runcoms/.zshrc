@@ -39,6 +39,7 @@ source '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh
 
 # Source kubectl completion
 source <(argo completion zsh)
+source <(flux completion zsh)
 source <(talosctl completion zsh)
 source <(/usr/local/bin/kubectl completion zsh)
 # complete -F __start_kubectl k
