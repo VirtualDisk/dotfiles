@@ -24,6 +24,7 @@ pkgs_mac:
   - rclone
   - rsync
   - session-manager-plugin
+  - sops
   - stern
   - teleport
   - terraform-ls
@@ -66,6 +67,7 @@ pkgs_arch:
   - python3
   - rclone
   - rsync
+  - sops
   - sudo
   - the_silver_searcher
   - tldr
@@ -95,6 +97,7 @@ pkgs_debian:
   - rsync
   - silversearcher-ag
   - snapd
+  - sops
   - tldr
   - tmux
   - tmuxp
