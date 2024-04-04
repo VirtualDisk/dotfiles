@@ -12,6 +12,8 @@ export HISTFILESIZE=1000000000000
 export HISTSIZE=10000000000000
 setopt HIST_FIND_NO_DUPS
 
+export GPG_TTY=$(tty)
+
 export ZOEREPO="${HOME}/Projects/zoe-infrastructure"
 export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 export EDITOR=nvim
@@ -152,6 +154,7 @@ udmdns() {
 awsp() {
   PROFILES=$(cat <<EOF
 dev.use1
+sso_support_platform-administration
 dev.use2
 dev.usw2
 prod.use1
@@ -229,6 +232,28 @@ kwork() {
         echo "Say aloud what you are about to do."
         sleep 5
         export KUBECONFIG="${HOME}/.kube/config.gh"
+}
+
+helm-fan-out() {
+if [ -z "$1" ]; then
+    echo "Please provide an output directory"
+    exit 1
+fi
+
+awk -vout=$1 -F": " '
+   $0~/^# Source: / {
+       file=out"/"$2;
+       if (!(file in filemap)) {
+           filemap[file] = 1
+           print "Creating "file;
+           system ("mkdir -p $(dirname "file"); echo -n "" > "file);
+       }
+   }
+   $0!~/^#/ {
+       if (file) {
+           print $0 >> file;
+       }
+   }'
 }
 
 
