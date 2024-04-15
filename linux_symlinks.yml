@@ -1,103 +1,96 @@
 - name: Create ncmpcpp config directory
   ansible.builtin.file:
-    path: "{{lookup('env','HOME')}}/.ncmpcpp"
+    path: "/home/{{ explicit_user }}/.ncmpcpp"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 - name: symlink ncmpcpp bindings
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/ncmpcpp/bindings'
-    dest: "{{lookup('env','HOME')}}/.ncmpcpp/bindings"
-    owner: "{{ theuser }}"
+    src: "{{ playbook_dir }}/concerns/ncmpcpp/bindings"
+    dest: "/home/{{ explicit_user }}/.ncmpcpp/bindings"
+    owner: "{{ explicit_user }}"
     state: link
 
 - name: symlink terraformrc
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/terraform/terraform.rc'
-    dest: "/home/{{ explicit_user }}/.terraform.rc" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/terraform/terraform.rc"
+    dest: "/home/{{ explicit_user }}/.terraform.rc"
+    owner: "{{ explicit_user }}"
+    state: link
 
-- name: symlink vimrc
+- name: symlink neovim config
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/vim/.vimrc'
-    dest: "/home/{{ explicit_user }}/.vimrc" 
-    owner: "{{ explicit_user }}" 
-    state: link   
-
-- name: symlink vim_runtime
-  ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/vim/.vim_runtime'
-    dest: "/home/{{ explicit_user }}/.vim_runtime" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/vim/starter"
+    dest: "/home/{{ explicit_user }}/.config/nvim"
+    owner: "{{ explicit_user }}"
+    state: link
 
 - name: symlink tmux
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/tmux/.tmux.conf'
-    dest: "/home/{{ explicit_user }}/.tmux.conf" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/tmux/.tmux.conf"
+    dest: "/home/{{ explicit_user }}/.tmux.conf"
+    owner: "{{ explicit_user }}"
+    state: link
 
 - name: symlink tmux.conf
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/tmux/.tmux.conf.local'
-    dest: "/home/{{ explicit_user }}/.tmux.conf.local" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/tmux/.tmux.conf.local"
+    dest: "/home/{{ explicit_user }}/.tmux.conf.local"
+    owner: "{{ explicit_user }}"
+    state: link
 
 - name: symlink alacritty
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/alacritty/.alacritty.yml'
-    dest: "/home/{{ explicit_user }}/.alacritty.yml" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/alacritty/.alacritty.yml"
+    dest: "/home/{{ explicit_user }}/.alacritty.yml"
+    owner: "{{ explicit_user }}"
+    state: link
 
-- name: symlink zlogin 
+- name: symlink zlogin
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/runcoms/.zlogin'
-    dest: "/home/{{ explicit_user }}/.zlogin" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/runcoms/.zlogin"
+    dest: "/home/{{ explicit_user }}/.zlogin"
+    owner: "{{ explicit_user }}"
+    state: link
 
 - name: symlink zlogout
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/runcoms/.zlogout'
-    dest: "/home/{{ explicit_user }}/.zlogout" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/runcoms/.zlogout"
+    dest: "/home/{{ explicit_user }}/.zlogout"
+    owner: "{{ explicit_user }}"
+    state: link
 
 - name: symlink zpreztorc
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/runcoms/.zpreztorc'
-    dest: "/home/{{ explicit_user }}/.zpreztorc" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/runcoms/.zpreztorc"
+    dest: "/home/{{ explicit_user }}/.zpreztorc"
+    owner: "{{ explicit_user }}"
+    state: link
 
 - name: symlink zprofile
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/runcoms/.zprofile'
-    dest: "/home/{{ explicit_user }}/.zprofile" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/runcoms/.zprofile"
+    dest: "/home/{{ explicit_user }}/.zprofile"
+    owner: "{{ explicit_user }}"
+    state: link
 
 - name: symlink zshenv
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/runcoms/.zshenv'
-    dest: "/home/{{ explicit_user }}/.zshenv" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/runcoms/.zshenv"
+    dest: "/home/{{ explicit_user }}/.zshenv"
+    owner: "{{ explicit_user }}"
+    state: link
 
 - name: symlink linux zshrc
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/runcoms/.zshrc.linux'
-    dest: "/home/{{ explicit_user }}/.zshrc" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/runcoms/.zshrc"
+    dest: "/home/{{ explicit_user }}/.zshrc"
+    owner: "{{ explicit_user }}"
+    state: link
 
 - name: symlink p10k
   ansible.builtin.file:
-    src:  '{{ playbook_dir }}/concerns/p10k/.p10k.zsh'
-    dest: "/home/{{ explicit_user }}/.p10k.zsh" 
-    owner: "{{ explicit_user }}" 
-    state: link   
+    src: "{{ playbook_dir }}/concerns/p10k/.p10k.zsh"
+    dest: "/home/{{ explicit_user }}/.p10k.zsh"
+    owner: "{{ explicit_user }}"
+    state: link

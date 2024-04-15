@@ -1,6 +1,6 @@
 theuser: "{{lookup('env','USER')}}"
 asdf_user: "{{ theuser }}"
-explicit_user: ubuntu
+explicit_user: zoe
 asdf_legacy_version_file: "yes"
 pkgs_mac:
   - asdf
@@ -86,7 +86,6 @@ pkgs_debian:
   - curl
   # - glances
   - jq
-  - go-task
   # - kubectl
   - mtr
   - neofetch
@@ -96,6 +95,7 @@ pkgs_debian:
   # - k9s
   - rsync
   - silversearcher-ag
+  - neovim
   - snapd
   - sops
   - tldr

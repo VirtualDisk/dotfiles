@@ -18,7 +18,7 @@
     owner: "{{ theuser }}"
     state: link
 
-- name: symlink vimrc
+- name: symlink terraformrc
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/terraform/terraform.rc"
     dest: "{{lookup('env','HOME')}}/terraform.rc"
