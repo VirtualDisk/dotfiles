@@ -23,7 +23,6 @@ pkgs_mac:
   - python3
   - rclone
   - rsync
-  - session-manager-plugin
   - sops
   - stern
   - teleport
@@ -48,6 +47,7 @@ casks:
   - google-cloud-sdk
   - openlens
   - rectangle
+  - session-manager-plugin
 
 pkgs_arch:
   - aws-cli

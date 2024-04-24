@@ -315,6 +315,8 @@
         key: https://github.com/virtualdisk.keys
 
     - name: copy certificate authority to trusted ca path of the os
+      when: ansible_os_family == 'Archlinux' or
+        ansible_os_family == 'Debian'
       copy:
         src: "{{ item }}"
         dest: "/usr/local/share/ca-certificates/"
