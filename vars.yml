@@ -6,6 +6,7 @@ pkgs_mac:
   - asdf
   - aws-vault
   - awscli
+  - direnv
   - fd
   - ffmpeg
   - fzf
@@ -24,6 +25,7 @@ pkgs_mac:
   - rclone
   - rsync
   - sops
+  - skopeo
   - stern
   - teleport
   - terraform-ls
