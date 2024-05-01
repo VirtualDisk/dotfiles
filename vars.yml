@@ -116,3 +116,5 @@ pkgs_debian:
 pkgs_snap:
   - yq
   - task
+  - alacritty
+  - docker.io
