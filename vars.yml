@@ -18,6 +18,7 @@ pkgs_mac:
   - k9s
   - lazydocker
   - minikube
+  - docker-credential-helper-ecr
   - mtr
   - neofetch
   - neovim
