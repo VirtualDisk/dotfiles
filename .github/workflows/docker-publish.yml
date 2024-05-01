@@ -20,17 +20,14 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  prepare:
+  build:
     name: Prepare to Build
     runs-on: gha-runner-scale-set
-    outputs:
-      matrices: ${{ steps.prepare-matrices.outputs.matrices }}
     steps:
       - name: Lowercase repository owner
         shell: bash
         run: echo "LOWERCASE_REPO_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
 
-  build:
     runs-on: gha-runner-scale-set
     permissions:
       contents: read
