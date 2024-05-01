@@ -53,6 +53,7 @@ casks:
 
 pkgs_arch:
   - aws-cli
+  - age
   - ca-certificates
   - curl
   - docker
@@ -84,6 +85,7 @@ pkgs_arch:
 
 pkgs_debian:
   - apt-transport-https
+  - age
   - ca-certificates
   - curl
   # - glances
