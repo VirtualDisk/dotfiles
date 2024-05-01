@@ -1,0 +1,36 @@
+pkgs_debian:
+  # - glances
+  # - k9s
+  - age
+  - amazon-ecr-credential-helper
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - fzf
+  - jq
+  - kubectl
+  - mtr
+  - neofetch
+  - neovim
+  - python3
+  - python3-pip
+  - qemu-guest-agent
+  - rclone
+  - rsync
+  - silversearcher-ag
+  - snapd
+  - tldr
+  - tmux
+  - tmuxp
+  - tree
+  - unzip
+  - vim
+  - virtualenv
+  - yt-dlp
+  - zsh
+
+pkgs_snap:
+  - yq
+  - task
+  - alacritty
+  - docker.io
