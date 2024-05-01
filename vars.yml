@@ -38,7 +38,7 @@ pkgs_mac:
   - ultralist
   - virtualenv
   - xml-tooling-c
-  - youtube-dl
+  - yt-dlp
   - yq
   - z
   - zsh
@@ -79,7 +79,7 @@ pkgs_arch:
   - tmuxp
   - tree
   - vim
-  - youtube-dl
+  - yt-dlp
   - z
   - zsh
 
@@ -109,7 +109,7 @@ pkgs_debian:
   - python3-pip
   - vim
   - virtualenv
-  - youtube-dl
+  - yt-dlp
   - zsh
   # - z
 
