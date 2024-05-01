@@ -345,7 +345,7 @@
       when: ansible_os_family == 'Archlinux' or
         ansible_os_family == 'Debian'
       ansible.builtin.include_tasks:
-        file: linux_apps.yaml
+        file: linux_utils.yaml
 
     - name: Apply Linux Symlinks
       when: ansible_os_family == 'Archlinux' or
@@ -356,7 +356,7 @@
     - name: Install Mac Utils
       when: ansible_os_family == 'Darwin'
       ansible.builtin.include_tasks:
-        file: mac_symlinks.yaml
+        file: mac_utils.yaml
 
     - name: Apply Mac Symlinks
       when: ansible_os_family == 'Darwin'
