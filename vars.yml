@@ -110,6 +110,7 @@ pkgs_debian:
   - tree
   - python3-pip
   - vim
+  - amazon-ecr-credential-helper
   - virtualenv
   - unzip
   - yt-dlp
