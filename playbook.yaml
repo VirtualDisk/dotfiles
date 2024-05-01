@@ -341,16 +341,27 @@
     #   ansible.builtin.command:
     #     cmd: osascript -e \"{{lookup('env','HOME')}}/Pictures/Nevada.jpg\"
 
+    - name: Install Linux Utils
+      when: ansible_os_family == 'Archlinux' or
+        ansible_os_family == 'Debian'
+      ansible.builtin.include_tasks:
+        file: linux_apps.yaml
+
     - name: Apply Linux Symlinks
       when: ansible_os_family == 'Archlinux' or
         ansible_os_family == 'Debian'
       ansible.builtin.include_tasks:
-        file: linux_symlinks.yml
+        file: linux_symlinks.yaml
+
+    - name: Install Mac Utils
+      when: ansible_os_family == 'Darwin'
+      ansible.builtin.include_tasks:
+        file: mac_symlinks.yaml
 
     - name: Apply Mac Symlinks
       when: ansible_os_family == 'Darwin'
       ansible.builtin.include_tasks:
-        file: mac_symlinks.yml
+        file: mac_symlinks.yaml
 
   roles:
     # - role: markosamuli.asdf

@@ -1,0 +1,18 @@
+- name: Download and unarchive AWS CLI
+  ansible.builtin.unarchive:
+    src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: /tmp
+    remote_src: yes
+  become: yes
+
+- name: Install AWS CLI
+  ansible.builtin.command:
+    cmd: /tmp/aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+  become: yes
+
+- name: download talosctl
+  ansible.builtin.get_url:
+    url: "https://github.com/siderolabs/talos/releases/download/v1.7.0/talosctl-linux-arm64"
+    dest: "/usr/local/bin/talosctl"
+    mode: a+x
+  become: yes
