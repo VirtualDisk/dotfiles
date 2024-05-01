@@ -73,6 +73,7 @@ pkgs_arch:
   - sudo
   - the_silver_searcher
   - tldr
+  - fzf
   - tmux
   - tmuxp
   - tree
@@ -82,7 +83,6 @@ pkgs_arch:
   - zsh
 
 pkgs_debian:
-  - awscli
   - apt-transport-https
   - ca-certificates
   - curl
@@ -96,6 +96,7 @@ pkgs_debian:
   - rclone
   # - k9s
   - rsync
+  - fzf
   - silversearcher-ag
   - neovim
   - snapd
