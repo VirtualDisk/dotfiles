@@ -8,7 +8,6 @@ pkgs_debian:
   - curl
   - fzf
   - jq
-  - kubectl
   - mtr
   - neofetch
   - neovim
