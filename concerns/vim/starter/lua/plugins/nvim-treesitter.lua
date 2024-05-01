@@ -13,6 +13,8 @@ return {
         "sql",
         "vim",
         "html",
+        "json",
+        "jsonc",
       },
     },
   },
