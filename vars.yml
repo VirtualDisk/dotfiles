@@ -100,7 +100,6 @@ pkgs_debian:
   - silversearcher-ag
   - neovim
   - snapd
-  - sops
   - tldr
   - tmux
   - tmuxp
