@@ -20,7 +20,7 @@ env:
   REGISTRY: registry.zoe/zcr.io
 
 jobs:
-  build:
+  test-ubuntu:
     runs-on: gha-runner-scale-set
     permissions:
       contents: read
