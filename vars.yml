@@ -77,6 +77,7 @@ pkgs_arch:
   - fzf
   - tmux
   - tmuxp
+  - unzip
   - tree
   - vim
   - yt-dlp
@@ -109,6 +110,7 @@ pkgs_debian:
   - python3-pip
   - vim
   - virtualenv
+  - unzip
   - yt-dlp
   - zsh
   # - z
