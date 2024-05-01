@@ -21,13 +21,6 @@ env:
 
 jobs:
   build:
-    name: Prepare to Build
-    runs-on: gha-runner-scale-set
-    steps:
-      - name: Lowercase repository owner
-        shell: bash
-        run: echo "LOWERCASE_REPO_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
-
     runs-on: gha-runner-scale-set
     permissions:
       contents: read
@@ -39,6 +32,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Lowercase repository owner
+        shell: bash
+        run: echo "LOWERCASE_REPO_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
