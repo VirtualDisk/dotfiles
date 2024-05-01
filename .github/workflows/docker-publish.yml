@@ -21,7 +21,7 @@ env:
 
 jobs:
   test-ubuntu:
-    runs-on: gha-runner-scale-set
+    runs-on: gha-runner-scale-set-dotfiles
     permissions:
       contents: read
       packages: write
