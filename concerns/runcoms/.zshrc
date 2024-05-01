@@ -974,3 +974,5 @@ _virtctl()
 if [ "$funcstack[1]" = "_virtctl" ]; then
     _virtctl
 fi
+
+eval "$(direnv hook zsh)"
