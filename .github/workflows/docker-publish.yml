@@ -19,9 +19,19 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.username }}/dotfiles
+  IMAGE_NAME: ${{ env.LOWERCASE_REPOSITORY_OWNER }}/dotfiles
 
 jobs:
+  prepare:
+    name: Prepare to Build
+    runs-on: gha-runner-scale-set
+    outputs:
+      matrices: ${{ steps.prepare-matrices.outputs.matrices }}
+    steps:
+      - name: Lowercase repository owner
+        shell: bash
+        run: echo "LOWERCASE_REPO_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+
   build:
     runs-on: gha-runner-scale-set
     permissions:
