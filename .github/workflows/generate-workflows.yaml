@@ -23,8 +23,8 @@ jobs:
   build-and-push:
     uses: VirtualDisk/dotfiles/.github/workflows/build-and-push.yaml@main
     with:
-      os: ${{ matrix.os }}
-      registry: ${{ env.REGISTRY }}
+      os: "${{ matrix.os }}"
+      registry: "${{ env.REGISTRY }}"
     strategy:
       matrix:
         os:
