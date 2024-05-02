@@ -23,16 +23,6 @@ on:
       registry_password:
         required: true
 
-  schedule:
-    - cron: "44 7 * * *"
-  push:
-    branches: ["main"]
-    # Publish semver tags as releases.
-    tags: ["v*.*.*"]
-  pull_request:
-    branches: ["main"]
-  workflow_dispatch: {}
-
 env:
   REGISTRY: "{{ inputs.registry }}"
   REPOSITORY: "dotfiles-${{ inputs.os }}"
