@@ -34,7 +34,7 @@ on:
   workflow_dispatch: {}
 
 env:
-  REGISTRY: "${{ inputs.registry }}"
+  REGISTRY: "registry.zoe/zcr.io"
   REPOSITORY: "dotfiles-${{ inputs.os }}"
 
 jobs:
