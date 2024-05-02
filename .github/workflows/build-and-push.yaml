@@ -1,4 +1,4 @@
-name: Docker
+name: Build and Push Container
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -6,6 +6,21 @@ name: Docker
 # documentation.
 
 on:
+  workflow_call:
+    inputs:
+      os:
+        description: The Operating System to test
+        default: "ubuntu"
+        required: false
+        type: string
+      registry:
+        description: The registry to push the images to
+        type: string
+        default: "registry.zoe/zcr.io"
+    secrets:
+      registry_zoe_username: ${{ secrets.REGISTRY_ZOE_USERNAME }}
+      registry_zoe_password: ${{ secrets.REGISTRY_ZOE_PASSWORD }}
+
   schedule:
     - cron: "44 7 * * *"
   push:
@@ -18,7 +33,8 @@ on:
 
 env:
   # Use docker.io for Docker Hub if empty
-  REGISTRY: registry.zoe/zcr.io
+  REGISTRY: ${{ inputs.registry }}
+  REPOSITORY: dotfiles-${{ inputs.os }}
 
 jobs:
   test-ubuntu:
@@ -82,7 +98,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
-          images: ${{ env.REGISTRY }}/${{ env.LOWERCASE_REPO_OWNER }}/dotfiles
+          images: ${{ env.REGISTRY }}/${{ env.LOWERCASE_REPO_OWNER }}/${{ env.REPOSITORY }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
