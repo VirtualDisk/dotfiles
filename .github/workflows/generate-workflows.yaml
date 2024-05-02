@@ -1,7 +1,4 @@
 name: Generate Workflows
-concurrency:
-  group: build
-  cancel-in-progress: false
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -21,6 +18,9 @@ on:
 
 jobs:
   build-and-push:
+    concurrency:
+      group: "build-${{ matrix.os }}"
+      cancel-in-progress: false
     uses: VirtualDisk/dotfiles/.github/workflows/build-and-push.yaml@main
     with:
       os: "${{ matrix.os }}"
