@@ -1,4 +1,4 @@
-FROM docker.io/libraru/debian:trixie
+FROM docker.io/library/debian:trixie
 ENV USER=root
 RUN apt update && apt install sudo -y
 WORKDIR /root/.dotfiles
