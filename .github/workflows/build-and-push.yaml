@@ -34,7 +34,6 @@ on:
   workflow_dispatch: {}
 
 env:
-  # Use docker.io for Docker Hub if empty
   REGISTRY: "${{ inputs.registry }}"
   REPOSITORY: "dotfiles-${{ inputs.os }}"
 

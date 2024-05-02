@@ -16,15 +16,12 @@ on:
     branches: ["main"]
   workflow_dispatch: {}
 
-env:
-  REGISTRY: "registry.zoe/zcr.io"
-
 jobs:
   build-and-push:
     uses: VirtualDisk/dotfiles/.github/workflows/build-and-push.yaml@main
     with:
       os: "${{ matrix.os }}"
-      registry: "${{ env.REGISTRY }}"
+      registry: "registry.zoe/zcr.io"
       registry_zoe_username: "${{ secrets.REGISTRY_ZOE_USERNAME }}"
       registry_zoe_password: "${{ secrets.REGISTRY_ZOE_PASSWORD }}"
     strategy:
