@@ -24,7 +24,7 @@ on:
         required: true
 
 env:
-  REGISTRY: "{{ inputs.registry }}"
+  REGISTRY: "${{ inputs.registry }}"
   REPOSITORY: "dotfiles-${{ inputs.os }}"
 
 jobs:
