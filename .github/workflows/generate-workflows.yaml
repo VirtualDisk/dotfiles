@@ -28,11 +28,11 @@ jobs:
     strategy:
       matrix:
         os:
-          - "ubuntu"
           - "arch"
-          - "debian"
-          - "macos"
-          - "fedora"
+          - "debian-trixie"
+          - "fedora-41"
+          - "macos-sonoma"
+          - "ubuntu-noble"
     permissions:
       contents: read
       packages: write

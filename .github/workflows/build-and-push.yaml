@@ -10,7 +10,7 @@ on:
     inputs:
       os:
         description: The Operating System to test
-        default: "ubuntu"
+        default: "ubuntu-noble"
         required: false
         type: string
       registry:
@@ -28,7 +28,7 @@ env:
   REPOSITORY: "dotfiles-${{ inputs.os }}"
 
 jobs:
-  test-ubuntu:
+  build-and-push-os:
     runs-on: gha-runner-scale-set-dotfiles
     permissions:
       contents: read
@@ -98,6 +98,7 @@ jobs:
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           context: .
+          file: docker/${{ inputs.os }}/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
