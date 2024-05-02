@@ -25,6 +25,8 @@ jobs:
     with:
       os: "${{ matrix.os }}"
       registry: "${{ env.REGISTRY }}"
+      registry_zoe_username: "${{ secrets.REGISTRY_ZOE_USERNAME }}"
+      registry_zoe_password: "${{ secrets.REGISTRY_ZOE_PASSWORD }}"
     strategy:
       matrix:
         os:
