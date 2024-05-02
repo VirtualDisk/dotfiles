@@ -10,7 +10,7 @@
   tasks:
     - name: Main
       ansible.builtin.include_tasks:
-        file: playbooks/main.yaml
+        file: tasks/main.yaml
     #   - name: Create a symbolic link
     #     when: ansible_os_family == 'Darwin'
     #     ansible.builtin.file:

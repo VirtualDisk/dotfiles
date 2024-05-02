@@ -111,7 +111,7 @@ install_collections() {
 	ansible-galaxy collection install -r "${PWD:-/home/ubuntu}/requirements.yml"
 	#TODO: make ask become pass a flag bc of kubernetes unintended installs
 	ansible-playbook -i "${PWD:-/home/ubuntu}/local_inventory.yml" \
-		"${PWD:-/home/ubuntu}/playbook.yaml" --ask-become-pass
+		"${PWD:-/home/ubuntu}/bootstrap.yaml" --ask-become-pass
 }
 
 rundazsh() {
