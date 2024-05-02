@@ -18,9 +18,9 @@ on:
         type: string
         default: "registry.zoe/zcr.io"
     secrets:
-      registry_zoe_username:
+      registry_username:
         required: true
-      registry_zoe_password:
+      registry_password:
         required: true
 
   schedule:
@@ -34,7 +34,7 @@ on:
   workflow_dispatch: {}
 
 env:
-  REGISTRY: "registry.zoe/zcr.io"
+  REGISTRY: "{{ inputs.registry }}"
   REPOSITORY: "dotfiles-${{ inputs.os }}"
 
 jobs:
@@ -90,8 +90,8 @@ jobs:
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.REGISTRY_ZOE_USERNAME }}
-          password: ${{ secrets.REGISTRY_ZOE_PASSWORD }}
+          username: ${{ secrets.registry_username }}
+          password: ${{ secrets.registry_password }}
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
