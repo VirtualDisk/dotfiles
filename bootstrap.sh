@@ -115,6 +115,7 @@ check_ansible_rocky() {
 		install_collections
 	else
 		echo "Ansible not found. Installing..."
+		yum install -y dnf-plugins-core
 		dnf config-manager --set-enabled crb
 		dnf install -y epel-release
 		dnf install -y ansible
