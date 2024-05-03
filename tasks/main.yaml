@@ -62,14 +62,6 @@
     update_cache: yes
   become: yes
 
-- name: add k8s repo key
-  when: ansible_os_family == 'Debian'
-  ansible.builtin.apt_key:
-    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
-    keyring: "/usr/share/keyrings/kubernetes-archive-keyring.gpg"
-    state: present
-  become: yes
-
 - name: install apt pkgs
   when: ansible_os_family == 'Debian'
   ansible.builtin.apt:
