@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: set-matrix
-        run: echo "::set-output name=matrix::$(ls docker | jq -R -s -c 'split("\n")[:-1]')"
+        run: echo "::set-output name=matrix::$(ls platforms/docker | jq -R -s -c 'split("\n")[:-1]')"
 
   build-and-push:
     needs: list-operating-systems
