@@ -21,7 +21,6 @@
   ansible.builtin.get_url:
     url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_amd64.tar.gz"
     dest: "/tmp"
-    remote_src: yes
   become: true
 
 - name: install k9s
