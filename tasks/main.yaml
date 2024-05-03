@@ -1,46 +1,10 @@
-- name: symlink mesloLGS bold italic
-  when: ansible_os_family == 'Debian'
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold Italic.ttf"
-    dest: "/usr/share/fonts/MesloLGS NF Bold Italic.ttf"
-    owner: "{{ theuser }}"
-    state: link
-  ignore_errors: yes
-
-- name: symlink mesloLGS bold
-  when: ansible_os_family == 'Debian'
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold.ttf"
-    dest: "/usr/share/fonts/MesloLGS NF Bold.ttf"
-    owner: "{{ theuser }}"
-    state: link
-  ignore_errors: yes
-
-- name: symlink mesloLGS regular
-  when: ansible_os_family == 'Debian'
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Regular.ttf"
-    dest: "/usr/share/fonts/MesloLGS NF Regular.ttf"
-    owner: "{{ theuser }}"
-    state: link
-  ignore_errors: yes
-
-- name: symlink mesloLGS italic
-  when: ansible_os_family == 'Debian'
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Italic.ttf"
-    dest: "/usr/share/fonts/MesloLGS NF Italic.ttf"
-    owner: "{{ theuser }}"
-    state: link
-  ignore_errors: yes
-
 - name: install and update brew
   when: ansible_os_family == 'Darwin'
   community.general.homebrew:
     name: "{{ pkgs_mac }}"
     state: present
-    update_homebrew: yes
-    upgrade_all: yes
+    update_homebrew: true
+    upgrade_all: true
 
 - name: install brew casks
   when: ansible_os_family == 'Darwin'
@@ -51,98 +15,87 @@
 - name: update apt pkgs
   when: ansible_os_family == 'Debian'
   ansible.builtin.apt:
-    update_cache: yes
-  become: yes
+    update_cache: true
+  become: true
 
 - name: install gpg
   when: ansible_os_family == 'Debian'
   ansible.builtin.apt:
     name: gpg
     state: present
-    update_cache: yes
-  become: yes
+    update_cache: true
+  become: true
+
+- name: install gpg
+  when: ansible_os_family == 'RedHat'
+  ansible.builtin.dnf:
+    name: gpg
+    state: present
+    update_cache: true
+  become: true
+
+- name: install docker
+  when: ansible_os_family == 'RedHat'
+  ansible.builtin.dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+    repo: https://download.docker.com/linux/centos/docker-ce.repo
+    state: present
+    update_cache: true
+  become: true
+
+- name: enable docker service
+  when: ansible_os_family == 'RedHat'
+  ansible.builtin.systemd_service:
+    state: started
+    enabled: true
+    name: docker
 
 - name: install apt pkgs
   when: ansible_os_family == 'Debian'
   ansible.builtin.apt:
     name: "{{ pkgs_debian }}"
     state: present
-    update_cache: yes
-  become: yes
+    update_cache: true
+  become: true
 
-  #- name: install glances via pip
-  #  when: ansible_os_family == 'Debian'
-  #  ansible.builtin.pip:
-  #    name: glances
-
-- name: install pacman pkgs
-  when: ansible_os_family == 'Archlinux'
-  community.general.pacman:
-    name: "{{ pkgs_arch }}"
+- name: install dnf pkgs
+  when: ansible_os_family == 'RedHat'
+  ansible.builtin.dnf:
+    name: "{{ pkgs_fedora }}"
     state: present
-    update_cache: yes
-  become: yes
-
-- name: update pacman pkgs
-  when: ansible_os_family == 'Archlinux'
-  community.general.pacman:
-    state: present
-    update_cache: yes
-    upgrade: yes
-  become: yes
-
-- name: ensure sshd is running on arch
-  when: ansible_os_family == 'Archlinux'
-  ansible.builtin.systemd:
-    enabled: yes
-    name: sshd
-    state: started
-  ignore_errors: yes
-  become: yes
-
-- name: ensure dockerd is running on arch
-  when: ansible_os_family == 'Archlinux'
-  ansible.builtin.systemd:
-    enabled: yes
-    name: docker
-    state: started
-  ignore_errors: yes
-  become: yes
-
-- name: create aur_builder user
-  when: ansible_os_family == 'Archlinux'
-  ansible.builtin.user:
-    name: aur_builder
-    create_home: no
-    group: wheel
-  become: yes
+    update_cache: true
+  become: true
 
 - name: create docker group
-  when: ansible_os_family == 'Archlinux' or
+  when: ansible_os_family == 'RedHat' or
     ansible_os_family == 'Debian'
   ansible.builtin.group:
     name: docker
     state: present
-  become: yes
+  become: true
 
 - name: add user to docker group
-  when: ansible_os_family == 'Archlinux' or
+  when: ansible_os_family == 'Redhat' or
     ansible_os_family == 'Debian'
   ansible.builtin.user:
     name: "{{ theuser }}"
     group: docker
-  become: yes
+  become: true
 
 - name: ensure wheel group exists
-  when: ansible_os_family == 'Archlinux' or
+  when: ansible_os_family == 'RedHat' or
     ansible_os_family == 'Debian'
   group:
     name: wheel
     state: present
-  become: yes
+  become: true
 
 - name: Allow 'wheel' group to have passwordless sudo
-  when: ansible_os_family == 'Archlinux' or
+  when: ansible_os_family == 'RedHat' or
     ansible_os_family == 'Debian'
   lineinfile:
     dest: /etc/sudoers
@@ -150,41 +103,26 @@
     regexp: "^%wheel"
     line: "%wheel ALL=(ALL) NOPASSWD: ALL"
     validate: "visudo -cf %s"
-  become: yes
+  become: true
 
-- name: add aur_builder to wheel
-  when: ansible_os_family == 'Archlinux'
-  ansible.builtin.lineinfile:
-    path: /etc/sudoers.d/11-install-aur_builder
-    line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
-    create: yes
-    validate: "visudo -cf %s"
-  become: yes
-
-- name: install meslo nerd font via aur
-  when: ansible_os_family == 'Archlinux'
-  aur: name=ttf-meslo-nerd-font-powerlevel10k
-  become: yes
-  become_user: aur_builder
-
-- name: ensure user exists on arch and debian
-  when: ansible_os_family == 'Archlinux' or
+- name: ensure user exists on linux
+  when: ansible_os_family == 'RedHat' or
     ansible_os_family == 'Debian'
   ansible.builtin.user:
     name: "{{ explicit_user }}"
     comment: we out here
     shell: /bin/zsh
-    create_home: yes
+    create_home: true
     groups: wheel,docker
     password: "{{ '$6$mysecretsalt$mqF71rPutgHoEx7nTnkwFbjoh3OmRmClb6e3lUTsZm8lIJL1fT33A/9Upvrn5ZLhTUmJzdoxs99BsQlRT5zpZ0' | password_hash('sha512', 'mysecretsalt') }}"
-  become: yes
+  become: true
 
 - name: clone prezto repo
   ansible.builtin.git:
     repo: https://github.com/sorin-ionescu/prezto.git
     dest: "{{lookup('env','HOME')}}/.zprezto"
-    recursive: yes
-  ignore_errors: yes
+    recursive: true
+  ignore_errors: true
 
 # - name: clone asdf repo
 #   ansible.builtin.git:
@@ -203,7 +141,7 @@
     path: /Users/shared
     state: directory
     mode: "0755"
-  become: yes
+  become: true
 
 - name: create Screenshots directory if it does not exist
   when: ansible_os_family == 'Darwin'
@@ -214,27 +152,27 @@
 
 - name: create Shared directory if it does not exist
   when: ansible_os_family == 'Debian' or
-    ansible_os_family == 'Archlinux'
+    ansible_os_family == 'RedHat'
   ansible.builtin.file:
     path: /home/shared
     state: directory
     mode: "0755"
-  become: yes
+  become: true
 
 - name: create config directory if it does not exist
   when: ansible_os_family == 'Debian' or
-    ansible_os_family == 'Archlinux'
+    ansible_os_family == 'RedHat'
   ansible.builtin.file:
     path: "/home/{{ explicit_user }}/.config"
     state: directory
     mode: "0755"
-  become: yes
+  become: true
 
 - name: set timezone to EST
   community.general.timezone:
     name: America/New_York
-  become: yes
-  ignore_errors: yes
+  become: true
+  ignore_errors: true
 
 - name: set dark mode on mac
   when: ansible_os_family == 'Darwin'
@@ -268,8 +206,8 @@
     key: https://github.com/virtualdisk.keys
 
 - name: copy certificate authority to trusted ca path of the os
-  when: ansible_os_family == 'Archlinux' or
-    ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' or
+    ansible_os_family == 'RedHat'
   copy:
     src: "{{ item }}"
     dest: "/usr/local/share/ca-certificates/"
@@ -295,13 +233,13 @@
 #     cmd: osascript -e \"{{lookup('env','HOME')}}/Pictures/Nevada.jpg\"
 
 - name: Install Linux Utils
-  when: ansible_os_family == 'Archlinux' or
+  when: ansible_os_family == 'RedHat' or
     ansible_os_family == 'Debian'
   ansible.builtin.include_tasks:
     file: linux_utils.yaml
 
 - name: Apply Linux Symlinks
-  when: ansible_os_family == 'Archlinux' or
+  when: ansible_os_family == 'RedHat' or
     ansible_os_family == 'Debian'
   ansible.builtin.include_tasks:
     file: linux_symlinks.yaml

@@ -1,5 +1,4 @@
 pkgs_mac:
-  - asdf
   - awscli
   - direnv
   - docker-credential-helper-ecr
@@ -12,8 +11,7 @@ pkgs_mac:
   - gpg
   - jq
   - k9s
-  - lazydocker
-  - minikube
+  - kind
   - mtr
   - neofetch
   - neovim
@@ -23,15 +21,12 @@ pkgs_mac:
   - skopeo
   - sops
   - stern
-  - teleport
-  - terraform-ls
   - tflint
   - the_silver_searcher
   - tldr
   - tmux
   - tmuxp
   - tree
-  - ultralist
   - virtualenv
   - xml-tooling-c
   - yq
@@ -43,6 +38,5 @@ casks:
   - alacritty
   - docker
   - google-cloud-sdk
-  - openlens
   - rectangle
   - session-manager-plugin

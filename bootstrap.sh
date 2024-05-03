@@ -64,8 +64,11 @@ check_distro() {
 	DISTRO="$(awk -F '=' '{print $2}' /etc/os-release | head -n 1 | sed 's/"//g')"
 
 	case "${DISTRO}" in
-	"Arch Linux")
-		check_ansible_arch
+	"Rocky Linux"*)
+		check_ansible_rocky
+		;;
+	"Fedora Linux"*)
+		check_ansible_fedora
 		;;
 	"Ubuntu"*)
 		check_ansible_debian
@@ -95,13 +98,26 @@ check_ansible_debian() {
 	fi
 }
 
-check_ansible_arch() {
+check_ansible_fedora() {
 	if [[ -f /usr/bin/ansible ]]; then
 		echo "Ansible found. Installing collections and running playbook..."
 		install_collections
 	else
 		echo "Ansible not found. Installing..."
-		pacman -Syu ansible --noconfirm
+		dnf install -y ansible
+		check_ansible_arch
+	fi
+}
+
+check_ansible_rocky() {
+	if [[ -f /usr/bin/ansible ]]; then
+		echo "Ansible found. Installing collections and running playbook..."
+		install_collections
+	else
+		echo "Ansible not found. Installing..."
+		dnf config-manager --set-enabled crb
+		dnf install -y epel-release
+		dnf install -y ansible
 		check_ansible_arch
 	fi
 }

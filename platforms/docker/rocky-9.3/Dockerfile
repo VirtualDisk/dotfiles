@@ -1,6 +1,6 @@
-FROM docker.io/archlinux/archlinux:base-devel
+FROM docker.io/library/rockylinux:9.3-minimal
 ENV USER=root
-RUN pacman -Syu sudo --noconfirm 
+RUN dnf install sudo -y
 WORKDIR /root/.dotfiles
 COPY . /root/.dotfiles
 RUN "/root/.dotfiles/bootstrap.sh"

@@ -3,30 +3,44 @@
     src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
     dest: /tmp
     remote_src: yes
-  become: yes
+  become: true
 
 - name: Install AWS CLI
   ansible.builtin.command:
     cmd: /tmp/aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
-  become: yes
+  become: true
 
 - name: download kubectl
   ansible.builtin.get_url:
-    url: "https://dl.k8s.io/release/v1.30.0/bin/linux/amd64/kubectl"
+    url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
     dest: "/usr/local/bin/talosctl"
     mode: a+x
-  become: yes
+  become: true
+
+- name: download k9s
+  ansible.builtin.get_url:
+    url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_amd64.tar.gz"
+    dest: "/tmp"
+    remote_src: yes
+  become: true
+
+- name: install k9s
+  ansible.builtin.copy:
+    src: /tmp/k9s
+    dest: /usr/local/bin/k9s
+    mode: a+x
+  become: true
 
 - name: download talosctl
   ansible.builtin.get_url:
-    url: "https://github.com/siderolabs/talos/releases/download/v1.7.0/talosctl-linux-arm64"
+    url: "https://github.com/siderolabs/talos/releases/download/{{ talosctl_version }}/talosctl-linux-arm64"
     dest: "/usr/local/bin/talosctl"
     mode: a+x
-  become: yes
+  become: true
 
 - name: download sops
   ansible.builtin.get_url:
-    url: "https://github.com/getsops/sops/releases/download/v3.8.1/sops-v3.8.1.linux.amd64"
+    url: "https://github.com/getsops/sops/releases/download/{{ sops_version }}/sops-{{ sops_version }}.linux.amd64"
     dest: "/usr/local/bin/sops"
     mode: a+x
-  become: yes
+  become: true
