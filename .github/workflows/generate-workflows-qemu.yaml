@@ -18,5 +18,8 @@ jobs:
   qemu-test:
     runs-on: gha-runner-scale-set-dotfiles
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
