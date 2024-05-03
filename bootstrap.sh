@@ -105,7 +105,7 @@ check_ansible_fedora() {
 	else
 		echo "Ansible not found. Installing..."
 		dnf install -y ansible
-		check_ansible_arch
+		check_ansible_fedora
 	fi
 }
 
@@ -118,7 +118,7 @@ check_ansible_rocky() {
 		dnf config-manager --set-enabled crb
 		dnf install -y epel-release
 		dnf install -y ansible
-		check_ansible_arch
+		check_ansible_rocky
 	fi
 }
 
