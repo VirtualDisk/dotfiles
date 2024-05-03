@@ -6,6 +6,7 @@ name: Test Platform on QEMU
 # documentation.
 
 on:
+  workflow_dispatch: {}
   workflow_call:
     inputs:
       os:
