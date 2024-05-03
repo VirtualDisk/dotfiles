@@ -1,0 +1,22 @@
+name: Generate Workflows QEMU
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  push:
+    branches: ["qemu-test"]
+    # Publish semver tags as releases.
+    tags: ["v*.*.*"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch: {}
+
+jobs:
+  qemu-test:
+    runs-on: gha-runner-scale-set-dotfiles
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
