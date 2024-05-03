@@ -17,7 +17,21 @@ on:
   workflow_dispatch: {}
 
 jobs:
+  list-operating-systems:
+    runs-on: gha-runner-scale-set-dotfiles
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-matrix
+        run: echo "::set-output name=matrix::$(ls docker | jq -R -s -c 'split("\n")[:-1]')"
+
   build-and-push:
+    needs: list-operating-systems
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJson(needs.list-operating-systems.outputs.matrix) }}
     concurrency:
       group: "build-${{ matrix.os }}"
       cancel-in-progress: false
@@ -28,15 +42,6 @@ jobs:
     secrets:
       registry_username: "${{ secrets.REGISTRY_ZOE_USERNAME }}"
       registry_password: "${{ secrets.REGISTRY_ZOE_PASSWORD }}"
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - "arch"
-          - "debian-trixie"
-          - "fedora-41"
-          - "macos-sonoma"
-          - "ubuntu-noble"
     permissions:
       contents: read
       packages: write
