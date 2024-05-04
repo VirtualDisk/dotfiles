@@ -49,7 +49,6 @@
       - docker-ce-cli
       - containerd.io
       - docker-compose-plugin
-    repo: https://download.docker.com/linux/centos/docker-ce.repo
     state: present
     update_cache: true
   become: true
