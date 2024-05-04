@@ -2,7 +2,7 @@
   ansible.builtin.unarchive:
     src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
     dest: /tmp
-    remote_src: yes
+    remote_src: true
   become: true
 
 - name: Install AWS CLI
@@ -18,9 +18,10 @@
   become: true
 
 - name: download k9s
-  ansible.builtin.get_url:
-    url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_amd64.tar.gz"
+  ansible.builtin.unarchive:
+    src: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_amd64.tar.gz"
     dest: "/tmp"
+    remote_src: true
   become: true
 
 - name: install k9s
