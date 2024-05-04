@@ -104,6 +104,7 @@ check_ansible_fedora() {
 		install_collections
 	else
 		echo "Ansible not found. Installing..."
+		yum install -y dnf-plugins-core
 		dnf install -y ansible
 		check_ansible_fedora
 	fi
