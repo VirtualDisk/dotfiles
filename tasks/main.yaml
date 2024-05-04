@@ -34,6 +34,13 @@
     update_cache: true
   become: true
 
+- name: Add Docker repository
+  when: ansible_os_family == 'RedHat'
+  ansible.builtin.yum_repository:
+    name: docker
+    description: docker repo
+    baseurl: https://download.docker.com/linux/fedora/docker-ce.repo
+
 - name: install docker
   when: ansible_os_family == 'RedHat'
   ansible.builtin.dnf:
