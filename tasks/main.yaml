@@ -39,11 +39,16 @@
   ansible.builtin.command: dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   become: true
 
+- name: Add Docker repository
+  when: ansible_os_family == 'RedHat'
+  ansible.builtin.command: dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+  become: true
+
 - name: install apt pkgs
   when: ansible_os_family == 'Debian'
   ansible.builtin.apt:
     name: "{{ pkgs_debian }}"
-    state: present
+    state: latest
     update_cache: true
   become: true
 
@@ -51,7 +56,7 @@
   when: ansible_os_family == 'RedHat'
   ansible.builtin.dnf:
     name: "{{ pkgs_fedora }}"
-    state: present
+    state: latest
     update_cache: true
   become: true
 
