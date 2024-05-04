@@ -3,15 +3,19 @@ pkgs_fedora:
   - amazon-ecr-credential-helper
   - apt-transport-https
   - ca-certificates
-  - curl
   - cmake
-  - freetype-devel
+  - containerd.io
+  - curl
+  - docker-ce
+  - docker-ce-cli
+  - docker-compose-plugin
   - fontconfig-devel
+  - freetype-devel
+  - fzf
+  - g++
+  - jq
   - libxcb-devel
   - libxkbcommon-devel
-  - g++
-  - fzf
-  - jq
   - mtr
   - neofetch
   - neovim
@@ -22,6 +26,7 @@ pkgs_fedora:
   - rsync
   - silversearcher-ag
   - snapd
+  - task
   - tldr
   - tmux
   - tmuxp
@@ -29,7 +34,6 @@ pkgs_fedora:
   - unzip
   - vim
   - virtualenv
+  - yq
   - yt-dlp
   - zsh
-  - yq
-  - task

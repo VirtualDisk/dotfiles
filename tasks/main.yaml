@@ -41,25 +41,6 @@
     description: docker repo
     baseurl: https://download.docker.com/linux/fedora/docker-ce.repo
 
-- name: install docker
-  when: ansible_os_family == 'RedHat'
-  ansible.builtin.dnf:
-    name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
-      - docker-compose-plugin
-    state: present
-    update_cache: true
-  become: true
-
-- name: enable docker service
-  when: ansible_os_family == 'RedHat'
-  ansible.builtin.systemd_service:
-    state: started
-    enabled: true
-    name: docker
-
 - name: install apt pkgs
   when: ansible_os_family == 'Debian'
   ansible.builtin.apt:
@@ -91,6 +72,13 @@
     name: "{{ theuser }}"
     group: docker
   become: true
+
+- name: enable docker service
+  when: ansible_os_family == 'RedHat'
+  ansible.builtin.systemd_service:
+    state: started
+    enabled: true
+    name: docker
 
 - name: ensure wheel group exists
   when: ansible_os_family == 'RedHat' or
