@@ -10,6 +10,7 @@ return {
         "json",
         "json5",
         "jsonc",
+        "nix",
         "python",
         "ruby",
         "sql",
