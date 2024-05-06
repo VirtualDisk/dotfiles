@@ -34,16 +34,6 @@
     update_cache: true
   become: true
 
-- name: Add Docker repository
-  when: ansible_os_family == 'RedHat'
-  ansible.builtin.command: dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  become: true
-
-- name: Add Docker repository
-  when: ansible_os_family == 'RedHat'
-  ansible.builtin.command: dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-  become: true
-
 - name: install apt pkgs
   when: ansible_os_family == 'Debian'
   ansible.builtin.apt:
