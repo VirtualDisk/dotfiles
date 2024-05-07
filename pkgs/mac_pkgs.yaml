@@ -1,4 +1,5 @@
 pkgs_mac:
+  - argocd
   - awscli
   - direnv
   - docker-credential-helper-ecr
