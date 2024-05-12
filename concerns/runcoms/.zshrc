@@ -509,6 +509,35 @@ rotate_asg_instance_by_hostname () {
         fi
 }
 
+wake() {
+  case $1 in
+    nuc1)
+      wakeonlan 1c:69:7a:ab:ad:50
+      ;;
+    nuc2)
+      wakeonlan 88:ae:dd:04:10:2a
+      ;;
+    nuc3)
+      wakeonlan 88:ae:dd:04:99:f2
+      ;;
+    nuc4)
+      wakeonlan 1c:69:7a:ab:09:4b
+      ;;
+    nuc5)
+      wakeonlan 88:ae:dd:04:0d:b1
+      ;;
+    nuc6)
+      wakeonlan 88:ae:dd:0a:9f:2d
+      ;;
+    pc)
+      wakeonlan 2c:f0:5d:9e:7e:88
+      ;;
+    *)
+      echo "Invalid node name."
+      ;;
+  esac
+}
+
 ssh-nucs() {
   LAST_WINDOW_ID="$(tmux list-windows |awk '{print $1}' | sed 's/://g' | tail -n 1)"
   NEXT_WINDOW_ID=$((LAST_WINDOW_ID + 1))

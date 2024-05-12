@@ -18,7 +18,7 @@ on:
 
 jobs:
   list-operating-systems:
-    runs-on: gha-runner-scale-set-dotfiles
+    runs-on: gha-runner-scale-set-dotfiles-green
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
