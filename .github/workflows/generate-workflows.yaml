@@ -6,8 +6,6 @@ name: Generate Workflows
 # documentation.
 
 on:
-  schedule:
-    - cron: "44 7 * * *"
   push:
     branches: ["main"]
     # Publish semver tags as releases.
