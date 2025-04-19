@@ -1,0 +1,50 @@
+name: Generate Workflows
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  schedule:
+    - cron: "44 7 * * *"
+  push:
+    branches: ["main"]
+    # Publish semver tags as releases.
+    tags: ["v*.*.*"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch: {}
+
+jobs:
+  list-operating-systems:
+    runs-on: gha-runner-scale-set-dotfiles-green
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-matrix
+        run: echo "::set-output name=matrix::$(ls platforms/docker | jq -R -s -c 'split("\n")[:-1]')"
+
+  build-and-push:
+    needs: list-operating-systems
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJson(needs.list-operating-systems.outputs.matrix) }}
+    concurrency:
+      group: "build-${{ matrix.os }}"
+      cancel-in-progress: false
+    uses: VirtualDisk/dotfiles/.github/workflows/build-and-push.yaml@main
+    with:
+      os: "${{ matrix.os }}"
+      registry: "registry.zoe/zcr.io"
+    secrets:
+      registry_username: "${{ secrets.REGISTRY_ZOE_USERNAME }}"
+      registry_password: "${{ secrets.REGISTRY_ZOE_PASSWORD }}"
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write

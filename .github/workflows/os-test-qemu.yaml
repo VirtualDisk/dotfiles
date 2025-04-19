@@ -1,0 +1,64 @@
+name: Test Platform on QEMU
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  workflow_dispatch: {}
+  workflow_call:
+    inputs:
+      os:
+        description: The Operating System to test
+        default: "ubuntu-noble"
+        required: false
+        type: string
+
+env:
+  iso: ubuntu-24.04-desktop-amd64.iso
+
+jobs:
+  build-and-push-os:
+    runs-on: zc2-ubuntu
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lowercase repository owner
+        shell: bash
+        run: echo "LOWERCASE_REPO_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+
+      - name: Download Ubuntu ISO
+        run: wget "http://nas.zoe:8080/web/kubevirt/images/ubuntu-24.04-desktop-amd64.iso"
+
+      - name: Create ISO Directory
+        run: mkdir ~/iso && mount -r ${{ env.iso }} ~/iso
+
+      - name: Create QEMU image
+        run: qemu-img create -f qcow2 ubuntu.qcow 20G
+
+      - name: Run NGINX and serve autoinstall yaml
+        run: docker run -d -v $(pwd)/config:/usr/share/nginx/html/:ro docker.io/library/nginx
+
+      - name: Setup QEMU system
+        run: kvm -no-reboot \
+          -name ubuntu-desktop \
+          -cdrom ubuntu-24.04-desktop-amd64.iso \
+          -kernel /mnt/casper/vmlinuz \
+          -initrd /mnt/casper/initrd \
+          -nographic \
+          -serial mon:stdio \
+          -bios /usr/share/qemu/OVMF.fd \
+          -drive file=ubuntu.qcow,format=qcow2,cache=none,if=virtio \
+          -append 'autoinstall ds=nocloud-net;s=http://_gateway:3003/ console=ttyS0,115200n8' \
+          -enable-kvm \
+          -m 4G \
+          -smp 2

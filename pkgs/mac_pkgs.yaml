@@ -1,0 +1,54 @@
+pkgs_mac:
+  # - font-meslo-for-powerlevel10k
+  - argocd
+  - awscli
+  - coreutils
+  - direnv
+  - docker-credential-helper-ecr
+  - dust
+  - fd
+  - ffmpeg
+  - fzf
+  - gcc
+  - glances
+  - go
+  - go-task
+  - gpg
+  - graphviz
+  - jq
+  - k9s
+  - kind
+  - krr
+  - kubecolor
+  - mtr
+  - neofetch
+  - neovim
+  - python3
+  - rclone
+  - rsync
+  - ruby
+  - skopeo
+  - sops
+  - stern
+  - tfenv
+  - tflint
+  - the_silver_searcher
+  - timg
+  - tldr
+  - tmux
+  - tmuxp
+  - tree
+  - vcluster
+  - virtualenv
+  - xml-tooling-c
+  - yq
+  - yt-dlp
+  - z
+  - zsh
+
+casks:
+  - alacritty
+  - docker
+  - google-cloud-sdk
+  - rectangle
+  - session-manager-plugin

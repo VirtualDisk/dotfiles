@@ -1,0 +1,54 @@
+- hosts: localhost
+  # become: true
+  connection: local
+  vars_files:
+    - vars.yaml
+    - pkgs/versions.yaml
+    - pkgs/mac_pkgs.yaml
+    - pkgs/debian_pkgs.yaml
+    - pkgs/fedora_pkgs.yaml
+
+  tasks:
+    - name: Main
+      ansible.builtin.include_tasks:
+        file: tasks/main.yaml
+    #   - name: Create a symbolic link
+    #     when: ansible_os_family == 'Darwin'
+    #     ansible.builtin.file:
+    #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold Italic.ttf'
+    #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Bold Italic.ttf"
+    #       owner: "{{ theuser }}"
+    #       state: link
+
+    #   - name: Create a symbolic link
+    #     when: ansible_os_family == 'Darwin'
+    #     ansible.builtin.file:
+    #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold.ttf'
+    #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Bold.ttf"
+    #       owner: "{{ theuser }}"
+    #       state: link
+
+    #   - name: Create a symbolic link
+    #     when: ansible_os_family == 'Darwin'
+    #     ansible.builtin.file:
+    #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Regular.ttf'
+    #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Regular.ttf"
+    #       owner: "{{ theuser }}"
+    #       state: link
+
+    #   - name: Create a symbolic link
+    #     when: ansible_os_family == 'Darwin'
+    #     ansible.builtin.file:
+    #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Italic.ttf'
+    #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Italic.ttf"
+    #       owner: "{{ theuser }}"
+    #       state: link
+
+  roles:
+    - role: luizgavalda.aur
+      when: ansible_os_family == 'Archlinux'
+
+  handlers:
+    - name: update trusted ca debian
+      shell: /usr/sbin/update-ca-certificates
+      when: ansible_os_family == "Debian"

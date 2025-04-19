@@ -1,0 +1,186 @@
+- name: Create ncmpcpp config directory
+  ansible.builtin.file:
+    path: "{{lookup('env','HOME')}}/.ncmpcpp"
+    state: directory
+    mode: "0755"
+
+- name: symlink k9s config
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/k9s"
+    dest: "{{lookup('env','HOME')}}/.config/k9s"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink ncmpcpp bindings
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/ncmpcpp/bindings"
+    dest: "{{lookup('env','HOME')}}/.ncmpcpp/bindings"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink tmuxp
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/tmux/.tmuxp"
+    dest: "{{lookup('env','HOME')}}/.tmuxp"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink terraformrc
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/terraform/terraform.rc"
+    dest: "{{lookup('env','HOME')}}/terraform.rc"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink neovim config
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/vim/starter"
+    dest: "{{lookup('env','HOME')}}/.config/nvim"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink tmux
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/tmux/.tmux.conf"
+    dest: "{{lookup('env','HOME')}}/.tmux.conf"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink tmux.conf
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/tmux/.tmux.conf.local"
+    dest: "{{lookup('env','HOME')}}/.tmux.conf.local"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink alacritty
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/alacritty/.alacritty.toml"
+    dest: "{{lookup('env','HOME')}}/.alacritty.toml"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink zlogin
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zlogin"
+    dest: "{{lookup('env','HOME')}}/.zlogin"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink zlogout
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zlogout"
+    dest: "{{lookup('env','HOME')}}/.zlogout"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink zpreztorc
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zpreztorc"
+    dest: "{{lookup('env','HOME')}}/.zpreztorc"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink zprofile
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zprofile"
+    dest: "{{lookup('env','HOME')}}/.zprofile"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink zshenv
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zshenv"
+    dest: "{{lookup('env','HOME')}}/.zshenv"
+    owner: "{{ theuser }}"
+    state: link
+
+# - name: symlink zshsecrets
+#   ansible.builtin.file:
+#     src:  '{{ playbook_dir }}/concerns/runcoms/.zshsecrets'
+#     dest: "{{lookup('env','HOME')}}/.zshsecrets"
+#     owner: "{{ theuser }}"
+#     state: link
+
+- name: symlink mac zshrc
+  when: ansible_os_family == 'Darwin'
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zshrc"
+    dest: "{{lookup('env','HOME')}}/.zshrc"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink mac zshcompletions
+  when: ansible_os_family == 'Darwin'
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zshcompletions"
+    dest: "{{lookup('env','HOME')}}/.zshcompletions"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink mac zshfunctions
+  when: ansible_os_family == 'Darwin'
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zshfunctions"
+    dest: "{{lookup('env','HOME')}}/.zshfunctions"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink mac zshmac
+  when: ansible_os_family == 'Darwin'
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zshmac"
+    dest: "{{lookup('env','HOME')}}/.zshmac"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink linux zshrc
+  when: ansible_os_family == 'Debian' or
+    ansible_os_family == 'Archlinux'
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zshrc.linux"
+    dest: "{{lookup('env','HOME')}}/.zshrc"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink zshcompletions
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zshcompletions"
+    dest: "{{lookup('env','HOME')}}/.zshcompletions"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink zshfunctions
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zshfunctions"
+    dest: "{{lookup('env','HOME')}}/.zshfunctions"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink zshgreenhouse
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/runcoms/.zshgreenhouse"
+    dest: "{{lookup('env','HOME')}}/.zshgreenhouse"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink p10k
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/p10k/.p10k.zsh"
+    dest: "{{lookup('env','HOME')}}/.p10k.zsh"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: symlink gitconfig
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/git/.gitconfig"
+    dest: "{{lookup('env','HOME')}}/.gitconfig"
+    owner: "{{ theuser }}"
+    state: link
+
+- name: download talosctl
+  ansible.builtin.get_url:
+    url: "https://github.com/siderolabs/talos/releases/download/v1.7.0/talosctl-darwin-arm64"
+    dest: "/usr/local/bin/talosctl"
+    mode: a+x
+  become: yes

@@ -1,0 +1,12 @@
+.DS_Store
+concerns/vim/.vim_runtime/temp_dirs
+test
+.zshsecrets
+bin
+lazy-lock.json
+concerns/vim/starter/lazy-lock.json
+concerns/vim/starter/lazyvim.json
+concerns/k9s/k9s.log
+concerns/k9s/clusters
+.zshgreenhouse
+.zshsecrets

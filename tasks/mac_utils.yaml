@@ -1,0 +1,20 @@
+- name: download talosctl
+  ansible.builtin.get_url:
+    url: "https://github.com/siderolabs/talos/releases/download/{{ talosctl_version }}/talosctl-darwin-arm64"
+    dest: "/usr/local/bin/talosctl"
+    mode: a+x
+  become: true
+
+- name: download talm
+  ansible.builtin.get_url:
+    url: "https://github.com/aenix-io/talm/releases/download/{{ talm_version }}/talm-darwin-arm64"
+    dest: "/usr/local/bin/talm"
+    mode: a+x
+  become: true
+
+- name: download longhornctl
+  ansible.builtin.get_url:
+    url: "https://github.com/longhorn/cli/releases/download/{{ longhornctl_version }}/longhornctl-darwin-arm64"
+    dest: "/usr/local/bin/longhornctl"
+    mode: a+x
+  become: true

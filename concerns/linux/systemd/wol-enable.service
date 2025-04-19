@@ -1,0 +1,9 @@
+[Unit]
+Description=Enable Wake-up on LAN
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/ethtool -s enp42s0 wol g
+
+[Install]
+WantedBy=basic.target
