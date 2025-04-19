@@ -29,7 +29,7 @@ env:
 
 jobs:
   build-and-push-os:
-    runs-on: gha-runner-scale-set-dotfiles-green
+    runs-on: gha-runner-scale-set-dotfiles-verde
     permissions:
       contents: read
       packages: write
