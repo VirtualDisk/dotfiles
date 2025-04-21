@@ -158,6 +158,7 @@
     state: link
 
 - name: symlink zshgreenhouse
+  when: isgreenhouse is defined
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshgreenhouse"
     dest: "{{lookup('env','HOME')}}/.zshgreenhouse"

@@ -7,6 +7,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export XDG_CONFIG_HOME="${HOME}/.config"
+
 export HISTFILE="${HOME}/.zsh_history"
 export HISTFILESIZE=1000000000000
 export HISTSIZE=10000000000000

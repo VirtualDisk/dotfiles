@@ -1,21 +1,51 @@
-# Move/add to $XDG_CONFIG_HOME/k9s/plugins.yaml
-# Requires the cnpg kubectl plugin. See https://cloudnative-pg.io/documentation/current/kubectl-plugin/
-#
-# Cluster actions:
-#   b         Request a new physical backup
-#   h         View hibernate status
-#   Shift-H   Hibernate cluster (this retains the data, but deletes everything else - including the cluster)
-#   l         View cluster logs
-#   p         Connect to the cluster via psql
-#   r         Reload the cluster
-#   Shift-R   Restart the cluster
-#   s         View cluster status
-#   Shift-S   View cluster status in verbose mode
-#
-# Namespace actions:
-#   Shift-H   Wake up Hibernated cluster in this namespace (assumes cluster name equals namespace name)
-
+# Move to $XDG_CONFIG_HOME/k9s/
 plugins:
+  sync-apps:
+    shortCut: Shift-S
+    confirm: false
+    scopes:
+      - apps
+    description: Sync a argocd apps
+    command: bash
+    background: false
+    args:
+      - -c
+      - "argocd app sync $NAME"
+  automated-sync-apps:
+    shortCut: Shift-O
+    confirm: true
+    scopes:
+      - apps
+    description: Auto syncPolicy app (automated or none)
+    command: bash
+    background: false
+    args:
+      - -c
+      - "argocd app set $NAME --sync-policy automated"
+  none-sync-apps:
+    shortCut: Ctrl-O
+    confirm: true
+    scopes:
+      - apps
+    description: Auto syncPolicy app (automated or none)
+    command: bash
+    background: false
+    args:
+      - -c
+      - "argocd app set $NAME --sync-policy none"
+
+  blame:
+    shortCut: b
+    confirm: false
+    description: "Blame"
+    scopes:
+      - all
+    command: sh
+    background: false
+    args:
+      - -c
+      - "kubectl-blame $RESOURCE_NAME $NAME -n $NAMESPACE --context $CONTEXT | less"
+
   ## cnpg
   cnpg-backup:
     shortCut: b
@@ -145,3 +175,93 @@ plugins:
         break
         fi
         done
+
+  talos-dashboard:
+    shortCut: Shift-D
+    description: Talos dashboard for node
+    dangerous: false
+    scopes:
+      - nodes
+    command: bash
+    background: false
+    confirm: false
+    args:
+      - -c
+      - |
+        talosctl dashboard -n $NAME --context $CONTEXT
+
+  talos-shutdown:
+    shortCut: Shift-S
+    description: Talos shutdown node
+    dangerous: true
+    scopes:
+      - nodes
+    command: bash
+    background: false
+    confirm: true
+    args:
+      - -c
+      - |
+        talosctl shutdown -n $NAME --context $CONTEXT --wait=true
+
+  talos-reboot:
+    shortCut: Shift-V
+    description: Talos reboot node
+    dangerous: true
+    scopes:
+      - nodes
+    command: bash
+    background: false
+    confirm: true
+    args:
+      - -c
+      - |
+        talosctl reboot -n $NAME --context $CONTEXT --wait=true
+
+  talos-reset:
+    shortCut: Shift-T
+    description: Talos reset node
+    dangerous: true
+    scopes:
+      - nodes
+    command: bash
+    background: false
+    confirm: true
+    args:
+      - -c
+      - |
+        talosctl reset -n $NAME --context $CONTEXT --reboot=true --wait=false
+
+  node-root-shell:
+    shortCut: a
+    description: Run root shell on node
+    dangerous: true
+    scopes:
+      - nodes
+    command: bash
+    background: false
+    confirm: true
+    args:
+      - -c
+      - |
+        host="$1"
+        json='
+        {
+          "apiVersion": "v1",
+          "spec": {
+            "hostIPC": true,
+            "hostNetwork": true,
+            "hostPID": true
+        '
+        if ! [[ -z "$host" ]]; then
+          json+=",
+          \"nodeSelector\" : {
+            \"kubernetes.io/hostname\" : \"$host\"
+          }
+          ";
+        fi
+        json+='
+          }
+        }
+        '
+        kubectl run -ti --image alpine:3.8 --rm --privileged --restart=Never --overrides="$json" root --command -- nsenter -t 1 -m -u -n -i -- bash -l
