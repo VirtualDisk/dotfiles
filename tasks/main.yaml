@@ -271,16 +271,17 @@
     file: mac_symlinks.yaml
 
 - name: Enable WOL
-  when: ( ansible_os_family == 'RedHat' or
-    ansible_os_family == 'Debian' ) and
-    {{ is_coder }} == 'false'
+  when: '( ansible_os_family == "RedHat" or
+    ansible_os_family == "Debian" ) and
+    is_coder == "false"'
   ansible.builtin.command:
     cmd: /sbin/ethtool -s enp42s0 wol g
   become: true
 
 - name: Reload systemd daemon and enable WOL service
-  when: ansible_os_family == 'RedHat' or
-    ansible_os_family == 'Debian'
+  when: '( ansible_os_family == "RedHat" or
+    ansible_os_family == "Debian" ) and
+    is_coder == "false"'
   ansible.builtin.systemd_service:
     name: wol-enable
     state: started
