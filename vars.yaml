@@ -1,4 +1,5 @@
 theuser: "{{lookup('env','USER')}}"
+is_coder: "{% if lookup('env', 'CODER') == 'true' %}true{% else %}false{% endif %}"
 asdf_user: "{{ theuser }}"
 explicit_user: "{% if lookup('env', 'CODER') == 'true' %}coder{% else %}zoe{% endif %}"
 asdf_legacy_version_file: "yes"
