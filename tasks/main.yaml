@@ -220,20 +220,20 @@
     state: present
     key: https://github.com/virtualdisk.keys
 
-- name: copy certificate authority to trusted ca path of the os
-  when: ansible_os_family == 'Debian' or
-    ansible_os_family == 'RedHat'
-  become: true
-  copy:
-    src: "{{ item }}"
-    dest: "/usr/local/share/ca-certificates/"
-    owner: root
-    group: root
-    mode: 0644
-  with_fileglob:
-    - concerns/root-ca/*
-  notify:
-    - update trusted ca debian
+# - name: copy certificate authority to trusted ca path of the os
+#   when: ansible_os_family == 'Debian' or
+#     ansible_os_family == 'RedHat'
+#   become: true
+#   copy:
+#     src: "{{ item }}"
+#     dest: "/usr/local/share/ca-certificates/"
+#     owner: root
+#     group: root
+#     mode: 0644
+#   with_fileglob:
+#     - concerns/root-ca/*
+#   notify:
+#     - update trusted ca debian
 
 - name: symlink wallpaper
   when: ansible_os_family == 'Darwin'
