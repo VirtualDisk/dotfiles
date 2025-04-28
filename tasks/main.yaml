@@ -85,36 +85,36 @@
     enabled: true
     name: docker
 
-- name: ensure wheel group exists
-  when: ansible_os_family == 'RedHat' or
-    ansible_os_family == 'Debian'
-  group:
-    name: wheel
-    state: present
-  become: true
-
-- name: Allow 'wheel' group to have passwordless sudo
-  when: ansible_os_family == 'RedHat' or
-    ansible_os_family == 'Debian'
-  lineinfile:
-    dest: /etc/sudoers
-    state: present
-    regexp: "^%wheel"
-    line: "%wheel ALL=(ALL) NOPASSWD: ALL"
-    validate: "visudo -cf %s"
-  become: true
-
-- name: ensure user exists on linux
-  when: ansible_os_family == 'RedHat' or
-    ansible_os_family == 'Debian'
-  ansible.builtin.user:
-    name: "{{ explicit_user }}"
-    comment: we out here
-    shell: /bin/zsh
-    create_home: true
-    groups: wheel,docker
-    password: "{{ '$6$mysecretsalt$mqF71rPutgHoEx7nTnkwFbjoh3OmRmClb6e3lUTsZm8lIJL1fT33A/9Upvrn5ZLhTUmJzdoxs99BsQlRT5zpZ0' | password_hash('sha512', 'mysecretsalt') }}"
-  become: true
+# - name: ensure wheel group exists
+#   when: ansible_os_family == 'RedHat' or
+#     ansible_os_family == 'Debian'
+#   group:
+#     name: wheel
+#     state: present
+#   become: true
+#
+# - name: Allow 'wheel' group to have passwordless sudo
+#   when: ansible_os_family == 'RedHat' or
+#     ansible_os_family == 'Debian'
+#   lineinfile:
+#     dest: /etc/sudoers
+#     state: present
+#     regexp: "^%wheel"
+#     line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+#     validate: "visudo -cf %s"
+#   become: true
+#
+# - name: ensure user exists on linux
+#   when: ansible_os_family == 'RedHat' or
+#     ansible_os_family == 'Debian'
+#   ansible.builtin.user:
+#     name: "{{ explicit_user }}"
+#     comment: we out here
+#     shell: /bin/zsh
+#     create_home: true
+#     groups: wheel,docker
+#     password: "{{ '$6$mysecretsalt$mqF71rPutgHoEx7nTnkwFbjoh3OmRmClb6e3lUTsZm8lIJL1fT33A/9Upvrn5ZLhTUmJzdoxs99BsQlRT5zpZ0' | password_hash('sha512', 'mysecretsalt') }}"
+#   become: true
 
 - name: clone prezto repo
   ansible.builtin.git:
