@@ -4,11 +4,11 @@ collections:
 
   - name: community.docker
 
-  - name: community.general
+  # - name: community.general
 
-roles: 
+roles:
   - name: cimon-io.asdf
-  
+
   - name: luizgavalda.aur
 
   - name: markosamuli.asdf
