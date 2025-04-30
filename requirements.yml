@@ -4,7 +4,7 @@ collections:
 
   - name: community.docker
 
-  # - name: community.general
+  - name: community.general
 
 roles:
   - name: cimon-io.asdf
