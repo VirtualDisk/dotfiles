@@ -23,6 +23,7 @@ pkgs_debian:
   - silversearcher-ag
   - snapd
   - tldr
+  - timg
   - tmux
   - tmuxp
   - tree

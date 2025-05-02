@@ -33,6 +33,7 @@ pkgs_fedora:
   - tree
   - unzip
   - vim
+  - timg
   - virtualenv
   - yq
   - yt-dlp

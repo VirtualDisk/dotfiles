@@ -23,6 +23,8 @@ export KUBE_EDITOR=nvim
 export K9S_CONFIG_DIR="${HOME}/.dotfiles/concerns/k9s"
 export KUBECONFIG="${HOME}/.kube/config"
 export TALOSCONFIG="${HOME}/.talos/verde.yaml"
+# timg, photo and video viewer
+export TIMG_USE_UPPER_BLOCK=1
 
 
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
