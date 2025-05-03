@@ -26,7 +26,7 @@ check_platform() {
     ;;
   "linux-gnu")
     check_distro
-    # rundazsh
+    rundazsh
     ;;
   *)
     echo "Unsupported platform type ${OSTYPE}"

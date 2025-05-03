@@ -9,6 +9,7 @@ source <(vcluster completion zsh)
 source <(coder completion zsh)
 source <(argocd-autopilot completion zsh)
 source <(kwokctl completion zsh)
+source <(hugo completion zsh)
 source <(/usr/local/bin/kubectl completion zsh)
 
 # zsh completion for cilium                               -*- shell-script -*-
