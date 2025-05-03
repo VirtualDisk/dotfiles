@@ -50,6 +50,6 @@ pkgs_mac:
 casks:
   - alacritty
   - docker
-  - google-cloud-sdk
+  - maccy
   - rectangle
   - session-manager-plugin
