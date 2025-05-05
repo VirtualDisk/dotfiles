@@ -118,7 +118,7 @@
     owner: "{{ theuser }}"
     state: link
 
-- name: symlink mac zshfunctions
+- name: symlink zshfunctions
   when: ansible_os_family == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshfunctions"
@@ -147,13 +147,6 @@
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshcompletions"
     dest: "{{lookup('env','HOME')}}/.zshcompletions"
-    owner: "{{ theuser }}"
-    state: link
-
-- name: symlink zshfunctions
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zshfunctions"
-    dest: "{{lookup('env','HOME')}}/.zshfunctions"
     owner: "{{ theuser }}"
     state: link
 
