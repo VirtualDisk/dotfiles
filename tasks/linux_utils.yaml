@@ -61,7 +61,7 @@
 
 - name: install kubectl-ai
   ansible.builtin.copy:
-    src: /tmp/k9s
+    src: /tmp/kubectl-ai
     dest: /usr/local/bin/kubectl-ai
     mode: a+x
   become: true
