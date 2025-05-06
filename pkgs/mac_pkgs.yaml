@@ -7,11 +7,11 @@ pkgs_mac:
   - docker-credential-helper-ecr
   - dust
   - fd
-  - rainfrog
   - ffmpeg
   - fzf
   - gcc
   - glances
+  - gnu-tar
   - go
   - go-task
   - gpg
@@ -25,6 +25,7 @@ pkgs_mac:
   - neofetch
   - neovim
   - python3
+  - rainfrog
   - rclone
   - rsync
   - ruby

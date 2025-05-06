@@ -7,3 +7,4 @@ talm_version: v0.6.7
 # https://github.com/argoproj/argo-cd/releases
 argocd_version: v2.14.10
 longhornctl_version: v1.8.1
+kubectl_ai_version: v0.0.7
