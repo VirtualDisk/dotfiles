@@ -1,8 +1,12 @@
 ## FUNCTIONS ##
 
+## tmux
+
 tmuxpl()  {
   tmuxp load "$(find ${HOME}/.tmuxp/ -type f | fzf)"
 }
+
+## onepassword
 
 zop() {
     while [[ ! $(pgrep 'Docker Desktop') ]];  do
@@ -13,6 +17,54 @@ zop() {
 
     docker-compose --file ${ZOEREPO}/docker/onepassword/docker-compose.yaml up -d
     export OP_CONNECT_TOKEN=$(op item get 'zoe Access Token terraform' |yq .Fields.credential)
+}
+
+## Terraform
+
+tfstatemove() {
+    for i in "$(terraform state list |ag 'rbac.kubernetes')"; do
+        echo "terraform state mv $i $(echo $i | sed 's/rbac.kubernetes/rbac-okta.kubernetes/g')"
+    done
+
+}
+
+flipstate () {
+        to_local () {
+                echo "Moving state to local"
+                if mv _state.tf _state.tf.local
+                then
+                        echo "Done"
+                        return 0
+                else
+                        echo "Failed"
+                        return 1
+                fi
+        }
+        to_remote () {
+                echo "Moving state to remote"
+                if mv _state.tf.local _state.tf
+                then
+                        echo "Done"
+                        return 0
+                else
+                        echo "Failed"
+                        return 1
+                fi
+        }
+        if [[ $# -eq 1 ]]
+        then
+                case "$1" in
+                        (local) to_local ;;
+                        (remote) to_remote ;;
+                esac
+        else
+                if [[ -f "_state.tf" ]]
+                then
+                        to_local
+                else
+                        to_remote
+                fi
+        fi
 }
 
 tfix() {
@@ -37,6 +89,8 @@ tfaxd() {
     cd "${PREVDIR}"
 }
 
+## Find and replace
+
 findreplace() {
     echo "Find and replace in current directory!"
     echo "File pattern to look for? (eg '*.txt')"
@@ -49,6 +103,39 @@ findreplace() {
 
     find . -type f -name $filepattern -print0 | xargs -0 sed -i '' -e "s#$existing#$replacement#g"
 }
+
+## AWS
+
+export AWS_SDK_LOAD_CONFIG=true
+#export AWS_DEFAULT_PROFILE="dev.use1"
+
+aws-vault-use() {
+    local profile output
+
+    profile="$1"
+
+    output="$(aws-vault exec "$profile" -- env)"
+    if [[ $? -ne 0 ]]; then
+        echo "$output" >&2
+        return 1
+    fi
+
+    eval "$(echo "$output" | awk '/^AWS/ && !/^AWS_VAULT/ { print "export " $1 }')"
+}
+
+
+param () {
+	aws ssm get-parameters --with-decryption --names "$(aws ssm get-parameters-by-path --path / --recursive \
+  | jq -r '.Parameters[].Name' | fzf)" | jq -er '.Parameters[].Value' | pbcopy
+}
+
+get_command_output() {
+    aws ssm list-command-invocations \
+        --command-id "${1}" \
+        --details \
+    | jq -r '.CommandInvocations[].CommandPlugins[].Output'
+}
+
 n2ip () {
         aws ec2 describe-instances --filters "Name=tag:Name,Values=*${1}*" Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[] | [.NetworkInterfaces[0].PrivateIpAddress, (.Tags[] | select(.Key == "Name").Value),(.InstanceId),(.LaunchTime),(.InstanceType),(.ImageId)] | join("\t")'
 }
@@ -66,6 +153,8 @@ _find-asgs () {
         find-asgs "${1}" | fzf -m
 }
 
+## Directory traversal
+
 cdfzf() {
   local REPOS="$(find ~/${1:-"~"} -type d -depth 1 | sed "s#$HOME/${1}/##g")"
   local SELECTION="$(echo $REPOS | fzf)"
@@ -82,6 +171,24 @@ v() {
     local dadir="$(echo ${dafile}|rev|cut -d'/' -f2- |rev)"
     nvim "${dafile}"
     cd "${dadir}"
+}
+
+## Kubernetes
+
+kubectl-list-all-images() {
+  kubectl get pods --all-namespaces -o jsonpath="{.items[*].spec['initContainers', 'containers'][*].image}" |\
+  tr -s '[[:space:]]' '\n' |\
+  sort |\
+  uniq -c
+}
+
+kubectl-list-all-images-by-pod() {
+  kubectl get pods --all-namespaces -o jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}' |\
+  sort
+}
+
+kubectl-list-all-images-by-namespace() {
+  kubectl get pods --namespace $1 -o jsonpath="{.items[*].spec.containers[*].image}"
 }
 
 kn() {
@@ -133,105 +240,7 @@ kcrm() {
     fi
 }
 
-tc() {
-    contexts=$(cat <<-EOF
-grapefruit
-EOF
-)
-    context="$(echo ${contexts} |fzf)"
-    talosctl config context "${context}"
-}
-
-# kubectl() {
-#     # only sort if we are listing objects
-#     if [[ $(echo "${@}" |ag "get all") ]]; then
-#      /usr/local/bin/kubectl "${@}"
-#     elif [[ $(echo "${@}" |ag "get") ]]; then
-#      /usr/local/bin/kubectl "${@}" |sort --numeric-sort
-#     else
-#      /usr/local/bin/kubectl "${@}"
-#     fi
-# }
-
-ips() {
-    kubectl get svc -A | ag '192' | awk '{print $5 " " $2}' | sort -n
-}
-
-
-export AWS_SDK_LOAD_CONFIG=true
-#export AWS_DEFAULT_PROFILE="dev.use1"
-
-aws-vault-use() {
-    local profile output
-
-    profile="$1"
-
-    output="$(aws-vault exec "$profile" -- env)"
-    if [[ $? -ne 0 ]]; then
-        echo "$output" >&2
-        return 1
-    fi
-
-    eval "$(echo "$output" | awk '/^AWS/ && !/^AWS_VAULT/ { print "export " $1 }')"
-}
-
-flipstate () {
-        to_local () {
-                echo "Moving state to local"
-                if mv _state.tf _state.tf.local
-                then
-                        echo "Done"
-                        return 0
-                else
-                        echo "Failed"
-                        return 1
-                fi
-        }
-        to_remote () {
-                echo "Moving state to remote"
-                if mv _state.tf.local _state.tf
-                then
-                        echo "Done"
-                        return 0
-                else
-                        echo "Failed"
-                        return 1
-                fi
-        }
-        if [[ $# -eq 1 ]]
-        then
-                case "$1" in
-                        (local) to_local ;;
-                        (remote) to_remote ;;
-                esac
-        else
-                if [[ -f "_state.tf" ]]
-                then
-                        to_local
-                else
-                        to_remote
-                fi
-        fi
-}
-
-param () {
-	aws ssm get-parameters --with-decryption --names "$(aws ssm get-parameters-by-path --path / --recursive \
-  | jq -r '.Parameters[].Name' | fzf)" | jq -er '.Parameters[].Value' | pbcopy
-}
-
-get_command_output() {
-    aws ssm list-command-invocations \
-        --command-id "${1}" \
-        --details \
-    | jq -r '.CommandInvocations[].CommandPlugins[].Output'
-}
-
-tfstatemove() {
-    for i in "$(terraform state list |ag 'rbac.kubernetes')"; do
-        echo "terraform state mv $i $(echo $i | sed 's/rbac.kubernetes/rbac-okta.kubernetes/g')"
-    done
-
-}
+## Talos
 
 taintmodule() {
   #excluded_resources=('google_compute_address.ip_address')
@@ -254,6 +263,17 @@ taintmodule() {
     fi
   done
 }
+
+tc() {
+    contexts=$(cat <<-EOF
+grapefruit
+EOF
+)
+    context="$(echo ${contexts} |fzf)"
+    talosctl config context "${context}"
+}
+
+## Wake on LAN (WOL)
 
 wake() {
   case $1 in
