@@ -2,9 +2,10 @@ kubectl_version: v1.32.4
 talosctl_version: v1.10.0
 k9s_version: v0.50.3
 sops_version: v3.8.1
-# https://github.com/aenix-io/talm/tags
+# https://github.com/aenix-io/talm/releases
 talm_version: v0.6.7
 # https://github.com/argoproj/argo-cd/releases
 argocd_version: v2.14.10
 longhornctl_version: v1.8.1
-kubectl_ai_version: v0.0.7
+# https://github.com/GoogleCloudPlatform/kubectl-ai/releases
+kubectl_ai_version: v0.0.8

@@ -153,6 +153,26 @@ plugins:
       - -c
       - 'kubectl cnpg status $NAME -n $NAMESPACE --context "$CONTEXT" --verbose |& less -R'
   ## krr
+  krr-ns:
+    shortCut: Shift-K
+    description: Get krr
+    scopes:
+      - namespaces
+    command: bash
+    background: false
+    confirm: false
+    args:
+      - -c
+      - |
+        krr simple -p "https://prometheus.${CONTEXT}.zoe" --cluster $CONTEXT -n $RESOURCE_NAME
+        echo "Press 'q' to exit"
+        while : ; do
+        read -n 1 k <&1
+        if [[ $k = q ]] ; then
+        break
+        fi
+        done
+
   krr:
     shortCut: Shift-K
     description: Get krr
@@ -160,6 +180,7 @@ plugins:
       - deployments
       - daemonsets
       - statefulsets
+      - cronjobs
     command: bash
     background: false
     confirm: false
