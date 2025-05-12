@@ -1,6 +1,6 @@
 kubectl_version: v1.32.4
 talosctl_version: v1.10.0
-k9s_version: v0.50.3
+k9s_version: v0.50.6
 sops_version: v3.8.1
 # https://github.com/aenix-io/talm/releases
 talm_version: v0.6.7
