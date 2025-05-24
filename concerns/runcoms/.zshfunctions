@@ -304,3 +304,8 @@ wake() {
   esac
 }
 
+# Get upstream container tags
+
+tags() {
+  skopeo list-tags "docker://${1}"
+}

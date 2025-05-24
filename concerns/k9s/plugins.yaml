@@ -251,7 +251,7 @@ plugins:
     args:
       - -c
       - |
-        talosctl reset -n $NAME --context $CONTEXT --reboot=true --wait=false
+        talosctl reset -n $NAME --context $CONTEXT --reboot=false --wait=false
 
   node-root-shell:
     shortCut: a
