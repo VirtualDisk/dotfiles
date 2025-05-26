@@ -11,6 +11,13 @@
     owner: "{{ theuser }}"
     state: link
 
+- name: symlink codex config
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/concerns/codex"
+    dest: "{{lookup('env','HOME')}}/.codex"
+    owner: "{{ theuser }}"
+    state: link
+
 - name: symlink ncmpcpp bindings
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/ncmpcpp/bindings"
