@@ -4,6 +4,12 @@
     state: directory
     mode: "0755"
 
+- name: Create codex config directory
+  ansible.builtin.file:
+    path: "{{lookup('env','HOME')}}/.codex"
+    state: directory
+    mode: "0755"
+
 - name: symlink k9s config
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/k9s"
@@ -13,8 +19,8 @@
 
 - name: symlink codex config
   ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/codex"
-    dest: "{{lookup('env','HOME')}}/.codex"
+    src: "{{ playbook_dir }}/concerns/codex/config.yaml"
+    dest: "{{lookup('env','HOME')}}/.codex/config.yaml"
     owner: "{{ theuser }}"
     state: link
 
