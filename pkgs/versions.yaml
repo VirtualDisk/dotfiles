@@ -8,4 +8,4 @@ talm_version: v0.6.7
 argocd_version: v2.14.10
 longhornctl_version: v1.8.1
 # https://github.com/GoogleCloudPlatform/kubectl-ai/releases
-kubectl_ai_version: v0.0.12
+kubectl_ai_version: v0.0.13

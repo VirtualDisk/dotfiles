@@ -4,3 +4,21 @@ source '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh
 # complete -F __start_kubectl k
 
 . "/opt/homebrew/etc/profile.d/z.sh"
+
+noise() {
+  case $1 in
+    on)
+      echo "enabling noise"
+      defaults write com.apple.ComfortSounds comfortSoundsEnabled -bool YES
+      defaults write com.apple.ComfortSounds lastEnablementTimestamp $(date +%s)
+      launchctl kill SIGHUP gui/$(id -u)/com.apple.accessibility.heard
+    ;;
+    off)
+      echo "disabling noise"
+      defaults write com.apple.ComfortSounds comfortSoundsEnabled -bool NO
+      launchctl kill SIGHUP gui/$(id -u)/com.apple.accessibility.heard
+    ;;
+    *)
+      echo "invalid input. usage: noise (on|off)"
+  esac
+}
