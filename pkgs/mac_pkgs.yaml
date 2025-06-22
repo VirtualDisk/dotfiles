@@ -8,6 +8,7 @@ pkgs_mac:
   - dust
   - fd
   - ffmpeg
+  - gum
   - fzf
   - gcc
   - glances
