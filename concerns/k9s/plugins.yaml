@@ -1,38 +1,65 @@
 # Move to $XDG_CONFIG_HOME/k9s/
 plugins:
-  sync-apps:
-    shortCut: Shift-S
+  argocd:
+    shortCut: "s"
+    description: Sync ArgoCD Application
+    scopes:
+      - application
+    command: argocd
+    args:
+      - app
+      - sync
+      - $NAME
+      - --app-namespace
+      - $NAMESPACE
+    background: true
+    confirm: true
+
+  refresh-apps:
+    shortCut: Shift-R
     confirm: false
     scopes:
       - apps
-    description: Sync a argocd apps
+    description: Refresh a argocd app hard
     command: bash
     background: false
     args:
       - -c
-      - "argocd app sync $NAME"
-  automated-sync-apps:
-    shortCut: Shift-O
-    confirm: true
+      - "kubectl annotate applications -n argocd $NAME argocd.argoproj.io/refresh=hard"
+
+  disable-auto-sync:
+    shortCut: Shift-J
+    confirm: false
     scopes:
       - apps
-    description: Auto syncPolicy app (automated or none)
-    command: bash
+    description: Disable argocd sync
+    command: kubectl
     background: false
     args:
-      - -c
-      - "argocd app set $NAME --sync-policy automated"
-  none-sync-apps:
-    shortCut: Ctrl-O
-    confirm: true
+      - patch
+      - applications
+      - -n
+      - argocd
+      - $NAME
+      - "--type=json"
+      - '-p=[{"op":"replace", "path": "/spec/syncPolicy", "value": {}}]'
+
+  enable-auto-sync:
+    shortCut: Shift-B
+    confirm: false
     scopes:
       - apps
-    description: Auto syncPolicy app (automated or none)
-    command: bash
+    description: Enable argocd sync
+    command: kubectl
     background: false
     args:
-      - -c
-      - "argocd app set $NAME --sync-policy none"
+      - patch
+      - applications
+      - -n
+      - argocd
+      - $NAME
+      - --type=merge
+      - '-p={"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"syncOptions":["ApplyOutOfSyncOnly=true","CreateNamespace=true","PruneLast=true","PrunePropagationPolicy=foreground"]}}}'
 
   # blame:
   #   shortCut: b
