@@ -11,6 +11,7 @@ source <(argocd-autopilot completion zsh)
 source <(kwokctl completion zsh)
 source <(hugo completion zsh)
 source <(/usr/local/bin/kubectl completion zsh)
+source <(/usr/local/bin/kubectl pv-migrate completion zsh)
 
 # zsh completion for cilium                               -*- shell-script -*-
 
