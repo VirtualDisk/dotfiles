@@ -3,6 +3,7 @@ compdef _cilium cilium
 
 source <(argo completion zsh)
 source <(flux completion zsh)
+source <(task --completion zsh)
 source <(talosctl completion zsh)
 source <(botkube completion zsh)
 source <(vcluster completion zsh)

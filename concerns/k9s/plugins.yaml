@@ -1,5 +1,16 @@
 # Move to $XDG_CONFIG_HOME/k9s/
 plugins:
+  vm-ssh:
+    shortCut: Shift-S
+    description: SSH
+    command: virtctl
+    scopes:
+      - virtualmachines
+      - virtualmachineinstances
+    args:
+      - ssh
+      - zc2user@vmi/$NAME
+      - --namespace=$NAMESPACE
   argocd:
     shortCut: "s"
     description: Sync ArgoCD Application
