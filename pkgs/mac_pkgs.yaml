@@ -50,6 +50,7 @@ pkgs_mac:
 
 casks:
   - alacritty
+  - discord
   - docker
   - maccy
   - rectangle
