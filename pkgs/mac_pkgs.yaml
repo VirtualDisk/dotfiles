@@ -1,5 +1,4 @@
 pkgs_mac:
-  # - font-meslo-for-powerlevel10k
   - argocd
   - awscli
   - coreutils
@@ -8,22 +7,23 @@ pkgs_mac:
   - dust
   - fd
   - ffmpeg
-  - gum
+  - font-meslo-for-powerlevel10k
   - fzf
   - gcc
+  - gh
   - glances
   - gnu-tar
   - go
   - go-task
   - gpg
   - graphviz
+  - gum
   - jq
   - k9s
   - kind
   - krr
   - kubecolor
   - mtr
-  - neofetch
   - neovim
   - python3
   - rainfrog
@@ -37,7 +37,6 @@ pkgs_mac:
   - tflint
   - the_silver_searcher
   - timg
-  - tldr
   - tmux
   - tmuxp
   - tree
