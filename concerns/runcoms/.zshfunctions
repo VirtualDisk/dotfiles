@@ -298,6 +298,9 @@ wake() {
     pc)
       wakeonlan 2c:f0:5d:9e:7e:88
       ;;
+    nas)
+      wakeonlan 90:09:d0:04:1f:4d
+      ;;
     *)
       echo "Invalid node name."
       ;;
