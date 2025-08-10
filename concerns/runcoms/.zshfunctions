@@ -307,6 +307,38 @@ wake() {
   esac
 }
 
+dashboard() {
+  case $1 in
+    nuc1)
+      ;;
+    nuc2)
+      open "https://grafana.verde.zoe/d/rYdddlPWk/node-exporter-full?orgId=1&from=now-12h&to=now&timezone=browser&var-DS_PROMETHEUS=prometheus&var-job=node-exporter&var-nodename=nuc2-verde&var-node=10.10.10.12:9100&var-diskdevices=%5Ba-z%5D%2B%7Cnvme%5B0-9%5D%2Bn%5B0-9%5D%2B%7Cmmcblk%5B0-9%5D%2B&refresh=1m"
+      ;;
+    nuc3)
+      wakeonlan 88:ae:dd:04:99:f2
+      ;;
+    nuc4)
+      wakeonlan 1c:69:7a:ab:09:4b
+      ;;
+    nuc5)
+      open "https://grafana.verde.zoe/d/rYdddlPWk/node-exporter-full?orgId=1&from=now-12h&to=now&timezone=browser&var-DS_PROMETHEUS=prometheus&var-job=node-exporter&var-nodename=nuc5-verde&var-node=10.10.10.15:9100&var-diskdevices=%5Ba-z%5D%2B%7Cnvme%5B0-9%5D%2Bn%5B0-9%5D%2B%7Cmmcblk%5B0-9%5D%2B&refresh=1m"
+      ;;
+    nuc6)
+      open "https://grafana.verde.zoe/d/rYdddlPWk/node-exporter-full?orgId=1&from=now-12h&to=now&timezone=browser&var-DS_PROMETHEUS=prometheus&var-job=node-exporter&var-nodename=nuc6-verde&var-node=10.10.10.16:9100&var-diskdevices=%5Ba-z%5D%2B%7Cnvme%5B0-9%5D%2Bn%5B0-9%5D%2B%7Cmmcblk%5B0-9%5D%2B&refresh=1m"
+      ;;
+    pc)
+      wakeonlan 2c:f0:5d:9e:7e:88
+      ;;
+    nas)
+      open "https://grafana.verde.zoe/d/rYdddlPWk/node-exporter-full?orgId=1&from=now-12h&to=now&timezone=browser&var-DS_PROMETHEUS=prometheus&var-job=scrapeConfig%2Fmonitoring%2Fnas-zoe-node-exporter&var-nodename=nas-zoe&var-node=nas.zoe:9100&var-diskdevices=%5Ba-z%5D%2B%7Cnvme%5B0-9%5D%2Bn%5B0-9%5D%2B%7Cmmcblk%5B0-9%5D%2B&refresh=1m"
+      ;;
+    *)
+      echo "Invalid node name."
+      ;;
+  esac
+
+}
+
 # Get upstream container tags
 
 tags() {
