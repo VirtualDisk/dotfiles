@@ -13,6 +13,7 @@ pkgs_mac:
   - gh
   - glances
   - gnu-tar
+  - utm
   - go
   - go-task
   - gpg
