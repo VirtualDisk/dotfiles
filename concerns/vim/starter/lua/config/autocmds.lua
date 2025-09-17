@@ -4,6 +4,10 @@
 
 vim.cmd([[set guicursor=n:hor50,i-ci-ve:block]])
 
+-- Helm fix
+-- https://github.com/neovim/nvim-lspconfig/issues/2252
+vim.cmd([[autocmd BufRead,BufNewFile */templates/*.yaml,*/templates/*.tpl,*.gotmpl,helmfile*.yaml set ft=helm]])
+
 -- Terraform Stuff
 -- vim.cmd([[let g:terraform_fmt_on_save=1]])
 -- vim.cmd([[let g:terraform_align=1]])

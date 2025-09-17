@@ -21,6 +21,7 @@ return {
             },
           },
         },
+        helm_ls = {},
         yamlls = {
           -- Have to add this for yamlls to understand that we support line folding
           capabilities = {
@@ -60,6 +61,13 @@ return {
       },
       setup = {
         yamlls = function()
+          LazyVim.lsp.on_attach(function(client, buffer)
+            if vim.bo[buffer].filetype == "helm" then
+              vim.schedule(function()
+                vim.cmd("LspStop ++force yamlls")
+              end)
+            end
+          end, "yamlls")
           -- Neovim < 0.10 does not have dynamic registration for formatting
           if vim.fn.has("nvim-0.10") == 0 then
             require("lazyvim.util").lsp.on_attach(function(client, _)

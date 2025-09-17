@@ -112,3 +112,6 @@ export PATH="/Users/zoe.blanco/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 eval "$(direnv hook zsh)"
+
+# Added by Windsurf
+export PATH="/Users/zoe.blanco/.codeium/windsurf/bin:$PATH"

@@ -1,5 +1,16 @@
 # Move to $XDG_CONFIG_HOME/k9s/
 plugins:
+  watch-events:
+    shortCut: Shift-E
+    confirm: false
+    description: Get Events
+    scopes:
+      - all
+    command: sh
+    background: false
+    args:
+      - -c
+      - "kubectl events --context $CONTEXT --namespace $NAMESPACE --for $RESOURCE_NAME.${RESOURCE_GROUP:+.RESOURCE_GROUP}/$NAME --watch"
   vm-ssh:
     shortCut: Shift-S
     description: SSH
@@ -71,18 +82,6 @@ plugins:
       - $NAME
       - --type=merge
       - '-p={"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"syncOptions":["ApplyOutOfSyncOnly=true","CreateNamespace=true","PruneLast=true","PrunePropagationPolicy=foreground"]}}}'
-
-  # blame:
-  #   shortCut: b
-  #   confirm: false
-  #   description: "Blame"
-  #   scopes:
-  #     - all
-  #   command: sh
-  #   background: false
-  #   args:
-  #     - -c
-  #     - "kubectl-blame $RESOURCE_NAME $NAME -n $NAMESPACE --context $CONTEXT | less"
 
   ## cnpg
   cnpg-backup:
@@ -202,7 +201,7 @@ plugins:
     args:
       - -c
       - |
-        krr simple -p "https://prometheus.${CONTEXT}.zoe" --cluster $CONTEXT -n $RESOURCE_NAME
+        krr simple -p "${PROMETHEUS_URL:-http://localhost:9090}" --cluster $CONTEXT -n $RESOURCE_NAME
         echo "Press 'q' to exit"
         while : ; do
         read -n 1 k <&1
@@ -226,7 +225,7 @@ plugins:
       - -c
       - |
         LABELS=$(kubectl get $RESOURCE_NAME $NAME -n $NAMESPACE  --context $CONTEXT  --show-labels | awk '{print $NF}' | awk '{if(NR>1)print}')
-        krr simple -p "https://prometheus.${CONTEXT}.zoe" --cluster $CONTEXT --selector $LABELS 
+        krr simple -p "${PROMETHEUS_URL:-http://localhost:9090}" --cluster $CONTEXT --selector $LABELS 
         echo "Press 'q' to exit"
         while : ; do
         read -n 1 k <&1
@@ -291,47 +290,48 @@ plugins:
       - |
         talosctl reset -n $NAME --context $CONTEXT --reboot=false --wait=false
 
-  node-root-shell:
-    shortCut: a
-    description: Run root shell on node
-    dangerous: true
+  node-ssm:
+    shortCut: Ctrl-S
+    confirm: false
+    description: SSM into node
     scopes:
       - nodes
-    command: bash
     background: false
-    confirm: true
+    command: ssmconnect
     args:
-      - -c
-      - |
-        host="$1"
-        json='
-        {
-          "apiVersion": "v1",
-          "spec": {
-            "hostIPC": true,
-            "hostNetwork": true,
-            "hostPID": true
-        '
-        if ! [[ -z "$host" ]]; then
-          json+=",
-          \"nodeSelector\" : {
-            \"kubernetes.io/hostname\" : \"$host\"
-          }
-          ";
-        fi
-        json+='
-          }
-        }
-        '
-        kubectl run -ti --image alpine:3.8 --rm --privileged --restart=Never --overrides="$json" root --command -- nsenter -t 1 -m -u -n -i -- bash -l
+      - $NAME
 
-  grafana-pod:
+  greenhouse-grafana-pod:
     shortCut: Ctrl-L
     confirm: false
-    description: Grafana
+    description: Grafana dashboard
     scopes:
       - pods
     background: true
     command: open
     args:
-      - https://grafana.verde.zoe/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?orgId=1&from=now-1h&to=now&timezone=utc&var-datasource=default&var-cluster=&var-namespace=$NAMESPACE&var-pod=$NAME&refresh=10s
+      - https://grafana.$CONTEXT.gh.team/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?orgId=1&from=now-6h&to=now&timezone=utc&var-datasource=default&var-cluster=&var-namespace=$NAMESPACE&var-pod=$NAME&refresh=10s
+
+  greenhouse-grafana-node:
+    shortCut: Ctrl-L
+    confirm: false
+    description: Grafana dashboard
+    scopes:
+      - nodes
+    background: true
+    command: open
+    args:
+      - https://grafana.$CONTEXT.gh.team/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&from=now-6h&to=now&timezone=utc&var-datasource=default&var-cluster=&var-node=$NAME&refresh=10s
+
+  debug:
+    shortCut: Shift-D
+    description: Add debug container
+    dangerous: true
+    scopes:
+      - containers
+    command: bash
+    background: false
+    confirm: true
+    args:
+      - -c
+      - "kubectl --kubeconfig=$KUBECONFIG debug -it --context $CONTEXT -n=$NAMESPACE $POD --target=$NAME --image=docker.io/nicolaka/netshoot:v0.13 --share-processes -- bash"
