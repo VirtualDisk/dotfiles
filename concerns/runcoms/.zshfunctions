@@ -201,6 +201,27 @@ kn() {
     fi
 }
 
+diffsync() {
+  #!/usr/bin/env bash
+  set -x
+  KUBECTL_EXTERNAL_DIFF=delta
+  local LABEL_SELECTOR="${1}"
+  local APPS="$(argocd app list \
+    --core \
+    -l ${LABEL_SELECTOR} \
+    | ag outofsync \
+    | awk '{print $1}')"
+  local APPS_COUNT="$(echo ${APPS} | wc -l)"
+  echo ${APPS} | while read app; do
+    argocd --core app diff "${app}"
+    read "Sync app ${app}?" yn
+    case $yn in
+        "Y" | "y") argocd --core app sync "${app}";;
+        *) echo "Skipping ${app}";;
+    esac
+  done
+} 
+
 helm-fan-out() {
 if [ -z "$1" ]; then
     echo "Please provide an output directory"
