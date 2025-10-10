@@ -108,7 +108,7 @@ export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 export ASDF_HASHICORP_OVERWRITE_ARCH=amd64
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/zoe.blanco/.rd/bin:$PATH"
+export PATH="/Users/zoe/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 eval "$(direnv hook zsh)"

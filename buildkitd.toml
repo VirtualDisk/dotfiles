@@ -1,0 +1,5 @@
+debug = true
+insecure-entitlements = ["network.host", "security.insecure"]
+
+[registry."registry.verde.zoe"]
+insecure = true

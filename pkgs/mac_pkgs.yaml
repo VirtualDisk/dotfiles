@@ -3,6 +3,7 @@ pkgs_mac:
   - awscli
   - btop
   - coreutils
+  - cosign
   - direnv
   - docker-credential-helper-ecr
   - dust
