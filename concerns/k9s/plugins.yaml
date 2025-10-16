@@ -22,13 +22,14 @@ plugins:
       - ssh
       - zc2user@vmi/$NAME
       - --namespace=$NAMESPACE
-  argocd:
+  argocd-sync:
     shortCut: "s"
     description: Sync ArgoCD Application
     scopes:
       - application
     command: argocd
     args:
+      - --core
       - app
       - sync
       - $NAME
@@ -38,7 +39,20 @@ plugins:
     background: true
     confirm: true
 
-  refresh-apps:
+  argocd-diff:
+    shortCut: Shift-D
+    description: Diff ArgoCD Application
+    scopes:
+      - application
+    command: bash
+    args:
+      - -c
+      - |
+        argocd --core app diff $NAME --app-namespace $NAMESPACE && read -p "Press enter to continue"
+    background: false
+    confirm: true
+
+  argocd-refresh:
     shortCut: Shift-R
     confirm: false
     scopes:
@@ -50,7 +64,7 @@ plugins:
       - -c
       - "kubectl annotate applications -n argocd $NAME argocd.argoproj.io/refresh=hard"
 
-  disable-auto-sync:
+  argocd-disable-auto-sync:
     shortCut: Shift-J
     confirm: false
     scopes:
@@ -67,7 +81,7 @@ plugins:
       - "--type=json"
       - '-p=[{"op":"replace", "path": "/spec/syncPolicy", "value": {}}]'
 
-  enable-auto-sync:
+  argocd-enable-auto-sync:
     shortCut: Shift-B
     confirm: false
     scopes:
