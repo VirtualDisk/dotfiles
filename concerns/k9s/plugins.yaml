@@ -35,7 +35,6 @@ plugins:
       - $NAME
       - --app-namespace
       - $NAMESPACE
-      - --core
     background: true
     confirm: true
 

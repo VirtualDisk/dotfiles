@@ -6,6 +6,11 @@ tmuxpl()  {
   tmuxp load "$(find ${HOME}/.tmuxp/ -type f | fzf)"
 }
 
+merge() {
+  local PR_ID="$(gh pr list | fzf | awk '{print $1}')"
+  gh pr merge --merge $PR_ID
+}
+
 ## onepassword
 
 zop() {
