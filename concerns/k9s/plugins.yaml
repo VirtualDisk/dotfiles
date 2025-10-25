@@ -27,14 +27,14 @@ plugins:
     description: Sync ArgoCD Application
     scopes:
       - application
-    command: argocd
+    command: bash
     args:
-      - --core
-      - app
-      - sync
-      - $NAME
-      - --app-namespace
-      - $NAMESPACE
+      - -c
+      - |
+        OLDNS=$(kubectl config view --minify -o jsonpath='{..namespace}')
+        kubectl config set-context $CONTEXT --namespace=argocd
+        argocd --core app sync $NAME --app-namespace $NAMESPACE
+        kubectl config set-context $CONTEXT --namespace=$OLDNS
     background: true
     confirm: true
 
@@ -47,7 +47,10 @@ plugins:
     args:
       - -c
       - |
+        OLDNS=$(kubectl config view --minify -o jsonpath='{..namespace}')
+        kubectl config set-context $CONTEXT --namespace=argocd
         argocd --core app diff $NAME --app-namespace $NAMESPACE && read -p "Press enter to continue"
+        kubectl config set-context $CONTEXT --namespace=$OLDNS
     background: false
     confirm: true
 
