@@ -49,7 +49,7 @@ plugins:
       - |
         OLDNS=$(kubectl config view --minify -o jsonpath='{..namespace}')
         kubectl config set-context $CONTEXT --namespace=argocd
-        argocd --core app diff $NAME --app-namespace $NAMESPACE && read -p "Press enter to continue"
+        argocd --core app diff $NAME --app-namespace $NAMESPACE && read -n 20
         kubectl config set-context $CONTEXT --namespace=$OLDNS
     background: false
     confirm: true

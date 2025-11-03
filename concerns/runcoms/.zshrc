@@ -70,7 +70,7 @@ alias inf="cd ~/Greenhouse/infrastructure"
 alias tfi='tf init -backend-config=state.conf'
 alias ztfp='tf plan -out .tfplan'
 alias tfp='tf plan'
-alias tfpl='tf show -json .tfplan | jq '"'"'.resource_changes[]|select(.change.actions != ["no-op"])|(.change.actions|join(","))+": "+.address'"'"' -r'
+alias tfpl='terraform plan -out=.tfplan && terraform show -json .tfplan | jq '"'"'.resource_changes[]|select(.change.actions != ["no-op"])|(.change.actions|join(","))+": "+.address'"'"' -r'
 alias tfpv='tfp -var-file=secrets.tfvars'
 alias tfdv='tf destroy -var-file=secrets.tfvars'
 alias tfa='tf apply'
