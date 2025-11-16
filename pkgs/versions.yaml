@@ -5,7 +5,7 @@ sops_version: v3.8.1
 # https://github.com/aenix-io/talm/releases
 talm_version: v0.6.7
 # https://github.com/argoproj/argo-cd/releases
-argocd_version: v2.14.10
-longhornctl_version: v1.8.1
+argocd_version: v3.2.0
+longhornctl_version: v1.10.1
 # https://github.com/GoogleCloudPlatform/kubectl-ai/releases
 kubectl_ai_version: v0.0.17
