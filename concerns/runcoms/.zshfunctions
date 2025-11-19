@@ -6,9 +6,11 @@ tmuxpl()  {
   tmuxp load "$(find ${HOME}/.tmuxp/ -type f | fzf)"
 }
 
-merge() {
-  local PR_ID="$(gh pr list | fzf | awk '{print $1}')"
-  gh pr merge --merge $PR_ID
+bulkmerge() {
+  local PR_IDS="$(gh pr list | fzf -m | awk '{print $1}')"
+  for pr in $PR_IDS; do
+    echo gh pr merge --merge $pr
+  done
 }
 
 ## onepassword
