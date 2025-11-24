@@ -121,7 +121,27 @@
   ansible.builtin.lineinfile:
     path: /etc/shells
     state: present
-    regexp: "^/usr/local/bin/fish"
+    line: /opt/homebrew/bin/fish
+  become: true
+
+- name: configure tide
+  ansible.builtin.command:
+    cmd: |
+      tide configure \
+        --auto \
+        --style=Classic \
+        --prompt_colors='True color' \
+        --classic_prompt_color=Darkest \
+        --show_time=No \
+        --classic_prompt_separators=Vertical \
+        --powerline_prompt_heads=Slanted \
+        --powerline_prompt_tails=Flat \
+        --powerline_prompt_style='Two lines, character' \
+        --prompt_connection=Disconnected \
+        --powerline_right_prompt_frame=No \
+        --prompt_spacing=Sparse \
+        --icons='Many icons' \
+        --transient=No
   become: true
 
 - name: clone prezto repo
