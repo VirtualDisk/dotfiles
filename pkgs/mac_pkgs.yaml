@@ -7,6 +7,7 @@ pkgs_mac:
   - direnv
   - docker-credential-helper-ecr
   - dust
+  - fish
   - fd
   - ffmpeg
   - font-meslo-for-powerlevel10k
