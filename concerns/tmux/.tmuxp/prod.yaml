@@ -1,0 +1,24 @@
+# tmuxp config
+session_name: nucs-btop
+windows:
+  - window_name: prod-k8s-us-eks
+    layout: tiled
+    panes:
+      - /usr/local/bin/kubectl config use-context prod-use1-0 && k9s
+      - /usr/local/bin/kubectl config use-context prod-usw2-0 && k9s
+    options_after:
+      synchronize-panes: on
+  - window_name: prod-k8s-eu-eks
+    layout: tiled
+    panes:
+      - /usr/local/bin/kubectl config use-context prod-euc1-0 && k9s
+      - /usr/local/bin/kubectl config use-context prod-euw1-0 && k9s
+    options_after:
+      synchronize-panes: on
+  - window_name: prod-k8s-apse-eks
+    layout: tiled
+    panes:
+      - /usr/local/bin/kubectl config use-context prod-apse2-0 && k9s
+      - /usr/local/bin/kubectl config use-context prod-apse4-0 && k9s
+    options_after:
+      synchronize-panes: on
