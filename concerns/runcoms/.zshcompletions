@@ -7,7 +7,7 @@ source <(talosctl completion zsh)
 source <(vcluster completion zsh)
 source <(coder completion zsh)
 source <(/usr/local/bin/kubectl completion zsh)
-source <(/usr/local/bin/kubectl pv-migrate completion zsh)
+source <(kubectl pv-migrate completion zsh)
 
 # zsh completion for cilium                               -*- shell-script -*-
 
