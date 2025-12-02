@@ -1,5 +1,29 @@
 # Move to $XDG_CONFIG_HOME/k9s/
 plugins:
+  ingress-open-url:
+    shortCut: Ctrl-O
+    confirm: false
+    description: Open URL
+    scopes:
+      - ingresses
+    command: sh
+    background: false
+    args:
+      - -c
+      - |
+        HOSTS=$(kubectl get ingress -n $NAMESPACE $NAME -ojson | jq -r '.spec.rules[].host')
+        HOSTS_COUNT=$(echo $HOSTS | wc -l)
+        PREFIX="https://"
+        if [ $HOSTS_COUNT -eq 1 ]; then
+          open $PREFIX$HOSTS
+        elif [ $HOSTS_COUNT -gt 1 ]; then
+          HOST=$(echo $HOSTS | fzf)
+          open $PREFIX$HOST
+        else
+          echo "No hosts found"
+        fi
+        sleep 10
+
   watch-events:
     shortCut: Shift-E
     confirm: false
@@ -327,7 +351,7 @@ plugins:
     background: true
     command: open
     args:
-      - https://grafana.bastion-use1-0.gh.team/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?orgId=1&var-datasource=prometheus-$CONTEXT&from=now-6h&to=now&timezone=utc&var-datasource=default&var-cluster=&var-namespace=$NAMESPACE&var-pod=$NAME&refresh=10s
+      - https://grafana.bastion-use1-0.gh.team/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?orgId=1&var-datasource=prometheus-$CONTEXT&from=now-6h&to=now&timezone=utc&var-cluster=&var-namespace=$NAMESPACE&var-pod=$NAME&refresh=10s
 
   greenhouse-grafana-node:
     shortCut: Ctrl-L
@@ -338,7 +362,41 @@ plugins:
     background: true
     command: open
     args:
-      - https://grafana.bastion-use1-0.gh.team/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&var-datasource=prometheus-$CONTEXT&from=now-6h&to=now&timezone=utc&var-datasource=default&var-cluster=&var-node=$NAME&refresh=10s
+      - https://grafana.bastion-use1-0.gh.team/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&var-datasource=prometheus-$CONTEXT&from=now-6h&to=now&timezone=utc&var-node=$NAME&refresh=10s
+
+  greenhouse-grafana-namespace:
+    shortCut: Ctrl-L
+    confirm: false
+    description: Grafana dashboard
+    scopes:
+      - namespaces
+    background: true
+    command: open
+    args:
+      - https://grafana.bastion-use1-0.gh.team/d/85a562078cdf77779eaa1add43ccec1e/kubernetes-compute-resources-namespace-pods?orgId=1&var-datasource=prometheus-$CONTEXT&from=now-6h&to=now&timezone=utc&var-namespace=$NAME&refresh=10s
+
+  greenhouse-grafana-pv:
+    shortCut: Ctrl-L
+    confirm: false
+    description: Grafana dashboard
+    scopes:
+      - persistentvolumeclaims
+    background: true
+    command: open
+    args:
+      - https://grafana.bastion-use1-0.gh.team/d/919b92a8e8041bd567af9edab12c840c/kubernetes-persistent-volumes?orgId=1&var-datasource=prometheus-$CONTEXT&from=now-6h&to=now&timezone=utc&var-namespace=$NAMESPACE&var-persistentvolumeclaim=$NAME&refresh=10s
+
+  greenhouse-argocd-app:
+    shortCut: Ctrl-L
+    confirm: false
+    description: ArgoCD application
+    scopes:
+      - applications.argoproj.io
+      - applicationsets.argoproj.io
+    background: true
+    command: open
+    args:
+      - https://cd.$CONTEXT.gh.team/applications/argocd/$NAME?view=tree&resource=
 
   debug:
     shortCut: Shift-D
