@@ -327,7 +327,7 @@ plugins:
     background: true
     command: open
     args:
-      - https://grafana.$CONTEXT.gh.team/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?orgId=1&from=now-6h&to=now&timezone=utc&var-datasource=default&var-cluster=&var-namespace=$NAMESPACE&var-pod=$NAME&refresh=10s
+      - https://grafana.bastion-use1-0.gh.team/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?orgId=1&var-datasource=$CONTEXT&from=now-6h&to=now&timezone=utc&var-datasource=default&var-cluster=&var-namespace=$NAMESPACE&var-pod=$NAME&refresh=10s
 
   greenhouse-grafana-node:
     shortCut: Ctrl-L
@@ -338,7 +338,7 @@ plugins:
     background: true
     command: open
     args:
-      - https://grafana.$CONTEXT.gh.team/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&from=now-6h&to=now&timezone=utc&var-datasource=default&var-cluster=&var-node=$NAME&refresh=10s
+      - https://grafana.bastion-use1-0.gh.team/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&var-datasource=$CONTEXT&from=now-6h&to=now&timezone=utc&var-datasource=default&var-cluster=&var-node=$NAME&refresh=10s
 
   debug:
     shortCut: Shift-D
