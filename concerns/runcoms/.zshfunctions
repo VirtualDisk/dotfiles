@@ -7,10 +7,17 @@ tmuxpl()  {
 }
 
 bulkmerge() {
-  local PR_IDS="$(gh pr list | fzf -m | awk '{print $1}')"
-  for pr in $PR_IDS; do
-    echo gh pr merge --merge $pr
-  done
+  if [ -z "${1}"]; then
+    echo "You must select a label."
+    return 1
+  fi
+  local PR_IDS="$(gh pr list --label type/${1} | fzf -m | awk '{print $1}')"
+
+  # bruh
+  # https://superuser.com/questions/284187/how-to-iterate-over-lines-in-a-variable-in-bash
+  while IFS= read -r pr_id || [[ -n $pr_id ]]; do
+    gh pr merge --merge $pr_id
+  done < <(printf '%s' "$PR_IDS")
 }
 
 ## onepassword
