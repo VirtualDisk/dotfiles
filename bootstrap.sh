@@ -128,10 +128,10 @@ check_ansible_rocky() {
 }
 
 install_collections() {
-  ansible-galaxy install -r "${PWD:-/home/ubuntu}/requirements.yml"
-  ansible-galaxy collection install -r "${PWD:-/home/ubuntu}/requirements.yml"
+  ansible-galaxy install -r "${PWD:-/home/ubuntu}/requirements.yaml"
+  ansible-galaxy collection install -r "${PWD:-/home/ubuntu}/requirements.yaml"
   #TODO: make ask become pass a flag bc of kubernetes unintended installs
-  ansible-playbook -i "${PWD:-/home/ubuntu}/local_inventory.yml" \
+  ansible-playbook -i "${PWD:-/home/ubuntu}/local_inventory.yaml" \
     "${PWD:-/home/ubuntu}/bootstrap.yaml" --ask-become-pass
 }
 

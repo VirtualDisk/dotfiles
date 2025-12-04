@@ -13,7 +13,7 @@
       ansible.builtin.include_tasks:
         file: tasks/main.yaml
     #   - name: Create a symbolic link
-    #     when: ansible_os_family == 'Darwin'
+    #     when: ansible_facts["os_family"] == 'Darwin'
     #     ansible.builtin.file:
     #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold Italic.ttf'
     #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Bold Italic.ttf"
@@ -21,7 +21,7 @@
     #       state: link
 
     #   - name: Create a symbolic link
-    #     when: ansible_os_family == 'Darwin'
+    #     when: ansible_facts["os_family"] == 'Darwin'
     #     ansible.builtin.file:
     #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Bold.ttf'
     #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Bold.ttf"
@@ -29,7 +29,7 @@
     #       state: link
 
     #   - name: Create a symbolic link
-    #     when: ansible_os_family == 'Darwin'
+    #     when: ansible_facts["os_family"] == 'Darwin'
     #     ansible.builtin.file:
     #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Regular.ttf'
     #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Regular.ttf"
@@ -37,7 +37,7 @@
     #       state: link
 
     #   - name: Create a symbolic link
-    #     when: ansible_os_family == 'Darwin'
+    #     when: ansible_facts["os_family"] == 'Darwin'
     #     ansible.builtin.file:
     #       src:  '{{ playbook_dir }}/concerns/p10k/fonts/MesloLGS NF Italic.ttf'
     #       dest: "{{lookup('env','HOME')}}/Library/Fonts/MesloLGS NF Italic.ttf"
@@ -46,9 +46,9 @@
 
   roles:
     - role: luizgavalda.aur
-      when: ansible_os_family == 'Archlinux'
+      when: ansible_facts["os_family"] == 'Archlinux'
 
   handlers:
     - name: update trusted ca debian
       shell: /usr/sbin/update-ca-certificates
-      when: ansible_os_family == "Debian"
+      when: ansible_facts["os_family"] == "Debian"

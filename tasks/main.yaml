@@ -1,10 +1,10 @@
 - name: tap krr brew repo
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   community.general.homebrew_tap:
     name: robusta-dev/homebrew-krr
 
 - name: install and update brew
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   community.general.homebrew:
     name: "{{ pkgs_mac }}"
     state: present
@@ -12,26 +12,26 @@
     upgrade_all: true
 
 - name: install brew casks
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   community.general.homebrew_cask:
     name: "{{ casks }}"
     state: present
 
 # - name: install snap pkgs
-#   when: ansible_os_family == 'Debian'
+#   when: ansible_facts["os_family"] == 'Debian'
 #   community.general.snap:
 #     name: "{{ pkgs_snap }}"
 #     classic: true
 #   become: true
 
 - name: update apt pkgs
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts["os_family"] == 'Debian'
   ansible.builtin.apt:
     update_cache: true
   become: true
 
 - name: install gpg
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts["os_family"] == 'Debian'
   ansible.builtin.apt:
     name: gpg
     state: present
@@ -39,7 +39,7 @@
   become: true
 
 - name: install gpg
-  when: ansible_os_family == 'RedHat'
+  when: ansible_facts["os_family"] == 'RedHat'
   ansible.builtin.dnf:
     name: gpg
     state: present
@@ -47,7 +47,7 @@
   become: true
 
 - name: install apt pkgs
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts["os_family"] == 'Debian'
   ansible.builtin.apt:
     name: "{{ pkgs_debian }}"
     state: latest
@@ -55,7 +55,7 @@
   become: true
 
 - name: install dnf pkgs
-  when: ansible_os_family == 'RedHat'
+  when: ansible_facts["os_family"] == 'RedHat'
   ansible.builtin.dnf:
     name: "{{ pkgs_fedora }}"
     state: latest
@@ -63,39 +63,39 @@
   become: true
 
 - name: create docker group
-  when: ansible_os_family == 'RedHat' or
-    ansible_os_family == 'Debian'
+  when: ansible_facts["os_family"] == 'RedHat' or
+    ansible_facts["os_family"] == 'Debian'
   ansible.builtin.group:
     name: docker
     state: present
   become: true
 
 - name: add user to docker group
-  when: ansible_os_family == 'Redhat' or
-    ansible_os_family == 'Debian'
+  when: ansible_facts["os_family"] == 'Redhat' or
+    ansible_facts["os_family"] == 'Debian'
   ansible.builtin.user:
     name: "{{ theuser }}"
     group: docker
   become: true
 
 - name: enable docker service
-  when: ansible_os_family == 'RedHat'
+  when: ansible_facts["os_family"] == 'RedHat'
   ansible.builtin.systemd_service:
     state: started
     enabled: true
     name: docker
 
 # - name: ensure wheel group exists
-#   when: ansible_os_family == 'RedHat' or
-#     ansible_os_family == 'Debian'
+#   when: ansible_facts["os_family"] == 'RedHat' or
+#     ansible_facts["os_family"] == 'Debian'
 #   group:
 #     name: wheel
 #     state: present
 #   become: true
 #
 # - name: Allow 'wheel' group to have passwordless sudo
-#   when: ansible_os_family == 'RedHat' or
-#     ansible_os_family == 'Debian'
+#   when: ansible_facts["os_family"] == 'RedHat' or
+#     ansible_facts["os_family"] == 'Debian'
 #   lineinfile:
 #     dest: /etc/sudoers
 #     state: present
@@ -105,8 +105,8 @@
 #   become: true
 #
 # - name: ensure user exists on linux
-#   when: ansible_os_family == 'RedHat' or
-#     ansible_os_family == 'Debian'
+#   when: ansible_facts["os_family"] == 'RedHat' or
+#     ansible_facts["os_family"] == 'Debian'
 #   ansible.builtin.user:
 #     name: "{{ explicit_user }}"
 #     comment: we out here
@@ -124,8 +124,8 @@
   ignore_errors: true
 
 - name: clone xone repo
-  when: ansible_os_family == 'Debian' or
-    ansible_os_family == 'RedHat'
+  when: ansible_facts["os_family"] == 'Debian' or
+    ansible_facts["os_family"] == 'RedHat'
   ansible.builtin.git:
     repo: https://github.com/medusalix/xone.git
     dest: "{{lookup('env','HOME')}}/xone"
@@ -144,7 +144,7 @@
     mode: "0755"
 
 - name: create shared directory if it does not exist
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     path: /Users/shared
     state: directory
@@ -152,29 +152,29 @@
   become: true
 
 - name: create Screenshots directory if it does not exist
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     path: "{{lookup('env','HOME')}}/Pictures/Screenshots"
     state: directory
     mode: "0755"
 
 - name: create .config directory if it does not exist
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     path: "{{lookup('env','HOME')}}/.config"
     state: directory
     mode: "0755"
 
 - name: create .docker directory if it does not exist
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     path: "{{lookup('env','HOME')}}/.docker"
     state: directory
     mode: "0755"
 
 - name: create Shared directory if it does not exist
-  when: ansible_os_family == 'Debian' or
-    ansible_os_family == 'RedHat'
+  when: ansible_facts["os_family"] == 'Debian' or
+    ansible_facts["os_family"] == 'RedHat'
   ansible.builtin.file:
     path: /home/shared
     state: directory
@@ -182,8 +182,8 @@
   become: true
 
 - name: create config directory if it does not exist
-  when: ansible_os_family == 'Debian' or
-    ansible_os_family == 'RedHat'
+  when: ansible_facts["os_family"] == 'Debian' or
+    ansible_facts["os_family"] == 'RedHat'
   ansible.builtin.file:
     path: "/home/{{ explicit_user }}/.config"
     state: directory
@@ -197,7 +197,7 @@
   ignore_errors: true
 
 - name: set dark mode on mac
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   community.general.osx_defaults:
     key: NSRequiresAquaSystemAppearance
     type: bool
@@ -205,7 +205,7 @@
     state: present
 
 - name: VSCode vim key repeat fix on mac
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   community.general.osx_defaults:
     domain: com.microsoft.VSCode
     key: ApplePressAndHoldEnabled
@@ -214,7 +214,7 @@
     state: present
 
 - name: set screenshot dir on mac
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   community.general.osx_defaults:
     key: com.apple.screencapture
     type: string
@@ -228,8 +228,8 @@
     key: https://github.com/virtualdisk.keys
 
 # - name: copy certificate authority to trusted ca path of the os
-#   when: ansible_os_family == 'Debian' or
-#     ansible_os_family == 'RedHat'
+#   when: ansible_facts["os_family"] == 'Debian' or
+#     ansible_facts["os_family"] == 'RedHat'
 #   become: true
 #   copy:
 #     src: "{{ item }}"
@@ -243,7 +243,7 @@
 #     - update trusted ca debian
 
 - name: symlink wallpaper
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/wallpaper/Nevada.jpg"
     dest: "{{lookup('env','HOME')}}/Pictures/Nevada.jpg"
@@ -251,42 +251,42 @@
     state: link
 
 # - name: set default wallpaper on macOS
-#   when: ansible_os_family == 'Darwin'
+#   when: ansible_facts["os_family"] == 'Darwin'
 #   ansible.builtin.command:
 #     cmd: osascript -e \"{{lookup('env','HOME')}}/Pictures/Nevada.jpg\"
 
 - name: Install Linux Utils
-  when: ansible_os_family == 'RedHat' or
-    ansible_os_family == 'Debian'
+  when: ansible_facts["os_family"] == 'RedHat' or
+    ansible_facts["os_family"] == 'Debian'
   ansible.builtin.include_tasks:
     file: linux_utils.yaml
 
 - name: Apply Linux Symlinks
-  when: ansible_os_family == 'RedHat' or
-    ansible_os_family == 'Debian'
+  when: ansible_facts["os_family"] == 'RedHat' or
+    ansible_facts["os_family"] == 'Debian'
   ansible.builtin.include_tasks:
     file: linux_symlinks.yaml
 
 - name: Install Mac Utils
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.include_tasks:
     file: mac_utils.yaml
 
 - name: Apply Mac Symlinks
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.include_tasks:
     file: mac_symlinks.yaml
 # - name: Enable WOL
-#   when: '( ansible_os_family == "RedHat" or
-#     ansible_os_family == "Debian" ) and
+#   when: '( ansible_facts["os_family"] == "RedHat" or
+#     ansible_facts["os_family"] == "Debian" ) and
 #     is_coder == "false"'
 #   ansible.builtin.command:
 #     cmd: /sbin/ethtool -s enp42s0 wol g
 #   become: true
 
 # - name: Reload systemd daemon and enable WOL service
-#   when: '( ansible_os_family == "RedHat" or
-#     ansible_os_family == "Debian" ) and
+#   when: '( ansible_facts["os_family"] == "RedHat" or
+#     ansible_facts["os_family"] == "Debian" ) and
 #     is_coder == "false"'
 #   ansible.builtin.systemd_service:
 #     name: wol-enable

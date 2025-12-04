@@ -116,7 +116,7 @@
 #     state: link
 
 - name: symlink mac zshrc
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshrc"
     dest: "{{lookup('env','HOME')}}/.zshrc"
@@ -124,7 +124,7 @@
     state: link
 
 - name: symlink mac zshcompletions
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshcompletions"
     dest: "{{lookup('env','HOME')}}/.zshcompletions"
@@ -132,7 +132,7 @@
     state: link
 
 - name: symlink zshfunctions
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshfunctions"
     dest: "{{lookup('env','HOME')}}/.zshfunctions"
@@ -140,7 +140,7 @@
     state: link
 
 - name: symlink mac zshmac
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshmac"
     dest: "{{lookup('env','HOME')}}/.zshmac"
@@ -148,8 +148,8 @@
     state: link
 
 - name: symlink linux zshrc
-  when: ansible_os_family == 'Debian' or
-    ansible_os_family == 'Archlinux'
+  when: ansible_facts["os_family"] == 'Debian' or
+    ansible_facts["os_family"] == 'Archlinux'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshrc.linux"
     dest: "{{lookup('env','HOME')}}/.zshrc"

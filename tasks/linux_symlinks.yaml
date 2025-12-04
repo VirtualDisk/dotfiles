@@ -89,7 +89,7 @@
     state: link
 
 - name: symlink linux zshcompletions
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshcompletions"
     dest: "/home/{{ explicit_user }}/.zshenv"
@@ -97,7 +97,7 @@
     state: link
 
 - name: symlink linux zshfunctions
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshfunctions"
     dest: "/home/{{ explicit_user }}/.zshenv"
