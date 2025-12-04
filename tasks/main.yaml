@@ -30,12 +30,25 @@
     update_cache: true
   become: true
 
+- name: install virt-what
+  when: ansible_facts["os_family"] == 'Debian'
+  ansible.builtin.apt:
+    name: virt-what
+    state: present
+  become: true
+
+- name: determine linux host type
+  when: ansible_facts["os_family"] == 'Redhat' or
+    ansible_facts["os_family"] == 'Debian'
+  ansible.builtin.command: virt-what
+  register: host_type
+
 - name: install gpg
   when: ansible_facts["os_family"] == 'Debian'
   ansible.builtin.apt:
     name: gpg
     state: present
-    update_cache: true
+    update_cache: false
   become: true
 
 - name: install gpg
@@ -43,7 +56,7 @@
   ansible.builtin.dnf:
     name: gpg
     state: present
-    update_cache: true
+    update_cache: false
   become: true
 
 - name: install apt pkgs
@@ -51,7 +64,7 @@
   ansible.builtin.apt:
     name: "{{ pkgs_debian }}"
     state: latest
-    update_cache: true
+    update_cache: false
   become: true
 
 - name: install dnf pkgs
@@ -85,36 +98,39 @@
     enabled: true
     name: docker
 
-# - name: ensure wheel group exists
-#   when: ansible_facts["os_family"] == 'RedHat' or
-#     ansible_facts["os_family"] == 'Debian'
-#   group:
-#     name: wheel
-#     state: present
-#   become: true
-#
-# - name: Allow 'wheel' group to have passwordless sudo
-#   when: ansible_facts["os_family"] == 'RedHat' or
-#     ansible_facts["os_family"] == 'Debian'
-#   lineinfile:
-#     dest: /etc/sudoers
-#     state: present
-#     regexp: "^%wheel"
-#     line: "%wheel ALL=(ALL) NOPASSWD: ALL"
-#     validate: "visudo -cf %s"
-#   become: true
-#
-# - name: ensure user exists on linux
-#   when: ansible_facts["os_family"] == 'RedHat' or
-#     ansible_facts["os_family"] == 'Debian'
-#   ansible.builtin.user:
-#     name: "{{ explicit_user }}"
-#     comment: we out here
-#     shell: /bin/zsh
-#     create_home: true
-#     groups: wheel,docker
-#     password: "{{ '$6$mysecretsalt$mqF71rPutgHoEx7nTnkwFbjoh3OmRmClb6e3lUTsZm8lIJL1fT33A/9Upvrn5ZLhTUmJzdoxs99BsQlRT5zpZ0' | password_hash('sha512', 'mysecretsalt') }}"
-#   become: true
+- name: ensure wheel group exists
+  when: (ansible_facts["os_family"] == 'RedHat' or
+    ansible_facts["os_family"] == 'Debian') and
+    host_type.stdout != "docker"
+  group:
+    name: wheel
+    state: present
+  become: true
+
+- name: Allow 'wheel' group to have passwordless sudo
+  when: (ansible_facts["os_family"] == 'RedHat' or
+    ansible_facts["os_family"] == 'Debian') and
+    host_type.stdout != "docker"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^%wheel"
+    line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"
+  become: true
+
+- name: ensure user exists on linux
+  when: (ansible_facts["os_family"] == 'RedHat' or
+    ansible_facts["os_family"] == 'Debian') and
+    host_type.stdout != "docker"
+  ansible.builtin.user:
+    name: "{{ explicit_user }}"
+    comment: we out here
+    shell: /bin/zsh
+    create_home: true
+    groups: wheel,docker
+    password: "{{ '$6$mysecretsalt$mqF71rPutgHoEx7nTnkwFbjoh3OmRmClb6e3lUTsZm8lIJL1fT33A/9Upvrn5ZLhTUmJzdoxs99BsQlRT5zpZ0' | password_hash('sha512', 'mysecretsalt') }}"
+  become: true
 
 - name: clone prezto repo
   ansible.builtin.git:
