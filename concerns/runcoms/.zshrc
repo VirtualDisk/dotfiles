@@ -8,7 +8,16 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-plugins=(git)
+plugins=(
+  argocd 
+  docker
+  docker-compose
+  git 
+  helm 
+  kubectl 
+  terraform 
+  web-search
+)
 
 
 export HISTFILE="${HOME}/.zsh_history"
