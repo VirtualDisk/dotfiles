@@ -135,7 +135,7 @@
 - name: clone powerlevel10k repo
   ansible.builtin.git:
     repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "{{lookup('env','HOME')}}/.oh-my-zsh/custom"
+    dest: "{{lookup('env','HOME')}}/.oh-my-zsh/custom/powerlevel10k"
     recursive: false
     depth: 1
   ignore_errors: true
@@ -147,8 +147,9 @@
 
 - name: install oh-my-zsh
   when: not oh_my_zsh_installed.stat.exists
-  ansible.builtin.command: sh -c {{lookup('env','DOTFILES_DIR')}}/bin/install-oh-my-zsh.sh --unattended
-  register: host_type
+  ansible.builtin.command: sh -c {{lookup('env','DOTFILES_DIR')}}/concerns/oh-my-zsh/install.sh --unattended
+  ignore_errors: true
+  become: true
 
 - name: clone xone repo
   when: ansible_facts["os_family"] == 'Debian' or

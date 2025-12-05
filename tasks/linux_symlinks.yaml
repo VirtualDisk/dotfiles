@@ -46,34 +46,6 @@
     owner: "{{ explicit_user }}"
     state: link
 
-- name: symlink zlogin
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zlogin"
-    dest: "/home/{{ explicit_user }}/.zlogin"
-    owner: "{{ explicit_user }}"
-    state: link
-
-- name: symlink zlogout
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zlogout"
-    dest: "/home/{{ explicit_user }}/.zlogout"
-    owner: "{{ explicit_user }}"
-    state: link
-
-- name: symlink zpreztorc
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zpreztorc"
-    dest: "/home/{{ explicit_user }}/.zpreztorc"
-    owner: "{{ explicit_user }}"
-    state: link
-
-- name: symlink zprofile
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zprofile"
-    dest: "/home/{{ explicit_user }}/.zprofile"
-    owner: "{{ explicit_user }}"
-    state: link
-
 - name: symlink zshenv
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshenv"
@@ -92,7 +64,7 @@
   when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshcompletions"
-    dest: "/home/{{ explicit_user }}/.zshenv"
+    dest: "/home/{{ explicit_user }}/.zshcompletions"
     owner: "{{ theuser }}"
     state: link
 
@@ -100,7 +72,7 @@
   when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshfunctions"
-    dest: "/home/{{ explicit_user }}/.zshenv"
+    dest: "/home/{{ explicit_user }}/.zshfunctions"
     owner: "{{ theuser }}"
     state: link
 

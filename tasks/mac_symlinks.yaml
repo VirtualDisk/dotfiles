@@ -73,13 +73,6 @@
     owner: "{{ theuser }}"
     state: link
 
-- name: symlink zshenv
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zshenv"
-    dest: "{{lookup('env','HOME')}}/.zshenv"
-    owner: "{{ theuser }}"
-    state: link
-
 # - name: symlink zshsecrets
 #   ansible.builtin.file:
 #     src:  '{{ playbook_dir }}/concerns/runcoms/.zshsecrets'
