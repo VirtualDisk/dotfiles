@@ -9,13 +9,17 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 plugins=(
+  aliases
   argocd 
   docker
   docker-compose
   git 
   helm 
+  k9s
   kubectl 
   terraform 
+  tmux
+  vi-mode
   web-search
 )
 
