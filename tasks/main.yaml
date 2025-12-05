@@ -132,11 +132,12 @@
     password: "{{ '$6$mysecretsalt$mqF71rPutgHoEx7nTnkwFbjoh3OmRmClb6e3lUTsZm8lIJL1fT33A/9Upvrn5ZLhTUmJzdoxs99BsQlRT5zpZ0' | password_hash('sha512', 'mysecretsalt') }}"
   become: true
 
-- name: clone prezto repo
+- name: clone powerlevel10k repo
   ansible.builtin.git:
-    repo: https://github.com/sorin-ionescu/prezto.git
-    dest: "{{lookup('env','HOME')}}/.zprezto"
-    recursive: true
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: "{{lookup('env','HOME')}}/.oh-my-zsh/custom"
+    recursive: false
+    depth: 1
   ignore_errors: true
 
 - name: clone xone repo

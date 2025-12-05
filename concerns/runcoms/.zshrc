@@ -1,11 +1,15 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
+export ZSH="$HOME/.oh-my-zsh"
+export ZSH_THEME="powerlevel10k/powerlevel10k"
+export XDG_CONFIG_HOME="${HOME}/.config"
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export XDG_CONFIG_HOME="${HOME}/.config"
+plugins=(git)
+
 
 export HISTFILE="${HOME}/.zsh_history"
 export HISTFILESIZE=1000000000000
@@ -24,10 +28,6 @@ export TALOSCONFIG="${HOME}/.talos/config"
 # timg, photo and video viewer
 export TIMG_USE_UPPER_BLOCK=1
 
-
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
 
 if [[ -s "${ZDOTDIR:-$HOME}/.zshmac" ]]; then
     source "${ZDOTDIR:-$HOME}/.zshmac"
@@ -97,22 +97,16 @@ alias zbi="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-bi"
 alias cleardns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 alias ytmp3="yt-dlp -x --audio-format mp3"
 
-
-
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd -t d . $HOME"
-
-export ASDF_HASHICORP_OVERWRITE_ARCH=amd64
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/zoe/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 eval "$(direnv hook zsh)"
 
 # Added by Windsurf
 export PATH="/Users/zoe.blanco/.codeium/windsurf/bin:$PATH"
+
+source $ZSH/oh-my-zsh.sh
 
 autoload bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
