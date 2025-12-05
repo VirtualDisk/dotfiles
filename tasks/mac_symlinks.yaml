@@ -73,34 +73,6 @@
     owner: "{{ theuser }}"
     state: link
 
-- name: symlink zlogin
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zlogin"
-    dest: "{{lookup('env','HOME')}}/.zlogin"
-    owner: "{{ theuser }}"
-    state: link
-
-- name: symlink zlogout
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zlogout"
-    dest: "{{lookup('env','HOME')}}/.zlogout"
-    owner: "{{ theuser }}"
-    state: link
-
-- name: symlink zpreztorc
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zpreztorc"
-    dest: "{{lookup('env','HOME')}}/.zpreztorc"
-    owner: "{{ theuser }}"
-    state: link
-
-- name: symlink zprofile
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zprofile"
-    dest: "{{lookup('env','HOME')}}/.zprofile"
-    owner: "{{ theuser }}"
-    state: link
-
 - name: symlink zshenv
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshenv"

@@ -4,9 +4,13 @@
 export ZSH="$HOME/.oh-my-zsh"
 export ZSH_THEME="powerlevel10k/powerlevel10k"
 export XDG_CONFIG_HOME="${HOME}/.config"
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
 
 ZSH_TMUX_AUTOSTART=true
 
@@ -122,6 +126,3 @@ eval "$(direnv hook zsh)"
 export PATH="/Users/zoe.blanco/.codeium/windsurf/bin:$PATH"
 
 source $ZSH/oh-my-zsh.sh
-
-autoload bashcompinit && bashcompinit
-autoload -Uz compinit && compinit

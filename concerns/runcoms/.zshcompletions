@@ -5,8 +5,3 @@ source <(talosctl completion zsh)
 # source <(coder completion zsh)
 # source <(/usr/local/bin/kubectl completion zsh)
 source <(kubectl pv-migrate completion zsh)
-
-# don't run the completion function when being source-ed or eval-ed
-if [ "$funcstack[1]" = "_virtctl" ]; then
-    _virtctl
-fi
