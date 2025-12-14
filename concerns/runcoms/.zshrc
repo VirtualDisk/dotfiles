@@ -21,10 +21,12 @@ plugins=(
   docker-compose
   git 
   helm 
+  history-substring-search
   k9s
   kubectl 
   terraform 
   tmux
+  task
   vi-mode
   web-search
 )
