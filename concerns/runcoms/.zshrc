@@ -15,8 +15,10 @@ autoload -Uz compinit && compinit
 ZSH_TMUX_AUTOSTART=true
 
 plugins=(
+  1password
   aliases
   argocd 
+  aws
   docker
   docker-compose
   git 
