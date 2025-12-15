@@ -265,7 +265,7 @@ kc() {
 }
 
 tc() {
-    context="$(cat $(echo $TALOSCONFIG) |ag -C 3 context: |ag name: |awk '{print $2}'|sort |uniq |fzf)"
+    context="$(cat $(echo $TALOSCONFIG) |yq -e '.contexts| keys' | awk '{print $2}'|sort |uniq |fzf)"
     talosctl config use-context "${context}"
 }
 
