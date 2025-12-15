@@ -47,7 +47,7 @@ export EDITOR=nvim
 export KUBE_EDITOR=nvim
 export K9S_CONFIG_DIR="${HOME}/.dotfiles/concerns/k9s"
 export KUBECONFIG="${HOME}/.kube/config"
-export TALOSCONFIG="${HOME}/.talos/config"
+export TALOSCONFIG="${HOME}/.talos/talosconfig"
 # timg, photo and video viewer
 export TIMG_USE_UPPER_BLOCK=1
 

@@ -264,6 +264,11 @@ kc() {
     /usr/local/bin/kubectl config use-context "${context}"
 }
 
+tc() {
+    context="$(cat $(echo $TALOSCONFIG) |ag -C 3 context: |ag name: |awk '{print $2}'|sort |uniq |fzf)"
+    talosctl config use-context "${context}"
+}
+
 kcrm() {
     if [[ -z "${1}" ]]; then
         echo "usage: kcrm <context name>"
