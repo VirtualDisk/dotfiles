@@ -304,15 +304,6 @@ taintmodule() {
   done
 }
 
-tc() {
-    contexts=$(cat <<-EOF
-grapefruit
-EOF
-)
-    context="$(echo ${contexts} |fzf)"
-    talosctl config context "${context}"
-}
-
 ## Wake on LAN (WOL)
 
 wake() {
