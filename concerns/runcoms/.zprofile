@@ -51,14 +51,10 @@ path=(
   $HOME/Greenhouse/infrastructure/bin
   $HOME/Greenhouse/it/bin
   $HOME/.asdf/shims
-  $HOME/.linkerd2/bin
-  $HOME/.asdf/shims
   $HOME/.tfenv/bin
-  $HOME/.dajoku-cli/bin
   $HOME/.krew/bin
   $HOME/bin
   /opt/homebrew/opt/ruby/bin
-  /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
   /usr/local/sbin
   /usr/local/bin
   $path

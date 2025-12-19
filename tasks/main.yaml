@@ -41,6 +41,7 @@
   when: ansible_facts["os_family"] == 'Redhat' or
     ansible_facts["os_family"] == 'Debian'
   ansible.builtin.command: virt-what
+  become: true
   register: host_type
 
 - name: install gpg
@@ -254,6 +255,7 @@
     user: "{{ theuser }}"
     state: present
     key: https://github.com/virtualdisk.keys
+  become: true
 
 # - name: copy certificate authority to trusted ca path of the os
 #   when: ansible_facts["os_family"] == 'Debian' or

@@ -14,6 +14,24 @@ autoload -Uz compinit && compinit
 
 ZSH_TMUX_AUTOSTART=true
 
+path=(
+  /usr/local/Cellar/coreutils/9.3/libexec/gnubin
+  /usr/local/{bin,sbin}
+  /opt/homebrew/bin
+  /opt/homebrew/sbin
+  $HOME/.dotfiles/bin
+  $HOME/Greenhouse/infrastructure/bin
+  $HOME/Greenhouse/it/bin
+  $HOME/.asdf/shims
+  $HOME/.tfenv/bin
+  $HOME/.krew/bin
+  $HOME/bin
+  /opt/homebrew/opt/ruby/bin
+  /usr/local/sbin
+  /usr/local/bin
+  $path
+)
+
 plugins=(
   1password
   aliases
@@ -31,6 +49,10 @@ plugins=(
   task
   vi-mode
   web-search
+  python
+  taskfile
+  gomplate
+  zsh-core
 )
 
 
