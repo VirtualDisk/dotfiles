@@ -13,4 +13,4 @@ RUN chown -R $USER:$USER $HOME
 USER $USER
 RUN "pwd"
 RUN "./bootstrap.sh"
-ENTRYPOINT ["bash"]
+CMD ["/usr/sbin/sshd"]
