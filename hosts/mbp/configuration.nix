@@ -4,7 +4,7 @@ _:
   services.nix-daemon.enable = true;
  
   users.users.zoe = {
-    home = "/Users/zoe";
+    home = /Users/zoe;
   };
  
   nix.extraOptions = ''

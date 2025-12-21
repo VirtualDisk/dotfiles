@@ -11,25 +11,25 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
  
-  outputs = inputs @ { self, nix-homebrew, home-manager, ... }: let
+  outputs = inputs @ { self, nix-darwin, home-manager, ... }: let
     nixpkgsConfig = {
       config.allowUnfree = true;
     };
   in {
-    darwinConfiguration = let
+    darwinConfigurations = let
       inherit (inputs.nix-darwin.lib) darwinSystem;
     in {
-      machine  = darwinSystem {
+      machine = darwinSystem {
         system = "aarch64-darwin";
-
+ 
         specialArgs = { inherit inputs; };
-
+ 
         modules = [
           ./hosts/mbp/configuration.nix
           inputs.home-manager.darwinModules.home-manager
           {
             nixpkgs = nixpkgsConfig;
-
+ 
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.zoe = import ./home/home.nix;

@@ -3,6 +3,8 @@
 {
  home.stateVersion = "23.11";
 
+ home.homeDirectory = "/Users/zoe";
+
  home.packages = with pkgs; [
    htop
    curl
@@ -48,7 +50,7 @@
      realpath = "grealpath";
      cleardns = "sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder";
      ytmp3 = "yt-dlp -x --audio-format mp3";
-     };;
-   };;
+     };
+   };
  }
 
