@@ -31,7 +31,7 @@
             nixpkgs = nixpkgsConfig;
 
             home-manager.useGlobalPkgs = true;
-            home-manager.userUserPackages = true;
+            home-manager.useUserPackages = true;
             home-manager.users.zoe = import ./home/home.nix;
           }
         ];

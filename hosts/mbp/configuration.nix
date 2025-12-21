@@ -17,12 +17,12 @@ _:
     enable = true;
  
     casks = [
-     "alacritty",
-     "discord",
-     "docker",
-     "maccy",
-     "rectangle",
-     "session-manager-plugin",
+     "alacritty"
+     "discord"
+     "docker"
+     "maccy"
+     "rectangle"
+     "session-manager-plugin"
      "signal"
     ];
   };
