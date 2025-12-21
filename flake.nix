@@ -11,7 +11,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
  
-  outputs = inputs @ { self, ... }: let
+  outputs = inputs @ { self, nix-homebrew, home-manager, ... }: let
     nixpkgsConfig = {
       config.allowUnfree = true;
     };
