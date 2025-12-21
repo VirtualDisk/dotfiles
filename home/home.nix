@@ -24,13 +24,11 @@
      a = "argo";
      k = "kubectl";
      t = "talosctl";
-     dev = "ssh -i ${HOME}/.ssh/ubuntu ubuntu@dev.zoe";
      tf = "terraform";
      inf = "cd ~/Greenhouse/infrastructure";
      tfi = "tf init -backend-config=state.conf";
      ztfp = "tf plan -out .tfplan";
      tfp = "tf plan";
-     tfpl = 'terraform plan -out=.tfplan && terraform show -json .tfplan | jq '"'"'.resource_changes[]|select(.change.actions != ["no-op"])|(.change.actions|join(","))+": "+.address'"'"' -r';
      tfpv = "tfp -var-file=secrets.tfvars";
      tfdv = "tf destroy -var-file=secrets.tfvars";
      tfa = "tf apply";
@@ -53,4 +51,3 @@
      };
    };
  }
-

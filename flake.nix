@@ -21,7 +21,6 @@
     in {
       machine = darwinSystem {
         system = "aarch64-darwin";
- 
         specialArgs = { inherit inputs; };
  
         modules = [
