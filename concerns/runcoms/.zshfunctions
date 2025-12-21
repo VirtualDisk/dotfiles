@@ -264,6 +264,11 @@ kc() {
     /usr/local/bin/kubectl config use-context "${context}"
 }
 
+tc() {
+    context="$(cat $(echo $TALOSCONFIG) |yq -e '.contexts| keys' | awk '{print $2}'|sort |uniq |fzf)"
+    talosctl config use-context "${context}"
+}
+
 kcrm() {
     if [[ -z "${1}" ]]; then
         echo "usage: kcrm <context name>"
@@ -297,15 +302,6 @@ taintmodule() {
         bash -c "terraform taint --module=${module} `echo ${resource} | tr -d '[:space:]'`"
     fi
   done
-}
-
-tc() {
-    contexts=$(cat <<-EOF
-grapefruit
-EOF
-)
-    context="$(echo ${contexts} |fzf)"
-    talosctl config context "${context}"
 }
 
 ## Wake on LAN (WOL)

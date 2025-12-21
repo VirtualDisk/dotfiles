@@ -7,3 +7,5 @@ aliases:
   ro: roles
   rb: rolebindings
   np: networkpolicies
+  app: applications.argoproj.io argocd
+  pg: clusters.postgresql.cnpg.io datastores

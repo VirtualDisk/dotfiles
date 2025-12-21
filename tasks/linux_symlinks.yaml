@@ -1,8 +1,22 @@
+- name: append zsh to allowed shells
+  ansible.builtin.lineinfile:
+    path: /etc/shells
+    line: /bin/zsh
+    create: true
+  become: true
+
+- name: create .config directory if it does not exist
+  ansible.builtin.file:
+    path: "/home/{{ explicit_user }}/.config"
+    state: directory
+    mode: "0755"
+
 - name: Create ncmpcpp config directory
   ansible.builtin.file:
     path: "/home/{{ explicit_user }}/.ncmpcpp"
     state: directory
     mode: "0755"
+  become: true
 
 - name: symlink ncmpcpp bindings
   ansible.builtin.file:
@@ -10,6 +24,7 @@
     dest: "/home/{{ explicit_user }}/.ncmpcpp/bindings"
     owner: "{{ explicit_user }}"
     state: link
+  become: true
 
 - name: symlink terraformrc
   ansible.builtin.file:
@@ -17,6 +32,7 @@
     dest: "/home/{{ explicit_user }}/.terraform.rc"
     owner: "{{ explicit_user }}"
     state: link
+  become: true
 
 - name: symlink neovim config
   ansible.builtin.file:
@@ -24,6 +40,7 @@
     dest: "/home/{{ explicit_user }}/.config/nvim"
     owner: "{{ explicit_user }}"
     state: link
+  become: true
 
 - name: symlink tmux
   ansible.builtin.file:
@@ -31,6 +48,7 @@
     dest: "/home/{{ explicit_user }}/.tmux.conf"
     owner: "{{ explicit_user }}"
     state: link
+  become: true
 
 - name: symlink tmux.conf
   ansible.builtin.file:
@@ -38,6 +56,7 @@
     dest: "/home/{{ explicit_user }}/.tmux.conf.local"
     owner: "{{ explicit_user }}"
     state: link
+  become: true
 
 - name: symlink alacritty
   ansible.builtin.file:
@@ -45,41 +64,7 @@
     dest: "/home/{{ explicit_user }}/.alacritty.toml"
     owner: "{{ explicit_user }}"
     state: link
-
-- name: symlink zlogin
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zlogin"
-    dest: "/home/{{ explicit_user }}/.zlogin"
-    owner: "{{ explicit_user }}"
-    state: link
-
-- name: symlink zlogout
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zlogout"
-    dest: "/home/{{ explicit_user }}/.zlogout"
-    owner: "{{ explicit_user }}"
-    state: link
-
-- name: symlink zpreztorc
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zpreztorc"
-    dest: "/home/{{ explicit_user }}/.zpreztorc"
-    owner: "{{ explicit_user }}"
-    state: link
-
-- name: symlink zprofile
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zprofile"
-    dest: "/home/{{ explicit_user }}/.zprofile"
-    owner: "{{ explicit_user }}"
-    state: link
-
-- name: symlink zshenv
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/runcoms/.zshenv"
-    dest: "/home/{{ explicit_user }}/.zshenv"
-    owner: "{{ explicit_user }}"
-    state: link
+  become: true
 
 - name: symlink linux zshrc
   ansible.builtin.file:
@@ -87,22 +72,23 @@
     dest: "/home/{{ explicit_user }}/.zshrc"
     owner: "{{ explicit_user }}"
     state: link
+  become: true
 
 - name: symlink linux zshcompletions
-  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshcompletions"
-    dest: "/home/{{ explicit_user }}/.zshenv"
+    dest: "/home/{{ explicit_user }}/.zshcompletions"
     owner: "{{ theuser }}"
     state: link
+  become: true
 
 - name: symlink linux zshfunctions
-  when: ansible_facts["os_family"] == 'Darwin'
   ansible.builtin.file:
     src: "{{ playbook_dir }}/concerns/runcoms/.zshfunctions"
-    dest: "/home/{{ explicit_user }}/.zshenv"
+    dest: "/home/{{ explicit_user }}/.zshfunctions"
     owner: "{{ theuser }}"
     state: link
+  become: true
 
 - name: symlink p10k
   ansible.builtin.file:
@@ -110,11 +96,11 @@
     dest: "/home/{{ explicit_user }}/.p10k.zsh"
     owner: "{{ explicit_user }}"
     state: link
-
-- name: symlink wol-enable systemd unit
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/concerns/linux/systemd/wol-enable.service"
-    dest: "/etc/systemd/system/wol-enable.service"
-    owner: "{{ explicit_user }}"
-    state: link
   become: true
+# - name: symlink wol-enable systemd unit
+#   ansible.builtin.file:
+#     src: "{{ playbook_dir }}/concerns/linux/systemd/wol-enable.service"
+#     dest: "/etc/systemd/system/wol-enable.service"
+#     owner: "{{ explicit_user }}"
+#     state: link
+#   become: true

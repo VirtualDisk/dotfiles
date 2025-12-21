@@ -1,11 +1,60 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
+export ZSH="$HOME/.oh-my-zsh"
+export ZSH_THEME="powerlevel10k/powerlevel10k"
+export XDG_CONFIG_HOME="${HOME}/.config"
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export XDG_CONFIG_HOME="${HOME}/.config"
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
+
+ZSH_TMUX_AUTOSTART=true
+
+path=(
+  /usr/local/Cellar/coreutils/9.3/libexec/gnubin
+  /usr/local/{bin,sbin}
+  /opt/homebrew/bin
+  /opt/homebrew/sbin
+  $HOME/.dotfiles/bin
+  $HOME/Greenhouse/infrastructure/bin
+  $HOME/Greenhouse/it/bin
+  $HOME/.asdf/shims
+  $HOME/.tfenv/bin
+  $HOME/.krew/bin
+  $HOME/bin
+  /opt/homebrew/opt/ruby/bin
+  /usr/local/sbin
+  /usr/local/bin
+  $path
+)
+
+plugins=(
+  1password
+  aliases
+  argocd 
+  aws
+  docker
+  docker-compose
+  git 
+  helm 
+  history-substring-search
+  k9s
+  kubectl 
+  terraform 
+  tmux
+  task
+  vi-mode
+  web-search
+  python
+  taskfile
+  gomplate
+  zsh-core
+)
+
 
 export HISTFILE="${HOME}/.zsh_history"
 export HISTFILESIZE=1000000000000
@@ -20,14 +69,10 @@ export EDITOR=nvim
 export KUBE_EDITOR=nvim
 export K9S_CONFIG_DIR="${HOME}/.dotfiles/concerns/k9s"
 export KUBECONFIG="${HOME}/.kube/config"
-export TALOSCONFIG="${HOME}/.talos/config"
+export TALOSCONFIG="${HOME}/.talos/talosconfig"
 # timg, photo and video viewer
 export TIMG_USE_UPPER_BLOCK=1
 
-
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
 
 if [[ -s "${ZDOTDIR:-$HOME}/.zshmac" ]]; then
     source "${ZDOTDIR:-$HOME}/.zshmac"
@@ -97,22 +142,13 @@ alias zbi="curl -X POST http://homeassistant.zoe/api/webhook/zoe-lights-bi"
 alias cleardns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 alias ytmp3="yt-dlp -x --audio-format mp3"
 
-
-
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd -t d . $HOME"
-
-export ASDF_HASHICORP_OVERWRITE_ARCH=amd64
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/zoe/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 eval "$(direnv hook zsh)"
 
 # Added by Windsurf
 export PATH="/Users/zoe.blanco/.codeium/windsurf/bin:$PATH"
 
-autoload bashcompinit && bashcompinit
-autoload -Uz compinit && compinit
+source $ZSH/oh-my-zsh.sh

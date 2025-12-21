@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+source .env
+
 RESTORE=$(echo -en '\033[0m')
 RED=$(echo -en '\033[00;31m')
 GREEN=$(echo -en '\033[00;32m')
@@ -26,7 +28,7 @@ check_platform() {
     ;;
   "linux-gnu")
     check_distro
-    rundazsh
+    # rundazsh
     ;;
   *)
     echo "Unsupported platform type ${OSTYPE}"
