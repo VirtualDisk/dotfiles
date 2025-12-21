@@ -20,21 +20,21 @@
       inherit (inputs.nix-darwin.lib) darwinSystem;
     in {
       machine  = darwinSystem {
-      system = "aarch64-darwin";
+        system = "aarch64-darwin";
 
-      specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs; };
 
-      modules = [
-        ./hosts/mbp/configuration.nix
-        inputs.home-manager.darwinModules.home-manager
-        {
-          nixpkgs = nixpkgsConfig;
+        modules = [
+          ./hosts/mbp/configuration.nix
+          inputs.home-manager.darwinModules.home-manager
+          {
+            nixpkgs = nixpkgsConfig;
 
-          home-manager.useGlobalPkgs = true;
-          home-manager.userUserPackages = true;
-          home-manager.users.zoe = import ./home/home.nix;
-        }
-      ];
+            home-manager.useGlobalPkgs = true;
+            home-manager.userUserPackages = true;
+            home-manager.users.zoe = import ./home/home.nix;
+          }
+        ];
       };
     };
   };
