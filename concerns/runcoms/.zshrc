@@ -61,7 +61,7 @@ export HISTFILESIZE=1000000000000
 export HISTSIZE=10000000000000
 setopt HIST_FIND_NO_DUPS
 
-export GPG_TTY=$(tty)
+export GPG_TTY="${TTY}"
 
 export ZOEREPO="${HOME}/Projects/zoe-infrastructure"
 export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
